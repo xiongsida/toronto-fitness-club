@@ -29,16 +29,8 @@ class ClassesListView(ListAPIView):
     
     def get_queryset(self):
         studio_id=self.request.GET.get('studio_id',None)
-        if studio_id:
-            studio=get_object_or_404(Studio, id=studio_id)
-            classParents=studio.classes.all()
-            classParent_ids=[x.id for x in classParents]
-            q1=Q(class_parent__id__in=classParent_ids)
-            q2=Q(is_cancelled=False)
-            q3=Q(date__gt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__gte=datetime.datetime.now().time()))
-            queryset=ClassInstance.objects.filter(q1 & q2 & q3).order_by('date','start_time','end_time')
-            return queryset
-        elif self.request.user: # if not studio_id is specified, we think the user want to see his own classes
+        scope=self.request.GET.get('scope',None)
+        if scope and self.request.user: # if scope is specified, we think the user want to list his own classes
             student=self.request.user
             scope=self.request.GET.get('scope',None)
             queryset=student.class_instances.all().order_by('date','start_time','end_time')
@@ -48,7 +40,24 @@ class ClassesListView(ListAPIView):
                 queryset=queryset.filter(q11 & q22).order_by('date','start_time','end_time')
             elif scope=="myhistory":
                 q33=Q(date__lt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__lte=datetime.datetime.now().time()))
-                queryset=queryset.filter(q33).order_by('date','start_time','end_time')
+                queryset=queryset.filter(q33).order_by('date','start_time','end_time')           
+            if studio_id:
+                studio=get_object_or_404(Studio, id=studio_id)
+                classParents=studio.classes.all()
+                classParent_ids=[x.id for x in classParents]
+                q1=Q(class_parent__id__in=classParent_ids)
+                q2=Q(is_cancelled=False)
+                q3=Q(date__gt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__gte=datetime.datetime.now().time()))
+                queryset=queryset.objects.filter(q1 & q2 & q3).order_by('date','start_time','end_time')
+            return queryset
+        elif studio_id:
+            studio=get_object_or_404(Studio, id=studio_id)
+            classParents=studio.classes.all()
+            classParent_ids=[x.id for x in classParents]
+            q1=Q(class_parent__id__in=classParent_ids)
+            q2=Q(is_cancelled=False)
+            q3=Q(date__gt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__gte=datetime.datetime.now().time()))
+            queryset=ClassInstance.objects.filter(q1 & q2 & q3).order_by('date','start_time','end_time')
             return queryset
         else:
             return ClassInstance.objects.all().order_by('date','start_time','end_time')
