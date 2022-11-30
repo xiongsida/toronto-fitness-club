@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'drf_yasg',
     'django_filters',
+    'corsheaders',
 ]
 
 SIMPLE_JWT = {
@@ -77,6 +78,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -164,3 +166,20 @@ REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': (
 ),
 }
 GOOGLE_CLIENT_KEY = 'AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'
+
+CORS_ALLOW_ALL_ORIGINS = False # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    'http://localhost:3000',
+]
+CORS_ALLOW_METHODS = [
+'DELETE',
+'GET',
+'OPTIONS',
+'PATCH',
+'POST',
+'PUT',
+]
