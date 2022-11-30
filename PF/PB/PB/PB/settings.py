@@ -163,4 +163,4 @@ REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': (
     'rest_framework.authentication.BasicAuthentication',
 ),
 }
-GOOGLE_CLIENT_KEY = 'AIzaSyAz2VJWVsBKb65KyxVWm1exv2-dubWdFdU'
+GOOGLE_CLIENT_KEY = 'AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'
