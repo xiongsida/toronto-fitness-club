@@ -10,7 +10,7 @@ import DetailCard from "./DetailCard";
 const StudioDetails = ({studio_id}) => {
 
     const [details, setDetails] = useState({"images":[],"amenities":[]});
-    console.log(studio_id)
+
     useEffect(() => {
         fetch(`http://127.0.0.1:8000/api/studios/`+studio_id)
             .then(res => res.json())
@@ -25,7 +25,7 @@ const StudioDetails = ({studio_id}) => {
         <>
             <div>
             <ImageCarousel imagelist={details.images} />
-            <div class="fix-card">
+            <div className="fix-card">
                 <DetailCard className="fix-card" details={details}/>
             </div>
             
