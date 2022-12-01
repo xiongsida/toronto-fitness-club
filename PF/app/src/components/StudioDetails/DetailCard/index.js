@@ -5,7 +5,8 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
 const DetailCard = ({details}) => {
-    console.log(details)
+    console.log(details.amenities)
+    console.log(details.amenities.length)
     return (
         <Card style={{"height" : "30%", "width" : "50%" }} bg="dark" text="light">
             <Card.Header>Studio #{details.id}</Card.Header>
@@ -18,10 +19,13 @@ const DetailCard = ({details}) => {
                     <br/>
                     Contact us {details.phone_number}
                     <br/>
+                    {details.amenities.length>0 && 
+                    <div>
                     Amenities: <br/>
                     {details.amenities.map(amenity => (
                         <span>{amenity.quantity} {amenity.amenity.type}, </span>
                     ))}
+                    </div>}
                 </Card.Text>
                 <Button href={details.direction} variant="warning" className='m-3'> DERECTION </Button>
                 <Button component={Link} to={"/api/classes?studio_id="+details.id} variant="info"className='m-3'> VIEW OUR CALSS SCHEDULE </Button>
