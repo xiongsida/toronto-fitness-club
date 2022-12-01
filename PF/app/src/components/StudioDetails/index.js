@@ -7,12 +7,12 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import DetailCard from "./DetailCard";
 
-const StudioDetails = () => {
+const StudioDetails = ({studio_id}) => {
 
     const [details, setDetails] = useState({"images":[],"amenities":[]});
-
+    console.log(studio_id)
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/studios/1`)
+        fetch(`http://127.0.0.1:8000/api/studios/`+studio_id)
             .then(res => res.json())
             .then(data => {
                 setDetails(data);
