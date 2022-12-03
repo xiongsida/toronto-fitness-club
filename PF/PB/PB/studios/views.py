@@ -20,7 +20,7 @@ class StudiosListView(ListAPIView):
 
     def get_queryset(self):
         queryset = Studio.objects.all().order_by("id")
-        if 'user_lat' and 'user_lng' in self.request.query_params:
+        if self.request.query_params.get('user_lat',None) and self.request.query_params.get('user_lng',None):
             origin=(float(self.request.query_params['user_lat']),float(self.request.query_params['user_lng']))
             queryset=Studio.objects.annotate(distance=get_distance(origin,(F('latitude'),F('longitude')))).order_by('distance')
             # should return queryset instead of list in order to make filter work, really tricky to get queryset ordered
