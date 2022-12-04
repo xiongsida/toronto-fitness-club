@@ -40,4 +40,4 @@ class StudioSerializer(serializers.HyperlinkedModelSerializer):
         return self.context['request'].build_absolute_uri(reverse("studios:details", kwargs={'studio_id': obj.id}))
     class Meta:
         model = Studio
-        fields = ['id', 'name', 'address', 'location', 'postal_code', 'phone_number',"details"]
+        fields = ['id', 'name', 'address', 'location', 'postal_code', 'phone_number',"details",'direction']
