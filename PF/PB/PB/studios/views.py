@@ -3,8 +3,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from django.shortcuts import get_object_or_404
-from studios.serializers import StudioSerializer, StudioDetailSerializer
+from studios.serializers import StudioSerializer, StudioDetailSerializer, AmenitySerializer
 from studios.models.studio import Studio
+from studios.models.amenity import Amenity
 from studios.pagination import CustomPagination
 from django.db.models import F
 from studios.utils import get_distance
@@ -34,4 +35,8 @@ class StudioDetailView(RetrieveAPIView):
     def get_object(self):        
         return get_object_or_404(Studio, id=self.kwargs['studio_id'])
 
+class AmenityView(ListAPIView):
+    serializer_class = AmenitySerializer
+    def get_queryset(self):
+        return Amenity.objects.all()
     
