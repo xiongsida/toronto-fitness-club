@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from studios.models.studio import Studio
 from classes.models.classInstance import ClassInstance
 from classes.models.classParent import ClassParent
-from classes.serializers import ClassInstanceSerializer
+from classes.serializers import ClassInstanceSerializer, ClassParentSerializer
 from accounts.models import TFCUser
 from studios.pagination import CustomPagination
 from classes.filter import ClassInstanceFilter
@@ -18,6 +18,12 @@ from accounts.permissions import isSubscribed
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
+
+class ClassParentView(ListAPIView):
+    serializer_class = ClassParentSerializer
+    def get_queryset(self):
+        return ClassParent.objects.all()
+    
 
 class ClassesListView(ListAPIView):
     serializer_class = ClassInstanceSerializer
