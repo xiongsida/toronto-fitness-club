@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/esm/Row';
 
-const CardsList = ({studios, selectedStudio, setSelectedStudio}) => {
+const CardsList = ({studios, selectedStudio, setSelectedStudio, directionAppend}) => {
 
     return (
         <Container fluid>
@@ -25,7 +25,7 @@ const CardsList = ({studios, selectedStudio, setSelectedStudio}) => {
                                 {studio.address} <br/>
                                 {studio.phone_number}
                             </Card.Text>
-                            <Button href={studio.direction} variant="warning" className='m-3'> DERECTION </Button>
+                            <Button href={studio.direction+directionAppend} variant="warning" className='m-3'> DERECTION </Button>
                             <Button component={Link} to={"/api/classes?studio_id="+studio.id} variant="info"className='m-3'> CALSSES </Button>
                         </Card.Body>
                     </Card>
