@@ -9,6 +9,7 @@ from studios.models.amenity import Amenity
 from studios.pagination import CustomPagination
 from django.db.models import F
 from studios.utils import get_distance
+from studios.filter import StudioFilter
 
     
 # Create your views here.
@@ -16,7 +17,8 @@ class StudiosListView(ListAPIView):
     serializer_class = StudioSerializer
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['name','amenities__type','classes__name','classes__coach']
+    # filterset_fields = ['name','amenities__type','classes__name','classes__coach']
+    filterset_class = StudioFilter
     search_fields = ['name','amenities__type','classes__name','classes__coach']
 
     def get_queryset(self):
