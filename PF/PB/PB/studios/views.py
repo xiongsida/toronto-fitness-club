@@ -3,7 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from django.shortcuts import get_object_or_404
-from studios.serializers import StudioSerializer, StudioDetailSerializer, AmenitySerializer
+from studios.serializers import StudioSerializer, StudioDetailSerializer, AmenitySerializer, StudioSimpleSerializer
 from studios.models.studio import Studio
 from studios.models.amenity import Amenity
 from studios.pagination import CustomPagination
@@ -41,4 +41,9 @@ class AmenityView(ListAPIView):
     serializer_class = AmenitySerializer
     def get_queryset(self):
         return Amenity.objects.all()
+    
+class AllStudiosSimpleView(ListAPIView):
+    serializer_class = StudioSimpleSerializer
+    def get_queryset(self):
+        return Studio.objects.all()
     

@@ -41,3 +41,8 @@ class StudioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Studio
         fields = ['id', 'name', 'address', 'location', 'postal_code', 'phone_number',"details",'direction']
+        
+class StudioSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Studio
+        fields=['id','name','address']
