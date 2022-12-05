@@ -15,23 +15,25 @@ const someStyles =({
   },
 });
 
-const FilterListToggle = ({ options, selectedOnes, setSelectedOnes }) => {
+const FilterListToggle = ({ options, selectedOnes, setSelectedOnes, exclusivebool}) => {
 
   const handleSelect = (event, newOnes) => {
     setSelectedOnes(newOnes);
-    // console.log(newOnes);
+    console.log(newOnes);
   };
+  // console.log(options);
     
   return (
     <ToggleButtonGroup
       orientation="vertical"
+      exclusive={exclusivebool}
       value={selectedOnes}
       onChange={handleSelect}
       sx={someStyles.root}
     >
-      {options.map(value => (
-        <ToggleButton key={value} value={value} sx={someStyles.toggle}>
-          {value}
+      {options&&options.map((item,index) => (
+        <ToggleButton key={index} value={item[0]} sx={someStyles.toggle}>
+          {item[1]}
         </ToggleButton>
       ))}
     </ToggleButtonGroup>

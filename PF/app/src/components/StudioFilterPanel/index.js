@@ -14,6 +14,7 @@ const StudioFilterPanel = ({
                     options={amenityOptions}
                     selectedOnes={selectedAmenities}
                     setSelectedOnes={setSelectedAmenities}
+                    exclusivebool={false}
                 />
             </div>
 
@@ -23,6 +24,7 @@ const StudioFilterPanel = ({
                     options={classOptions}
                     selectedOnes={selectedClasses}
                     setSelectedOnes={setSelectedClasses}
+                    exclusivebool={false}
                 />
             </div>
         </div>

@@ -21,11 +21,13 @@ const StudiosList = () => {
         fetch('http://127.0.0.1:8000/api/allamenities')
             .then(res => res.json())
             .then(data => {
-                setAmenityOptions(data.map(amenity=>amenity.type));
+                setAmenityOptions(data.map(amenity=>[amenity.type,amenity.type]));
             }) 
         fetch('http://127.0.0.1:8000/api/allclassparents')
         .then(res => res.json())
-        .then(data => setClassOptions(Array.from(new Set(data.map(classparent=>classparent.name)))))
+        .then(data => setClassOptions(
+            Array.from(new Set(data.map(classparent=>classparent.name))).map(c=>[c,c])
+            ))
     },[])
 
     const [selectedAmenities, setSelectedAmenities] =useState([]);
@@ -47,7 +49,7 @@ const StudiosList = () => {
         let newURL=basicURL;
         newURL+=('&amenities__type='+selectedAmenities.join(','))
         newURL+=('&classes__name='+selectedClasses.join(','))
-        // console.log(newURL)
+        console.log(newURL)
 
         fetch(newURL)
             .then(res => res.json())
