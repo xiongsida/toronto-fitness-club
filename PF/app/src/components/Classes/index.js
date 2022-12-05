@@ -7,16 +7,51 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Table from 'react-bootstrap/Table';
-import Alert from 'react-bootstrap/Alert';
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
+
+import SearchBar from "../SearchBar";
+import ClassFilterPanel from "../ClassFilterPanel";
+import Container from "react-bootstrap/esm/Container";
 
 function Classes() {
+
+    const [studioOptions, setStudioOptions] = useState([]);
+    const [classOptions, setClassOptions] = useState([]);
+    useEffect(() =>{
+        fetch('http://127.0.0.1:8000/api/allstudios')
+            .then(res => res.json())
+            .then(data => {
+                setStudioOptions(data.map(studio=>
+                    [studio.id, studio.name+', '+studio.address]
+                ));
+            }) 
+        fetch('http://127.0.0.1:8000/api/allclassparents')
+        .then(res => res.json())
+        .then(data => setClassOptions(
+            Array.from(new Set(data.map(classparent=>classparent.name))).map(c=>[c,c])
+        ))
+    },[])
+
     const [info, setInfo] = useState();
     const [classes, setClasses] = useState([]);
 
+    const [searchInput, setSearchInput] = useState('');
+    const [selectedStudio, setSelectedStudio] =useState('');
+    const [selectedClass, setSelectedClass] = useState('');
+    const [scope, setScope] = useState('');
+    const [dateRange, setDateRange] =useState([]);
+    const [timeRange, setTimeRange] =useState(['00:00','23:59']);
+
+    console.log(dateRange)
+    console.log(timeRange)
+
+    let url=`http://127.0.0.1:8000/api/classes?&studio_id=${selectedStudio?selectedStudio:''}`+
+    `&scope=${scope?scope:''}&search=${searchInput}&class_parent__name=${selectedClass?selectedClass:''}`+
+    `&date_range_start=${dateRange&&dateRange[0]?dateRange[0]:''}&date_range_end=${dateRange&&dateRange[1]?dateRange[1]:''}`+
+    `&time_range_start=${timeRange&&timeRange[0]?timeRange[0]:''}&time_range_end=${timeRange&&timeRange[1]?timeRange[1]:''}`
+
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/classes`)
+        console.log(url)
+        fetch(url)
             .then(res => {
                 if(res.status!==200)
                 {
@@ -25,11 +60,11 @@ function Classes() {
                 return res.json();
                 })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 data.results ? setClasses(data.results) : setClasses([]);
                 setInfo(data.detail)
             })
-    }, []);
+    }, [searchInput, selectedStudio, selectedClass, scope, dateRange, timeRange]);
 
     const classAction = (class_id, for_future, action) =>{
         console.log(class_id)
@@ -53,57 +88,71 @@ function Classes() {
             });
     }
 
-    console.log(classes)
 
 return (
 <>
-    {info && <ToastContainer className="p-3" position='top-center'>
-        <Toast bg='info' delay={1000} autohide={true}>
-        <Toast.Header closeButton={false}>
-            <strong className="me-auto">Action Response</strong>
-        </Toast.Header>
-        <Toast.Body>{info}</Toast.Body>
-        </Toast>
-    </ToastContainer>}
-    <Table>
-    <thead>
-        <tr>
-        <th className="text-center">Class Name</th>
-        <th className="text-center">Date</th>
-        <th className="text-center">Start Time</th>
-        <th className="text-center">End Time</th>
-        <th className="text-center">Coach</th>
-        <th className='text-center'>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {classes & classes.map( class_ => (
-        <tr key={ class_.id}>
-            <td className="text-center">{ class_.class_parent.name }</td>
-            <td className="text-center">{ class_.date }</td>
-            <td className="text-center">{ class_.start_time }</td>
-            <td className="text-center">{ class_.end_time }</td>
-            <td className="text-center">{ class_.coach }</td>
-            <td>
-            <div className="text-center">
+    <Container fluid='true' className='m-0'>
+        <Row className='m-2'>
+            <SearchBar 
+                value={searchInput}
+                changeInput={(e) => setSearchInput(e.target.value)}
+                placeholdertext = 'Search by class name, coach, date'
+                />
+        </Row>
+        <Row>
+            <Col className='m-0'>
+            <ClassFilterPanel 
+            studioOptions={studioOptions} selectedStudio={selectedStudio} setSelectedStudio={setSelectedStudio}
+            classOptions={classOptions} selectedClass={selectedClass} setSelectedClass={setSelectedClass}
+            scope={scope} setScope={setScope}
+            dateRange={dateRange} setDateRange={setDateRange}
+            timeRange={timeRange} setTimeRange={setTimeRange}
+            />
+            </Col>
 
-            <DropdownButton as={ButtonGroup} variant='success'
-            title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${class_.id}`}>
-                <Dropdown.Item onClick={() => classAction(class_.id,"0","enroll")}>Single Class Instance</Dropdown.Item>
-                <Dropdown.Item onClick={() => classAction(class_.id,"1","enroll")}>All Future Instances</Dropdown.Item>
-            </DropdownButton>
+            <Col className='m-0'>
+            <Table>
+            <thead>
+                <tr>
+                <th className="text-center">Class Name</th>
+                <th className="text-center">Date</th>
+                <th className="text-center">Start Time</th>
+                <th className="text-center">End Time</th>
+                <th className="text-center">Coach</th>
+                <th className='text-center'>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {classes && classes.map( class_ => (
+                <tr key={ class_.id}>
+                    <td className="text-center">{ class_.class_parent.name }</td>
+                    <td className="text-center">{ class_.date }</td>
+                    <td className="text-center">{ class_.start_time }</td>
+                    <td className="text-center">{ class_.end_time }</td>
+                    <td className="text-center">{ class_.coach }</td>
+                    <td>
+                        <div className="text-center">
 
-            <DropdownButton as={ButtonGroup} variant='danger'
-            title='Drop' className='m-1 text-center' id={`dropdown-drop-${class_.id}`}>
-                <Dropdown.Item onClick={() => classAction(class_.id,"0","drop")}>Single Class Instance</Dropdown.Item>
-                <Dropdown.Item onClick={() => classAction(class_.id,"1","drop")}>All Future Instances</Dropdown.Item>
-            </DropdownButton>
-            </div>
-            </td>
-        </tr>
-    ))}
-    </tbody>
-    </Table>
+                        <DropdownButton as={ButtonGroup} variant='success'
+                        title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${class_.id}`}>
+                            <Dropdown.Item onClick={() => classAction(class_.id,"0","enroll")}>Single Class Instance</Dropdown.Item>
+                            <Dropdown.Item onClick={() => classAction(class_.id,"1","enroll")}>All Future Instances</Dropdown.Item>
+                        </DropdownButton>
+
+                        <DropdownButton as={ButtonGroup} variant='danger'
+                        title='Drop' className='m-1 text-center' id={`dropdown-drop-${class_.id}`}>
+                            <Dropdown.Item onClick={() => classAction(class_.id,"0","drop")}>Single Class Instance</Dropdown.Item>
+                            <Dropdown.Item onClick={() => classAction(class_.id,"1","drop")}>All Future Instances</Dropdown.Item>
+                        </DropdownButton>
+                        </div>
+                    </td>
+                </tr>
+            ))}
+            </tbody>
+            </Table>
+            </Col>
+        </Row>
+    </Container>
 </>
 );
 }
