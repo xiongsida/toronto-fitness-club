@@ -64,6 +64,9 @@ INSTALLED_APPS = [
 ]
 
 SIMPLE_JWT = {
+    'ALGORITHM': 'HS512',
+    'SIGNING_KEY': SECRET_KEY,
+
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=15),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=15),
 }
@@ -167,19 +170,20 @@ REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': (
 }
 GOOGLE_CLIENT_KEY = 'AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'
 
-CORS_ALLOW_ALL_ORIGINS = False # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+# If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-] # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
+]  # If this is used, then not need to use `CORS_ALLOW_ALL_ORIGINS = True`
 CORS_ALLOWED_ORIGIN_REGEXES = [
     'http://localhost:3000',
 ]
 CORS_ALLOW_METHODS = [
-'DELETE',
-'GET',
-'OPTIONS',
-'PATCH',
-'POST',
-'PUT',
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
