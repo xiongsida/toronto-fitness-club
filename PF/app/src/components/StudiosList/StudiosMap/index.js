@@ -8,12 +8,13 @@ const mapstyle = {
       height: "100%",
 }
 
-const StudiosMap = ({studios,setUserLocation,selectedStudio,setSelectedStudio}) => {
+const StudiosMap = ({studios,setUserLocation,
+      selectedStudio,setSelectedStudio, 
+      userMarker, setUserMarker,
+      setInputLocation}) => {
 
 
       const [mapcenter,setMapCenter] = useState({lat: 43.7043737,lng: -79.3993013})
-
-      const [userMarker, setUserMarker] =useState();
 
       const onMapClick = (e) => {
             setUserMarker(
@@ -25,6 +26,7 @@ const StudiosMap = ({studios,setUserLocation,selectedStudio,setSelectedStudio}) 
                   lng: e.latLng.lng()}
             );
             setSelectedStudio(null);
+            setInputLocation('');
           };
 
       
@@ -58,8 +60,8 @@ const StudiosMap = ({studios,setUserLocation,selectedStudio,setSelectedStudio}) 
             icon={{
             url: '/user.png',
             scaledSize: {
-            width: 35,
-            height: 35,
+            width: 33,
+            height: 33,
             },
             }}
       />}
@@ -74,8 +76,8 @@ const StudiosMap = ({studios,setUserLocation,selectedStudio,setSelectedStudio}) 
             clickable={true}
             icon={{url:'/marker.png',
                   scaledSize: {
-                        width: 35,
-                        height: 35,
+                        width: 40,
+                        height: 40,
                   },
             }}
             onClick={

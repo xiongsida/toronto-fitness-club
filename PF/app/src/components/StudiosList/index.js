@@ -7,13 +7,66 @@ import SearchBar from "../SearchBar";
 import CardsList from "./CardsList";
 import StudiosMap from "./StudiosMap";
 import StudioFilterPanel from "../StudioFilterPanel";
-import Button from "react-bootstrap/esm/Button";
+// import Button from "react-bootstrap/esm/Button";
+import Button from 'react-bootstrap/Button';
 
 import Geocode from "react-geocode";
 
 Geocode.setApiKey("AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE");
 
 const StudiosList = () => {
+
+    const [initialLocation, setInitialLocation] = useState({lat:'',lng:''});
+    useEffect(()=>{
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function(position) {
+                console.log(position.coords.latitude,position.coords.longitude)
+                setInitialLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+            });
+        }
+    },[])
+
+    const [userlocation, setUserLocation] = useState({lat:'',lng:''});
+    const [userMarker, setUserMarker] =useState();
+    const [inputlocation, setInputLocation] =useState('');
+
+    const useInputLocation =()=>{
+        if (inputlocation){
+            Geocode.fromAddress(inputlocation).then(
+                (response) => {
+                    let { lat, lng } = response.results[0].geometry.location;
+                    console.log(lat, lng);
+                    setUserMarker({
+                        lat: lat, lng: lng
+                    });
+                    setUserLocation({
+                        lat: lat, lng: lng
+                    });
+                },
+                (error) => {
+                  console.error(error);
+                }
+              );
+        }
+    }
+
+    const useCurrntLocation = (event)=>{
+        event.preventDefault();
+        if (navigator.geolocation){
+            setUserMarker({
+                lat: initialLocation.lat,
+                lng: initialLocation.lng
+            });
+            setUserLocation({
+                lat: initialLocation.lat,
+                lng: initialLocation.lng
+            });
+            setInputLocation('');
+        }
+    }
 
     const [amenityOptions, setAmenityOptions] = useState([]);
     const [classOptions, setClassOptions] = useState([]);
@@ -37,19 +90,18 @@ const StudiosList = () => {
 
     const [studios, setStudios] = useState([]);
 
-    const [userlocation, setUserLocation] = useState({lat:'',lng:''});
-
     const [directionAppend, setDirectionAppend] =useState('');
 
     const [selectedStudio, setSelectedStudio] = useState();
 
-    const basicURL = `http://127.0.0.1:8000/api/studios?user_lat=${userlocation.lat}&user_lng=${userlocation.lng}&search=${searchInput}`;
+
+    const basicURL = `http://127.0.0.1:8000/api/studios?user_lat=${userlocation.lat?userlocation.lat:''}&user_lng=${userlocation.lng?userlocation.lng:''}&search=${searchInput}`;
 
     useEffect(() => {
         let newURL=basicURL;
         newURL+=('&amenities__type='+selectedAmenities.join(','))
         newURL+=('&classes__name='+selectedClasses.join(','))
-        console.log(newURL)
+        // console.log(newURL)
 
         fetch(newURL)
             .then(res => res.json())
@@ -60,30 +112,23 @@ const StudiosList = () => {
     }, [userlocation,searchInput,selectedAmenities,selectedClasses]);
 
     useEffect(() =>{
-        Geocode.fromLatLng(userlocation.lat, userlocation.lng).then(
-            response => {
-              setDirectionAppend("&origin="+response.results[0].formatted_address)
-            },
-            error => {
-              console.error(error);
-            }
-          );
+        if (userlocation.lat && userlocation.lng){
+            Geocode.fromLatLng(userlocation.lat, userlocation.lng).then(
+                response => {
+                setDirectionAppend("&origin="+response.results[0].formatted_address)
+                },
+                error => {
+                console.error(error);
+                }
+            );
+        }
         
     },[userlocation])
 
-
-    const [filterShow, setFilterShow] = useState(false);
-    const handleClose = () => {
-        setFilterShow(false);
-        handleClear();
-    };
     const handleClear=()=>{
         setSelectedAmenities([]);
         setSelectedClasses([]);
     }
-    const handleShow = () => setFilterShow(true);
-
-    console.log(directionAppend)
 
     return(
         <>
@@ -93,35 +138,23 @@ const StudiosList = () => {
         placeholdertext = 'Search by studio name, coach, class, amenity...'
         />
 
-        {/* <Button variant="warning" onClick={handleShow}>
-        Filters
-        </Button> */}
-            {/* <Modal show={filterShow} onHide={handleClose}>
-            <Modal.Header closeButton>
-            <Modal.Title>Filters</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-            <StudioFilterPanel 
-                amenityOptions={amenityOptions} 
-                selectedAmenities={selectedAmenities} 
-                setSelectedAmenities={setSelectedAmenities}
-
-                classOptions={classOptions}
-                selectedClasses={selectedClasses}
-                setSelectedClasses={setSelectedClasses}
-                />
-            </Modal.Body>
-            <Modal.Footer>
-
-            <Button variant="danger" onClick={handleClear}>
-                Clear Filter
-            </Button>
-            </Modal.Footer>
-        </Modal> */}
-
         <Container fluid='true'>
             <Row fluid='true'>
                 <Col fluid='true'>
+                    <div>
+                        <input
+                            type="text"
+                            id="inputlocation"
+                            name="inputlocation"
+                            onChange={(e)=>{
+                                setInputLocation(e.target.value);
+                            }}
+                            value={inputlocation}
+                        />
+                        <Button onClick={useInputLocation}>Use Input Location</Button>
+                        <Button onClick={useCurrntLocation}>use my current location</Button>
+                    </div>
+
                     <StudioFilterPanel
                     amenityOptions={amenityOptions} 
                     selectedAmenities={selectedAmenities} 
@@ -146,6 +179,9 @@ const StudiosList = () => {
                     setUserLocation={setUserLocation} 
                     selectedStudio={selectedStudio} 
                     setSelectedStudio={setSelectedStudio}
+                    userMarker={userMarker}
+                    setUserMarker={setUserMarker}
+                    setInputLocation={setInputLocation}
                     />  
                 </Col>
             </Row>
