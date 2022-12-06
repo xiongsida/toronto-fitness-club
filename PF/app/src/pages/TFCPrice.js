@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
@@ -8,7 +8,9 @@ import { PrimaryButton as PrimaryButtonBase } from "../components/misc/Buttons.j
 import { Container, ContentWithPaddingXl } from "../components/misc/Layouts.js";
 import { ReactComponent as SvgDecoratorBlob1 } from "../images/svg-decorator-blob-6.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "../images/svg-decorator-blob-7.svg";
+import authHeaders from "../scripts/user_status.js";
 
+const config = require("../TFCConfig.json");
 const HeaderContainer = tw.div`w-full flex flex-col items-center`;
 const Subheading = tw(SubheadingBase)`mb-4`;
 const Heading = tw(SectionHeading)`w-full`;
@@ -72,8 +74,7 @@ export default ({
   subheading = "Pricing",
   heading = "Flexible Plans.",
   description = "Cancel any time. It's so great that you even won't be really charged.",
-  plans = null,
-  primaryButtonText = "Buy Now",
+  primaryButtonText = "Subscribe",
   planDurations = [
     {
       text: "Month",
@@ -85,22 +86,66 @@ export default ({
     }
   ]
 }) => {
+  const [prices, setprices] = useState([0, 0, 0, 0]);
+  const [selectedID, setselectedID] = useState(0);
   const defaultPlans = [
     {
-      name: "Free Plan",
-      durationPrices: ["$0", "$0"],
+      name: "Plan",
+      durationPrices: [`$${prices[0]}`, `$${prices[1]}`],
       mainFeature: "For Personal Blogs",
       features: ["30 Templates", "7 Landing Pages", "12 Internal Pages", "Basic Assistance"]
     },
     {
-      name: "Pro Plan",
-      durationPrices: ["$49", "$499"],
+      name: "Ultimate Plan",
+      durationPrices: [`$${prices[2]}`, `$${prices[3]}`],
       mainFeature: "Suited for Production Websites",
       features: ["60 Templates", "8 Landing Pages", "22 Internal Pages", "Priority Assistance", "Lifetime Updates"],
     }
   ];
 
-  if (!plans) plans = defaultPlans;
+  useEffect(() => {
+    fetch(config.SERVER_URL + '/plans', {
+      method: 'GET',
+      headers: {
+        "Content-Type": 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(data => {
+
+        let tmp = [0, 0, 0, 0];
+        tmp.forEach((element, id) => {
+          tmp[id] = data.results[id].price;
+        });
+        setprices(tmp);
+      });
+  }, []);
+
+  const subsplan = (index) => {
+    console.log(index);
+    alert("you sure?");
+    const token = localStorage.getItem('access_token');
+    const plan_url = `${config.SERVER_URL}/plans/${index + 1}`;
+    fetch(config.SERVER_URL + '/subscriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        plan: plan_url,
+      })
+    }).then(response => response.json())
+      .then(data => {
+        if (data.url) {
+          alert('subscribed !');
+        } else {
+          throw new Error(JSON.stringify(data));
+        }
+      }).catch(error => {
+        alert(error);
+      });
+  };
 
   const [activeDurationIndex, setActiveDurationIndex] = useState(0);
 
@@ -118,7 +163,7 @@ export default ({
           </PlanDurationSwitcher>
         </HeaderContainer>
         <PlansContainer>
-          {plans.map((plan, index) => (
+          {defaultPlans.map((plan, index) => (
             <Plan key={index} featured={plan.featured}>
               <PlanHeader>
                 <span className="priceAndDuration">
@@ -137,7 +182,10 @@ export default ({
                 ))}
               </PlanFeatures>
               <PlanAction>
-                <BuyNowButton>{primaryButtonText}</BuyNowButton>
+                <BuyNowButton onClick={(event) => {
+                  event.preventDefault();
+                  subsplan(index);
+                }}>{primaryButtonText}</BuyNowButton>
               </PlanAction>
             </Plan>
           ))}

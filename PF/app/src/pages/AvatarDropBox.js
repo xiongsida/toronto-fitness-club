@@ -94,9 +94,9 @@ export default function AccountMenu(props) {
                         Payment Method
                     </NavLink>
                 </MenuItem>
-                <MenuItem onClick={() => { alert("shithole") }}>
+                <MenuItem onClick={() => { navigate('/history') }}>
                     <NavLink>
-                        Payment History
+                        My Payments
                     </NavLink>
                 </MenuItem>
                 <MenuItem onClick={() => { navigate('/change-password') }}>

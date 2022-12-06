@@ -12,6 +12,7 @@ import PaymentMethod from "./pages/PaymentMethod";
 import Subscription from "./pages/Subscription";
 import Header from "./pages/TFCHeader";
 import Footer from "./pages/TFCFooter";
+import History from "./pages/PaymentHistory";
 import AnimationRevealPage from "./helpers/AnimationRevealPage.js";
 const Layout = ({ children }) => (
   <>
@@ -34,6 +35,7 @@ export default function App() {
               <Route path="signup" element={<Signup />} />
               <Route path="change-password" element={<ChangePass />} />
               <Route path="profile" element={<ProfilePage />} />
+              <Route path="history" element={<History />} />
               <Route path="add-payment-method" element={<PaymentMethod />} />
               <Route path="subscription" element={<Subscription />} />
             </Routes >

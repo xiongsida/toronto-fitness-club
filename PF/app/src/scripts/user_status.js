@@ -18,6 +18,10 @@ export const storeURLFn = () => {
         });
 }
 
+export const authHeaders = {
+    'Authorization': `Bearer ${localStorage.getItem('access')}`,
+    'Content-Type': 'application/json'
+}
 
 export const loginFn = (username, password) => {
     return fetch(config.AUTH_URL, {
