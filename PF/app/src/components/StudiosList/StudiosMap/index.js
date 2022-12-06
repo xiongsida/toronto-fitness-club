@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, MarkerF, useJsApiLoader} from '@react-google-maps/api';
 
 const mapstyle = {
       position: "relative",
@@ -35,6 +35,12 @@ const StudiosMap = ({studios,setUserLocation,
                   lng: selectedStudio.location.logitude,});
       } ,[selectedStudio])
 
+      console.log('loading map...hi')
+
+      const { isLoaded, loadError } = useJsApiLoader({
+            googleMapsApiKey: "AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE"
+       })
+
       return (
       <div style={{
             position: "relative",
@@ -42,8 +48,9 @@ const StudiosMap = ({studios,setUserLocation,
             width: "100%",
             height: "100%",
           }}>
-      <LoadScript googleMapsApiKey='AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'>
-      <GoogleMap
+      {/* <LoadScript googleMapsApiKey='AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'> */}
+
+      {isLoaded && <GoogleMap
       mapContainerStyle={mapstyle}
       center={mapcenter}
       zoom={12}
@@ -86,8 +93,8 @@ const StudiosMap = ({studios,setUserLocation,
                   
             />
       ))}
-      </GoogleMap>
-      </LoadScript>
+      </GoogleMap>}
+      {/* </LoadScript> */}
 
       </div>
       );
