@@ -1,26 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
-import React from 'react';
+import React from "react";
+import GlobalStyles from './styles/GlobalStyles';
+import { css } from "styled-components/macro"; //eslint-disable-line
 
-function App() {
+import TFCPage from "./pages/TorontoFitnessClubPage.js"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ProfilePage from "./pages/Profile";
+import ChangePass from "./pages/changePass";
+import PaymentMethod from "./pages/PaymentMethod";
+import Subscription from "./pages/Subscription";
+import Header from "./pages/TFCHeader";
+import Footer from "./pages/TFCFooter";
+import AnimationRevealPage from "./helpers/AnimationRevealPage.js";
+const Layout = ({ children }) => (
+  <>
+    <Header />
+    {children}
+    <Footer />
+  </>
+);
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyles />
+      <Router>
+        <AnimationRevealPage>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<TFCPage />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="change-password" element={<ChangePass />} />
+              <Route path="profile" element={<ProfilePage />} />
+              <Route path="add-payment-method" element={<PaymentMethod />} />
+              <Route path="subscription" element={<Subscription />} />
+            </Routes >
+          </Layout>
+        </AnimationRevealPage>
+      </Router>
+    </>
   );
 }
-
-export default App;
