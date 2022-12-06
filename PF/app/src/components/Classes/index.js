@@ -14,7 +14,9 @@ import Pagination from '@mui/material/Pagination';
 import { Container, Footer } from "rsuite";
 
 function Classes() {
-    let init_studio_id=useLocation().state.studio_id
+    let init_studio_id=''
+    if (useLocation().state){
+        init_studio_id= useLocation().state.studio_id}
 
     const [totalPage, setTotalPage]=useState(1);
     const [studioOptions, setStudioOptions] = useState([]);
