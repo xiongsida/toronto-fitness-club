@@ -1,0 +1,5 @@
+{
+    "SERVER_URL": "http://localhost:8000/api",
+    "AUTH_URL": "http://localhost:8000/api/token",
+    "MAIN_PAGE_URL": "/"
+}
