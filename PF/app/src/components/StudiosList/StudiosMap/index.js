@@ -13,7 +13,6 @@ const StudiosMap = ({studios,setUserLocation,
       userMarker, setUserMarker,
       setInputLocation}) => {
 
-
       const [mapcenter,setMapCenter] = useState({lat: 43.7043737,lng: -79.3993013})
 
       const onMapClick = (e) => {
