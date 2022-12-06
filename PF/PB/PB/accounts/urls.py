@@ -4,6 +4,9 @@ from accounts import views
 urlpatterns = [
     path('users', views.UserList.as_view(), name='tfcuser-list'),
     path('users/<int:pk>', views.UserDetail.as_view(), name='tfcuser-detail'),
+    path('update-password', views.UpdatePasswordView.as_view(),
+         name="update-password"),
+
 ]
 
 
