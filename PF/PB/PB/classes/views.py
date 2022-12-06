@@ -66,7 +66,9 @@ class ClassesListView(ListAPIView):
             queryset=ClassInstance.objects.filter(q1 & q2 & q3).order_by('date','start_time','end_time')
             return queryset
         else:
-            return ClassInstance.objects.all().order_by('date','start_time','end_time')
+            q2=Q(is_cancelled=False)
+            q3=Q(date__gt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__gte=datetime.datetime.now().time()))    
+            return ClassInstance.objects.filter(q2 & q3).order_by('date','start_time','end_time')
 
 
 class ClassEnrollView(APIView):
