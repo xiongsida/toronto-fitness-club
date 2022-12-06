@@ -43,7 +43,7 @@ export default () => {
               Toronto's Best Gyms <span tw="text-primary-500">In Your Neigborhood.</span>
             </Heading>
             <Paragraph>
-              Xiongsida Shabi
+              Wubalubaluba
             </Paragraph>
             <Actions>
               <input type="text" placeholder="Enter Post Code" />
