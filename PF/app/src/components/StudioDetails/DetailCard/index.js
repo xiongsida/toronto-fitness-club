@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
-const DetailCard = ({details}) => {
-    console.log(details.amenities)
-    console.log(details.amenities.length)
+const DetailCard = ({details, directionAppend}) => {
+    // console.log(details.amenities)
+    // console.log(details.amenities.length)
     return (
         <Card style={{"height" : "30%", "width" : "50%" }} bg="dark" text="light">
             <Card.Header>Studio #{details.id}</Card.Header>
@@ -27,8 +27,10 @@ const DetailCard = ({details}) => {
                     ))}
                     </div>}
                 </Card.Text>
-                <Button href={details.direction} variant="warning" className='m-3'> DERECTION </Button>
-                <Button component={Link} to={"/api/classes?studio_id="+details.id} variant="info"className='m-3'> VIEW OUR CALSS SCHEDULE </Button>
+                <Button href={details.direction+directionAppend} target="_blank" variant="warning" className='m-3'> DERECTION </Button>
+                <Link to={'/classes'} state={{studio_id:details.id}}>
+                    <Button variant="info"className='m-3'> CALSSES </Button>
+                </Link>
             </Card.Body>
         </Card>
       );

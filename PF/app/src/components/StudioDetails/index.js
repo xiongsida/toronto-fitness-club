@@ -1,13 +1,15 @@
 import ImageCarousel from "./ImageCarousel";
 import './style.css';
 import React, {useEffect, useState} from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
+import { useParams, useLocation } from "react-router-dom";
 import DetailCard from "./DetailCard";
 
-const StudioDetails = ({studio_id}) => {
+const StudioDetails = () => {
+    let params=useParams();
+    // console.log(params);
+    let studio_id = params.studio_id;
+
+    let state =useLocation().state;
 
     const [details, setDetails] = useState({"images":[],"amenities":[]});
 
@@ -26,7 +28,7 @@ const StudioDetails = ({studio_id}) => {
             <div>
             <ImageCarousel imagelist={details.images} />
             <div className="fix-card">
-                <DetailCard className="fix-card" details={details}/>
+                <DetailCard className="fix-card" details={details} directionAppend={state.directionAppend}/>
             </div>
             
             </div>

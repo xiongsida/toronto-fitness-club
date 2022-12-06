@@ -20,7 +20,7 @@ const StudiosList = () => {
     const [studios, setStudios] = useState([]);
     const [amenityOptions, setAmenityOptions] = useState([]);
     const [classOptions, setClassOptions] = useState([]);
-    const [initialLocation, setInitialLocation] = useState({lat:'',lng:''});
+    // const [initialLocation, setInitialLocation] = useState({lat:'',lng:''});
     const [totalPage, setTotalPage]=useState(1);
 
     const [studioMeta, setStudioMeta] =useState({
@@ -61,10 +61,10 @@ const StudiosList = () => {
         if (navigator.geolocation){
             navigator.geolocation.getCurrentPosition(function(position) {
                 console.log(position.coords.latitude,position.coords.longitude)
-                setInitialLocation({
+                localStorage.setItem("initialLocation", JSON.stringify({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
-                });
+                }))
             });
         }
     },[])
@@ -87,7 +87,7 @@ const StudiosList = () => {
     }, [studioMeta]);
 
     useEffect(() =>{
-        console.log('origin location changed, need update direction origin...')
+        console.log('location changed, need update direction origin...')
         if (userlocation.lat && userlocation.lng){
             Geocode.fromLatLng(userlocation.lat, userlocation.lng).then(
                 response => {
@@ -115,8 +115,8 @@ const StudiosList = () => {
                     setStudioMeta({
                         ...studioMeta,
                         userlocation:{
-                            lat: initialLocation.lat,
-                            lng: initialLocation.lng
+                            lat: lat,
+                            lng: lng
                         },
                         page:1,
                     })
@@ -130,7 +130,10 @@ const StudiosList = () => {
 
     const useCurrntLocation = (event)=>{
         event.preventDefault();
-        if (navigator.geolocation){
+        console.log('use current location of user...');
+        if (localStorage.initialLocation){
+            let initialLocation=JSON.parse(localStorage.getItem('initialLocation'))
+            console.log(initialLocation.lat);
             setUserMarker({
                 lat: initialLocation.lat,
                 lng: initialLocation.lng
@@ -143,7 +146,23 @@ const StudiosList = () => {
                     lng: initialLocation.lng
                 },
                 page:1,
-            })
+            });
+        }else if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(function(position) {
+                setUserMarker({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+                setInputLocation('');
+                setStudioMeta({
+                    ...studioMeta,
+                    userlocation:{
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    page:1,
+                })
+            });
         }
     }
 

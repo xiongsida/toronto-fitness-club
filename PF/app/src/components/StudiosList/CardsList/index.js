@@ -25,8 +25,15 @@ const CardsList = ({studios, selectedStudio, setSelectedStudio, directionAppend}
                                 {studio.address} <br/>
                                 {studio.phone_number}
                             </Card.Text>
-                            <Button href={studio.direction+directionAppend} variant="warning" className='m-3'> DERECTION </Button>
-                            <Button component={Link} to={"/api/classes?studio_id="+studio.id} variant="info"className='m-3'> CALSSES </Button>
+                            <Link to={'/studios/'+studio.id} state={{directionAppend:directionAppend}}>
+                                <Button variant="success" className='m-3'> DETAILS </Button>
+                            </Link>
+                            
+                            <Button href={studio.direction+directionAppend} target="_blank" variant="warning" className='m-3'> DERECTION </Button>
+                            
+                            <Link to={'/classes'} state={{studio_id:studio.id}}>
+                                <Button variant="info"className='m-3'> CALSSES </Button>
+                            </Link>
                         </Card.Body>
                     </Card>
                 </Row>
