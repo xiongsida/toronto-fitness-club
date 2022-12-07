@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { DateRangePicker } from 'rsuite';
 import "rsuite/dist/rsuite.css";
 
@@ -28,7 +28,8 @@ const ClassDateRangePicker=({setDateRange})=> {
     }
 
     return (
-        <DateRangePicker onOk={handleSelect} onClean={handleClean} placeholder="Select Class Date Range"/>
+        <DateRangePicker size={'lg'} className='m-2' 
+        onOk={handleSelect} onClean={handleClean} placeholder="Filter Class Through Date Range"/>
     );
   }
   

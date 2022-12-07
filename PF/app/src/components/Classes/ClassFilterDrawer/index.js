@@ -28,7 +28,11 @@ const ClassFilterDrawer = ({classMeta, setClassMeta,
 
     return(
         <>
-        <Drawer size={'sm'} placement={'left'} open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Drawer size={'sm'} placement={'left'} 
+        style={{
+            opacity: 0.93
+            }} 
+        open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Drawer.Header>
           <Drawer.Title>Class Filter</Drawer.Title>
           <Drawer.Actions>
