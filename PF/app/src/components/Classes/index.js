@@ -155,21 +155,21 @@ return (
             <tbody>
             {classes && classes.map( class_ => (
                 <tr key={ class_.id}>
-                    <td className="text-center">{ class_.class_parent.name }</td>
-                    <td className="text-center">{ class_.date }</td>
-                    <td className="text-center">{ class_.start_time }</td>
-                    <td className="text-center">{ class_.end_time }</td>
-                    <td className="text-center">{ class_.coach }</td>
+                    <td className="text-center"><b>{class_.class_parent.name}</b></td>
+                    <td className="text-center">{class_.date}</td>
+                    <td className="text-center">{class_.start_time}</td>
+                    <td className="text-center">{class_.end_time}</td>
+                    <td className="text-center">{class_.coach}</td>
                     <td>
                         <div className="text-center">
 
-                        <DropdownButton as={ButtonGroup} variant='success'
+                        <DropdownButton as={ButtonGroup} variant='info'
                         title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${class_.id}`}>
                             <Dropdown.Item onClick={() => classAction(class_.id,"0","enroll")}>Single Class Instance</Dropdown.Item>
                             <Dropdown.Item onClick={() => classAction(class_.id,"1","enroll")}>All Future Instances</Dropdown.Item>
                         </DropdownButton>
 
-                        <DropdownButton as={ButtonGroup} variant='danger'
+                        <DropdownButton as={ButtonGroup} variant='warning'
                         title='Drop' className='m-1 text-center' id={`dropdown-drop-${class_.id}`}>
                             <Dropdown.Item onClick={() => classAction(class_.id,"0","drop")}>Single Class Instance</Dropdown.Item>
                             <Dropdown.Item onClick={() => classAction(class_.id,"1","drop")}>All Future Instances</Dropdown.Item>
