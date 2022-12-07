@@ -3,7 +3,7 @@ import GlobalStyles from './styles/GlobalStyles';
 import { css } from "styled-components/macro"; //eslint-disable-line
 
 import TFCPage from "./pages/TorontoFitnessClubPage.js"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProfilePage from "./pages/Profile";
@@ -17,11 +17,23 @@ import AnimationRevealPage from "./helpers/AnimationRevealPage.js";
 import StudiosList from "./components/StudiosList";
 import Classes from "./components/Classes";
 import StudioDetails from "./components/StudioDetails";
-const Layout = ({ children }) => (
+import TFCPrice from "./pages/TFCPrice";
+
+const Layout = ({ }) => (
   <>
-    <Header />
-    {children}
-    <Footer />
+    <div style={{
+      display: "flex",
+      minHeight: "100vh",
+      minWidth: "100vw",
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      padding: "2rem",
+    }}>
+      <Header />
+      <Outlet />
+    </div>
+    {/* <Footer /> */}
+
   </>
 );
 
@@ -29,15 +41,14 @@ export default function App() {
   return (
     <>
       <GlobalStyles />
-      <Router path="/" element={<TFCPage />}>
+      <Router>
         <AnimationRevealPage>
-          <Layout>
-            <Routes>
-              <Route index element={<StudiosList/>} />
-              <Route path="studios" element={<StudiosList/>} />
-              <Route path='studios/:studio_id' element={<StudioDetails/>}/>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<TFCPage />} />
+              <Route path="studios" element={<StudiosList />} />
+              <Route path='studios/:studio_id' element={<StudioDetails />} />
               <Route path='classes' element={<Classes />} />
-              
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
               <Route path="change-password" element={<ChangePass />} />
@@ -45,8 +56,9 @@ export default function App() {
               <Route path="history" element={<History />} />
               <Route path="add-payment-method" element={<PaymentMethod />} />
               <Route path="subscription" element={<Subscription />} />
-            </Routes >
-          </Layout>
+              <Route path="plans" element={<TFCPrice />} />
+            </Route >
+          </Routes>
         </AnimationRevealPage>
       </Router>
     </>

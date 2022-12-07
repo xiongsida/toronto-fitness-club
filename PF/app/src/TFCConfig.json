@@ -4,9 +4,11 @@
     "MAIN_PAGE_URL": "/",
     "TOASTER_STYLE": {
         "style": {
-            "border": "4px solid #a273ff",
+            "background": "#5a13e6",
+            "border": "2px solid #a273ff",
             "padding": "16px",
-            "color": "#000000"
+            "color": "#ffffff",
+            "font-weight": "bold"
         }
     }
 }

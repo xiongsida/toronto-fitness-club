@@ -4,7 +4,8 @@ import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { ReactComponent as SvgDotPatternIcon } from "../images/dot-pattern.svg"
 import { useNavigate } from "react-router-dom";
-
+import toast, { Toaster } from 'react-hot-toast';
+import { set } from "rsuite/esm/utils/dateUtils";
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
 
@@ -75,8 +76,6 @@ export default () => {
             .then(response => response.json())
             .then(data => {
                 setIsButtonDisabled(true);
-                console.log(data);
-                console.log(data.payment_method);
                 if (data.payment_method) {
                     setCardUrl(data.payment_method)
                     return fetch(data.payment_method, {
@@ -87,6 +86,9 @@ export default () => {
                         },
                     })
                 } else {
+                    setCardUrl('');
+                    setCE('');
+                    setCN('');
                     throw new Error('');
                 }
             })
@@ -145,21 +147,34 @@ export default () => {
             .then(response => response.json())
             .then(data => {
                 if (data.url) {
-                    alert('Credit Card Added!');
+                    toast.success('Credit Card Added!', config.TOASTER_STYLE);
                     handleReset();
                 } else {
                     throw new Error(JSON.stringify(data));
                 }
             })
             .catch(error => {
-                alert(error);
-                window.location.href = config.MAIN_PAGE_URL + 'add-payment-method';
-                console.error('An error occurred while posting user data:', error);
+                error = JSON.parse(error.message);
+                console.log(error);
+                if (error.card_number) {
+                    toast.error(error.card_number[0], config.TOASTER_STYLE);
+                }
+                if (error.card_expire) {
+                    toast.error(error.card_expire[0], config.TOASTER_STYLE);
+                }
+                if (error.security_code) {
+                    toast.error(error.security_code[0], config.TOASTER_STYLE);
+                }
+                if (error.detail) {
+                    toast.error(error.detail, config.TOASTER_STYLE);
+                }
+                handleReset();
             });
     };
 
     return (
         <Container>
+            <Toaster />
             <Content>
                 <FormContainer>
                     <div tw="mx-auto max-w-4xl">
@@ -187,6 +202,9 @@ export default () => {
                                     </InputContainer>
                                 </Column>
                                 <Column>
+                                    <br />
+                                    <br />
+                                    <br />
                                     <SubmitButton type="button" disabled={isButtonDisabled} value="reset" onClick={handleReset}>CANCEL</SubmitButton >
                                     <SubmitButton type="submit" disabled={isButtonDisabled} value="Submit">SAVE</SubmitButton>
                                     <SubmitButton type="button" disabled={card_url == ''} value="delete" onClick={() => {
@@ -198,11 +216,10 @@ export default () => {
                                             },
                                         }).then(data => {
                                             setCardUrl('');
-                                            alert('Card Deleted!');
-                                            window.location.href = config.MAIN_PAGE_URL;
+                                            toast.success('Card Deleted!', config.TOASTER_STYLE);
+                                            return handleReset();
                                         });
                                     }}>DELETE</SubmitButton >
-                                    <SubmitButton type="button" value="goback" onClick={() => { window.location.href = config.MAIN_PAGE_URL; }}>GO BACK</SubmitButton >
 
                                 </Column>
                             </TwoColumn>

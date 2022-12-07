@@ -9,9 +9,7 @@ import { ReactComponent as ArrowRightIcon } from "../images/arrow-right-icon.svg
 import { ReactComponent as SvgDecoratorBlob3 } from "../images/svg-decorator-blob-3.svg";
 import { getUserData } from "../scripts/user_status.js";
 import UpdateSubs from "./updateSubs.js";
-import { set } from "rsuite/esm/utils/dateUtils.js";
-import { WindowSharp } from "@mui/icons-material";
-
+import toast, { Toaster } from "react-hot-toast";
 
 const config = require("../TFCConfig.json");
 const Heading = tw(SectionHeading)``;
@@ -74,11 +72,13 @@ const id2plans = ["", "Monthly Plan", "Yearly Plan", "Ultimate Monthly Plan", "U
 
 export default ({
 }) => {
+  const [subsUpdated, setsubsUpdated] = useState(false);
+  const [futUpdated, setfutUpdated] = useState(false);
+
   const [isSub, setisSub] = useState(false);
   const [isFut, setisFut] = useState(false);
   const [currentSubUrl, setcurrentSubUrl] = useState("");
   const [futureSubUrl, setfutureSubUrl] = useState("");
-
   const [currentP, setcurrentP] = useState(0);
   const [futureP, setfutureP] = useState(0);
   const [currentEnd, setcurrentEnd] = useState(null);
@@ -87,7 +87,6 @@ export default ({
   useEffect(() => {
     getUserData(user_url, token)
       .then(data => {
-
         if (data.subscription) {
           setcurrentSubUrl(data.subscription);
           setisSub(true);
@@ -98,10 +97,10 @@ export default ({
         }
       })
       .catch(error => {
-        alert(error);
+        toast.error(error.message, config.TOASTER_STYLE);
       });
 
-  }, []);
+  }, [subsUpdated, futUpdated]);
 
   useEffect(() => {
     if (isSub) {
@@ -116,10 +115,10 @@ export default ({
           setcurrentEnd(data.expired_time.substr(0, 10));
           setcurrentP(data.plan.substr(-1));
         }).catch(error => {
-          alert(error);
+          toast.error(error.message, config.TOASTER_STYLE);
         });
     }
-  }, [isSub]);
+  }, [currentSubUrl]);
 
 
   useEffect(() => {
@@ -134,10 +133,10 @@ export default ({
         .then(data => {
           setfutureP(data.plan.substr(-1));
         }).catch(error => {
-          alert(error);
+          toast.error(error.message, config.TOASTER_STYLE);
         });
     }
-  }, [isFut]);
+  }, [isFut, futUpdated]);
 
   const HandleRefund = (event) => {
     event.preventDefault();
@@ -149,19 +148,19 @@ export default ({
       }
     }).then(response => {
       if (response.status === 204) {
-        alert("Refund Successful");
-        window.location.reload();
+        toast.success("Refund Successful", config.TOASTER_STYLE);
+        setisSub(false);
       }
       else {
         return response.json();
       }
     }).then(data => {
       if (data) {
-        throw new Error(data.detail);
+        toast.error(data.detail, config.TOASTER_STYLE);
       }
     })
       .catch(error => {
-        alert(error);
+        toast.error(error.message, config.TOASTER_STYLE);
       });
   }
 
@@ -175,14 +174,15 @@ export default ({
       }
     }).then(response => {
       if (response.status === 204) {
-        alert("Unsubscribe Successful");
-        window.location.reload();
+        toast.success("Unsubscribe Successful", config.TOASTER_STYLE);
+        setisFut(false);
+        setisSub(false);
       }
       else {
         throw new Error("Unsubscribe Failed");
       }
     }).catch(error => {
-      alert(error);
+      toast.error(error.message, config.TOASTER_STYLE);
     });
   }
 
@@ -207,8 +207,9 @@ export default ({
             })
           }).then(response => {
             if (response.status === 201) {
-              alert("You are now subscribed to " + id2plans[plan]);
-              window.location.reload();
+              toast.success("You are now subscribed to " + id2plans[plan], config.TOASTER_STYLE);
+              setsubsUpdated(!subsUpdated);
+              setfutUpdated(!futUpdated);
             }
             else {
               return response.json();
@@ -217,7 +218,7 @@ export default ({
           )
             .then(data => {
               if (data) {
-                alert(data.detail);
+                toast.error(data.detail, config.TOASTER_STYLE);
               }
             }
             );
@@ -230,7 +231,7 @@ export default ({
         }
       })
         .catch(error => {
-          alert(error);
+          toast.error(error.message, config.TOASTER_STYLE);
         }
         );
     }
@@ -249,8 +250,8 @@ export default ({
         })
       }).then(response => {
         if (response.status === 200) {
-          alert("You are now subscribed to " + id2plans[plan] + " in the future");
-          window.location.reload();
+          toast.success("You will be subscribed to " + id2plans[plan] + " in the future", config.TOASTER_STYLE);
+          setfutUpdated(!futUpdated);
         }
         else {
           return response.json();
@@ -278,8 +279,8 @@ export default ({
         })
       }).then(response => {
         if (response.status === 201) {
-          alert("You are now subscribed to " + id2plans[plan] + " in the future");
-          window.location.reload();
+          toast.success("You will be subscribed to " + id2plans[plan] + " in the future", config.TOASTER_STYLE);
+          setisFut(true);
         }
         else {
           return response.json();
@@ -301,10 +302,11 @@ export default ({
   return (
     <>
       <Container>
+        <Toaster />
         <ContentWithPaddingXl>
           {isSub ?
             <Card href={config.MAIN_PAGE_URL}>
-              {<Subheading>Book a Course 💪</Subheading>}
+              {<Subheading>Book a Course</Subheading>}
             </Card>
             :
             <Card href={config.MAIN_PAGE_URL}>

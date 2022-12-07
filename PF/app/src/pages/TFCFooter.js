@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Container as ContainerBase } from "../components/misc/Layouts.js"
 import logo from "../images/logo.svg";
 
-const Container = tw(ContainerBase)`bg-gray-900 text-gray-100 -mx-8 -mb-8`
+const Container = tw(ContainerBase)`bg-gray-900 text-gray-100 -mx-8 -mb-8 bg-clip-border pb-10 bg-clip-padding	`
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
 
 const Row = tw.div`flex items-center justify-center flex-col px-8`

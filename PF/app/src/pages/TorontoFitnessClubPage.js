@@ -18,7 +18,7 @@ export default () => {
     return (
         <>
             <Hero />
-            <Courses id='courses' />
+            {/* <Courses id='courses' />
             <Pricing id='price' />
             <MainFeature
                 subheading={<Subheading>Established Since 2014</Subheading>}
@@ -46,7 +46,7 @@ export default () => {
                 imageCss={imageCss}
                 imageDecoratorBlob={true}
                 imageDecoratorBlobCss={tw`left-1/2 -translate-x-1/2 md:w-32 md:h-32 opacity-25`}
-            />
+            /> */}
 
             {/* TabGrid Component also accepts a tabs prop to customize the tabs and its content directly. Please open the TabGrid component file to see the structure of the tabs props.*/}
 
@@ -54,9 +54,9 @@ export default () => {
                 subheading=""
                 heading={<>Customers <HighlightedText>Love Us.</HighlightedText></>}
             />
-            <DownloadApp
+            {/* <DownloadApp
                 text={<>People around you are ordering delicious meals using the <HighlightedTextInverse>Treact App.</HighlightedTextInverse></>}
-            />
+            /> */}
 
         </>
     );
