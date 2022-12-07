@@ -10,8 +10,8 @@ import { PrimaryButton, SmallPrimaryButton } from "../misc/Buttons";
 
 import SearchBar from "../Common/SearchBar";
 
-import Pagination from '@mui/material/Pagination';
-import { Container, Footer, Stack } from "rsuite";
+// import Pagination from '@mui/material/Pagination';
+import { Container, Footer, Pagination, Stack } from "rsuite";
 import ClassFilterDrawer from "./ClassFilterDrawer";
 import { Box } from "@mui/material";
 
@@ -20,8 +20,9 @@ function Classes() {
     let pre_state=useLocation().state
     if (pre_state){
         init_studio_id= pre_state.studio_id}
+    const page_size=9
 
-    const [totalPage, setTotalPage]=useState(1);
+    const [totalItems, setTotalItems]=useState(0);
     const [studioOptions, setStudioOptions] = useState([]);
     const [classOptions, setClassOptions] = useState([]);
 
@@ -60,7 +61,7 @@ function Classes() {
     `&scope=${scope?scope:''}&search=${searchInput}&class_parent__name=${selectedClass?selectedClass:''}`+
     `&date_range_start=${dateRange&&dateRange[0]?dateRange[0]:''}&date_range_end=${dateRange&&dateRange[1]?dateRange[1]:''}`+
     `&time_range_start=${timeRange&&timeRange[0]?timeRange[0]:''}&time_range_end=${timeRange&&timeRange[1]?timeRange[1]:''}`+
-    `&page=${page}&page_size=9`
+    `&page=${page}&page_size=${page_size}`
 
     useEffect(() => {
         console.log(url)
@@ -75,8 +76,8 @@ function Classes() {
             .then(data => {
                 // console.log(data);
                 data.results ? setClasses(data.results) : setClasses([]);
-                setTotalPage(data.page.totalPages)
-                setInfo(data.detail)
+                setTotalItems(data.page.totalItems);
+                setInfo(data.detail);
             })
     }, [classMeta]);
 
@@ -186,15 +187,25 @@ return (
         display="flex" 
         justifyContent="center">
             <Pagination 
-            page={page} 
-            onChange={(event,value)=>{
-                setClassMeta({
-                    ...classMeta,
-                    page:value,
-                });
-            }}
-            count={totalPage} 
-            color="secondary" 
+                className='m-2'
+                prev
+                next
+                first
+                last
+                ellipsis
+                boundaryLinks
+                limit={page_size}
+                total={totalItems}
+                maxButtons={5}
+                size="lg"
+                layout={['pager']}
+                activePage={page}
+                onChangePage={(value)=>{
+                    setClassMeta({
+                        ...classMeta,
+                        page:value,
+                    });
+                }}
             />
         </Box>
     </Container>

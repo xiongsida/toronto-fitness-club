@@ -6,21 +6,23 @@ import SearchBar from "../Common/SearchBar";
 import CardsList from "./CardsList";
 import StudiosMap from "./StudiosMap";
 import { SecodaryButton,PrimaryButton, SmallPrimaryButton } from "../misc/Buttons";
-import Pagination from '@mui/material/Pagination';
+
 
 import Geocode from "react-geocode";
 import StudioFilterDrawer from "./StudioFilterDrawer";
 import { Box } from "@mui/material";
+import { Pagination } from "rsuite";
 
 Geocode.setApiKey("AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE");
 
 const StudiosList = () => {
+    const page_size=4
     const [studioDrawerOpen, setStudioDrawerOpen] =useState(false);
     const [studios, setStudios] = useState([]);
     const [amenityOptions, setAmenityOptions] = useState([]);
     const [classOptions, setClassOptions] = useState([]);
 
-    const [totalPage, setTotalPage]=useState(1);
+    const [totalItems, setTotalItems]=useState(0);
 
     const [studioMeta, setStudioMeta] =useState({
         page: 1,
@@ -62,7 +64,7 @@ const StudiosList = () => {
         }
     },[])
 
-    const basicURL = `http://127.0.0.1:8000/api/studios?user_lat=${userlocation.lat?userlocation.lat:''}&user_lng=${userlocation.lng?userlocation.lng:''}&search=${searchInput}&page=${page?page:1}&page_size=4`;
+    const basicURL = `http://127.0.0.1:8000/api/studios?user_lat=${userlocation.lat?userlocation.lat:''}&user_lng=${userlocation.lng?userlocation.lng:''}&search=${searchInput}&page=${page?page:1}&page_size=${page_size}`;
     
     useEffect(() => {
         let newURL=basicURL;
@@ -75,7 +77,7 @@ const StudiosList = () => {
             .then(data => {
                 console.log(data)
                 setStudios(data.results?data.results:[]);
-                setTotalPage(data.page.totalPages);
+                setTotalItems(data.page.totalItems)
             })
     }, [studioMeta]);
 
@@ -160,16 +162,27 @@ const StudiosList = () => {
             <Box
             display="flex" 
             justifyContent="center">
-                <Pagination 
-                    page={page} 
-                    onChange={(event,value)=>{
-                        setStudioMeta({
-                            ...studioMeta,
-                            page:value,
-                        });
-                    }}
-                    count={totalPage} 
-                    color="secondary" />
+                <Pagination
+                className='m-2'
+                prev
+                next
+                first
+                last
+                ellipsis
+                boundaryLinks
+                limit={page_size}
+                total={totalItems}
+                maxButtons={5}
+                size="lg"
+                layout={['pager']}
+                activePage={page}
+                onChangePage={(value)=>{
+                    setStudioMeta({
+                        ...studioMeta,
+                        page:value,
+                    });
+                }}
+            />
             </Box>
             </Container>
         </>
