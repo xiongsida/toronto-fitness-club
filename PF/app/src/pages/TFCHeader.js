@@ -88,8 +88,8 @@ export default ({ logoLink, links, className, collapseBreakpointClass = "lg" }) 
   const defaultLinks = [
     <>
       <NavLinks key={1}>
-        <NavLink href="/#">Find a Club</NavLink>
-        <NavLink href="#courses" onClick={event => handleSlide(event, 'courses')}>Find a Course</NavLink>
+        <NavLink href="/studios">Find a Studio</NavLink>
+        <NavLink href="/classes">Find a Class</NavLink>
         <NavLink href="#price">Our Price</NavLink>
 
         {isLoggedIn ? (<></>) : (<>
