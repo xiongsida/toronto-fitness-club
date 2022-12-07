@@ -9,8 +9,8 @@ export const useSubscriptionContext = () => {
     }
 }
 
-const useSubscriptionContext = createContext({
+const SubscriptionContext = createContext({
     subscribed: false, setSubscribed: () => {},
 })
 
-export default useSubscriptionContext;
+export default SubscriptionContext;
