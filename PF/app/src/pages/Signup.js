@@ -9,6 +9,8 @@ import logo from "../images/logo.svg";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
 import { loginFn, storeURLFn } from "../scripts/user_status.js"
 import { Navigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+
 const config = require('../TFCConfig.json');
 const Container = tw(ContainerBase)`min-h-screen bg-primary-900 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
@@ -50,11 +52,15 @@ export default ({
   const [password, setPassword] = useState('');
   const [repeat, setRepeat] = useState('');
 
-  const handleSignup = () => {
+  const handleSignup = (event) => {
+    event.preventDefault();
     if (password != repeat) {
-      alert('passwords don\'t match');
+      toast.error('Passwords don\'t match', config.TOASTER_STYLE);
+      setPassword('');
+      setRepeat('');
       return;
     }
+
     fetch(config.SERVER_URL + '/users', {
       method: 'POST',
       headers: {
@@ -82,19 +88,28 @@ export default ({
         localStorage.setItem('access_token', data.access);
         return storeURLFn();
       }).then(data => {
+        toast.success('Success!', config.TOASTER_STYLE);
         window.location.href = config.MAIN_PAGE_URL;
       })
       .catch(error => {
-        alert(error);
-        setUsername('');
-        setPassword('');
-        setRepeat('');
-        Navigate('/');
+        error = JSON.parse(error.message);
+        if (error.username) {
+          error.password.forEach(message => toast.error(message, config.TOASTER_STYLE))
+          setUsername('');
+        }
+        if (error.password) {
+          error.password.forEach(message => toast.error(message, config.TOASTER_STYLE))
+          setPassword('');
+          setRepeat('');
+        }
       });
   }
 
+
+
   return (
     <AnimationRevealPage>
+      <Toaster />
       <Container>
         <Content>
           <MainContainer>
@@ -104,11 +119,11 @@ export default ({
             <MainContent>
               <Heading>{headingText}</Heading>
               <FormContainer>
-                <Form>
+                <Form onSubmit={handleSignup}>
                   <Input value={username} onChange={event => setUsername(event.target.value)} placeholder="Username" />
                   <Input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="Password" />
                   <Input type="password" value={repeat} onChange={event => setRepeat(event.target.value)} placeholder="Repeat Your Password" />
-                  <SubmitButton onClick={handleSignup} type='button'>
+                  <SubmitButton type='submit'>
                     <SubmitButtonIcon className="icon" />
                     <span className="text">{submitButtonText}</span>
                   </SubmitButton>

@@ -8,7 +8,7 @@ import illustration from "../images/login-illustration.svg";
 import logo from "../images/logo.svg";
 import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
 import { loginFn, storeURLFn } from "../scripts/user_status.js"
-
+import toast, { Toaster } from "react-hot-toast";
 const config = require('../TFCConfig.json');
 const Container = tw(ContainerBase)`min-h-screen bg-primary-900 text-white font-medium flex justify-center -m-8`;
 const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
@@ -56,7 +56,6 @@ export default ({
       .then(response => response.json())
       .then(data => {
         if (data.access) {
-          console.log(data);
           localStorage.setItem('access_token', data.access);
           return storeURLFn();
         } else {
@@ -66,15 +65,26 @@ export default ({
       })
       .then(() => { window.location.href = config.MAIN_PAGE_URL; })
       .catch(error => {
-        alert(error);
-        console.log('failed when auth');
-        console.error(error);
+        error = JSON.parse(error.message);
+        console.log("shit");
+        console.log(error);
+        console.log("shit");
+        if (error.detail) {
+          toast.error(error.detail, config.TOASTER_STYLE);
+        }
+        if (error.username) {
+          toast.error(error.username[0], config.TOASTER_STYLE);
+        }
+        if (error.password) {
+          toast.error(error.password[0], config.TOASTER_STYLE);
+        }
       });
   };
 
 
   return (
     <AnimationRevealPage>
+      <Toaster />
       <Container>
         <Content>
           <MainContainer>
