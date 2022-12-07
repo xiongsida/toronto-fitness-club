@@ -25,7 +25,7 @@ const FilterListToggle = ({ options, selectedOnes, setSelectedOnes, exclusiveboo
     
   return (
     <ToggleButtonGroup
-      orientation="vertical"
+      // orientation="vertical"
       exclusive={exclusivebool}
       value={selectedOnes}
       onChange={handleSelect}

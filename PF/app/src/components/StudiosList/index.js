@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
-import Modal from 'react-bootstrap/Modal';
 import Row from "react-bootstrap/esm/Row";
 import SearchBar from "../Common/SearchBar";
 import CardsList from "./CardsList";
@@ -11,6 +10,7 @@ import Pagination from '@mui/material/Pagination';
 
 import Geocode from "react-geocode";
 import StudioFilterDrawer from "./StudioFilterDrawer";
+import { Box } from "@mui/material";
 
 Geocode.setApiKey("AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE");
 
@@ -157,17 +157,21 @@ const StudiosList = () => {
                     />  
                 </Col>
             </Row>
-            <Pagination 
-                page={page} 
-                onChange={(event,value)=>{
-                    setStudioMeta({
-                        ...studioMeta,
-                        page:value,
-                    });
-                }}
-                count={totalPage} 
-                color="secondary" />
-        </Container>
+            <Box
+            display="flex" 
+            justifyContent="center">
+                <Pagination 
+                    page={page} 
+                    onChange={(event,value)=>{
+                        setStudioMeta({
+                            ...studioMeta,
+                            page:value,
+                        });
+                    }}
+                    count={totalPage} 
+                    color="secondary" />
+            </Box>
+            </Container>
         </>
     )
 }
