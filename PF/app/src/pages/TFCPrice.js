@@ -122,10 +122,9 @@ export default ({
   }, []);
 
   const subsplan = (index) => {
-    console.log(index);
-    alert("you sure?");
+    alert("you sure?, plan " + index + " will be subscribed");
     const token = localStorage.getItem('access_token');
-    const plan_url = `${config.SERVER_URL}/plans/${index + 1}`;
+    const plan_url = `${config.SERVER_URL}/plans/${index}`;
     fetch(config.SERVER_URL + '/subscriptions', {
       method: 'POST',
       headers: {
@@ -135,12 +134,18 @@ export default ({
       body: JSON.stringify({
         plan: plan_url,
       })
-    }).then(response => response.json())
+    }).then(response => {
+      if (response.ok) {
+        alert('subscribed!');
+        window.location.herf = config.MAIN_PAGE_URL + '/subscription';
+      }
+      else {
+        return response.json();
+      }
+    })
       .then(data => {
-        if (data.url) {
-          alert('subscribed !');
-        } else {
-          throw new Error(JSON.stringify(data));
+        if (data) {
+          throw new Error(data.detail);
         }
       }).catch(error => {
         alert(error);
@@ -184,7 +189,17 @@ export default ({
               <PlanAction>
                 <BuyNowButton onClick={(event) => {
                   event.preventDefault();
-                  subsplan(index);
+                  if (plan.name == "Plan" && activeDurationIndex == 0) {
+                    subsplan(1);
+                  }
+                  else if (plan.name == "Plan" && activeDurationIndex == 1) {
+                    subsplan(2);
+                  } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 0) {
+                    subsplan(3);
+                  } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 1) {
+                    subsplan(4);
+                  }
+
                 }}>{primaryButtonText}</BuyNowButton>
               </PlanAction>
             </Plan>
