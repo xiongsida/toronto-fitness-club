@@ -33,6 +33,28 @@ export const loginFn = (username, password) => {
     });
 }
 
+export const getUserData = (url, token) => {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-Type": 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+    })
+        .then(response => response.json());
+}
+
+
+export const getUserSubs = (url, token) => {
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-Type": 'application/json',
+            "Athorization": `Bearer ${token}`,
+        },
+    })
+        .then(response => response.json());
+}
 
 
 // export const refreshAvatarFn = () => {
