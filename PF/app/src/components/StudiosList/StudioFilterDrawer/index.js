@@ -90,13 +90,13 @@ const StudioFilterDrawer = (
     return (
         <>
         <Drawer style={{
-            opacity: 0.88
+            opacity: 0.93
             }} 
-            size={'sm'} placement={'left'} 
+            size={'sm'} placement={'right'} 
             open={studioDrawerOpen} 
             onClose={() => setStudioDrawerOpen(false)}>
         <Drawer.Header>
-          <Drawer.Title>Studio Filter</Drawer.Title>
+          <Drawer.Title><b>Studio Filters</b></Drawer.Title>
           <Drawer.Actions>
             <SecodaryButton onClick={() => setStudioDrawerOpen(false)}>Hide</SecodaryButton>
           </Drawer.Actions>

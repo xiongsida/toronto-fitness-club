@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 
 const ClassTimeRangePicker=(
@@ -7,7 +7,7 @@ const ClassTimeRangePicker=(
   // const [value, onChange] = useState(['00:00','23:59']);
   // console.log(timeRange);
   return (
-    <TimeRangePicker rangeDivider='To' hourPlaceholder='hh' minutePlaceholder='mm'
+    <TimeRangePicker rangeDivider='To' hourPlaceholder='hh' minutePlaceholder='mm' className='m-2'
     value={timeRange} onChange={setTimeRange} disableClock={true} clearIcon='clear time range'/>
   );
 }

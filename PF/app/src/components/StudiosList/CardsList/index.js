@@ -24,7 +24,7 @@ const CardsList = ({studios, selectedStudio, setSelectedStudio, directionAppend}
                             <Card.Text>
                                 <b>{studio.address}</b>
                                 <br/>
-                                <em>Tel: {studio.phone_number}</em>
+                                Tel: {studio.phone_number}
                             </Card.Text>
                             <Link to={'/studios/'+studio.id} state={{directionAppend:directionAppend}}>
                                 <SmallPrimaryButton variant="success" className='m-3'> Details </SmallPrimaryButton>
