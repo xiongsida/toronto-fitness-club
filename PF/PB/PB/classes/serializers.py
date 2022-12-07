@@ -13,3 +13,8 @@ class ClassInstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClassInstance
         fields = ['id', 'class_parent', 'date', 'start_time', 'end_time','description','coach','is_cancelled','available_slot']
+        
+class ClassInstanceIDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClassInstance
+        fields = ['id']

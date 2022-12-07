@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from studios.models.studio import Studio
 from classes.models.classInstance import ClassInstance
 from classes.models.classParent import ClassParent
-from classes.serializers import ClassInstanceSerializer, ClassParentSerializer
+from classes.serializers import ClassInstanceSerializer, ClassParentSerializer, ClassInstanceIDSerializer
 from accounts.models import TFCUser
 from studios.pagination import CustomPagination
 from classes.filter import ClassInstanceFilter
@@ -24,6 +24,26 @@ class ClassParentView(ListAPIView):
     def get_queryset(self):
         return ClassParent.objects.all()
     
+class ClassScheduleView(ListAPIView):
+    serializer_class = ClassInstanceIDSerializer
+    def get_queryset(self):
+        if not self.request.user:
+            return []
+        student=self.request.user
+        q11=Q(is_cancelled=False)
+        q22=Q(date__gt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__gte=datetime.datetime.now().time()))
+        queryset=student.class_instances.filter(q11 & q22).order_by('date','start_time','end_time')
+        return queryset
+    
+class ClassHistoryView(ListAPIView):
+    serializer_class = ClassInstanceIDSerializer
+    def get_queryset(self):
+        if not self.request.user:
+            return []
+        student=self.request.user
+        q33=Q(date__lt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__lte=datetime.datetime.now().time()))
+        queryset=queryset.filter(q33).order_by('date','start_time','end_time') 
+        return queryset
 
 class ClassesListView(ListAPIView):
     serializer_class = ClassInstanceSerializer
@@ -31,7 +51,7 @@ class ClassesListView(ListAPIView):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_class = ClassInstanceFilter
     search_fields = ['class_parent__name','coach','date','start_time','end_time']
-    permission_classes=[IsAuthenticated]
+    # permission_classes=[IsAuthenticated]
     
     def get_queryset(self):
         studio_id=self.request.GET.get('studio_id',None)
