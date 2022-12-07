@@ -5,7 +5,7 @@ import Row from "react-bootstrap/esm/Row";
 import SearchBar from "../Common/SearchBar";
 import CardsList from "./CardsList";
 import StudiosMap from "./StudiosMap";
-import { SecodaryButton,PrimaryButton, SmallPrimaryButton } from "../misc/Buttons";
+import { SecodaryButton,PrimaryButton, SmallPrimaryButton, SmallSecodaryButton } from "../misc/Buttons";
 
 
 import Geocode from "react-geocode";
@@ -104,10 +104,7 @@ const StudiosList = () => {
         <>
         <Container fluid='true'>
             <Row>
-            <Col>
-                <SmallPrimaryButton onClick={() => handleOpenDrawer()}>Open Filters</SmallPrimaryButton>
-            </Col>
-            <Col>
+            <Col md={6}>
             <SearchBar 
             value={searchInput}
             // changeInput={(e) => setSearchInput(e.target.value)}
@@ -118,6 +115,11 @@ const StudiosList = () => {
             })}
             placeholdertext = 'Search by studio name, coach, class, amenity...'
             />
+            </Col>
+            <Col md={6}>
+                <Box display="flex" justifyContent="center">
+                    <SmallSecodaryButton onClick={() => handleOpenDrawer()}>Open Filters</SmallSecodaryButton>
+                </Box>
             </Col>
             </Row>
             <StudioFilterDrawer
@@ -135,7 +137,7 @@ const StudiosList = () => {
             />
            
             <Row fluid='true'>
-                <Col fluid='true'>
+                <Col fluid='true' md="4">
                     <CardsList studios={studios} 
                     selectedStudio={selectedStudio} 
                     setSelectedStudio={setSelectedStudio}
