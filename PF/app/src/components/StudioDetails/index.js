@@ -18,21 +18,17 @@ const StudioDetails = () => {
             .then(res => res.json())
             .then(data => {
                 setDetails(data);
-                // console.log(data);
-                // console.log(details);
             })
     }, []);
 
     return(
         <>
             <div>
-            <ImageCarousel imagelist={details.images} />
-            <div className="fix-card">
-                <DetailCard className="fix-card" details={details} directionAppend={state.directionAppend}/>
+            <ImageCarousel className='my-images' imagelist={details.images} />
+            <div className="my-card">
+            <DetailCard details={details} directionAppend={state.directionAppend}/>
             </div>
-            
-            </div>
-            
+            </div>  
         </>
     )
 }

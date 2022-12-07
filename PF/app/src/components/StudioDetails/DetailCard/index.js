@@ -3,13 +3,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
+import { PrimaryButton, SecodaryButton } from '../../misc/Buttons';
 
 const DetailCard = ({details, directionAppend}) => {
     // console.log(details.amenities)
     // console.log(details.amenities.length)
     return (
         <Card style={{"height" : "30%", "width" : "50%" }} bg="dark" text="light">
-            <Card.Header>Studio #{details.id}</Card.Header>
+            <Card.Header><b>Studio #{details.id}</b></Card.Header>
             <Card.Body className="text-center">
                 <Card.Title>{details.name}</Card.Title>
                 <Card.Text>
@@ -17,7 +18,7 @@ const DetailCard = ({details, directionAppend}) => {
                     <br/>
                     {details.postal_code}
                     <br/>
-                    Contact us {details.phone_number}
+                    Contact us: {details.phone_number}
                     <br/>
                     {details.amenities.length>0 && 
                     <div>
@@ -27,9 +28,12 @@ const DetailCard = ({details, directionAppend}) => {
                     ))}
                     </div>}
                 </Card.Text>
-                <Button href={details.direction+directionAppend} target="_blank" variant="warning" className='m-3'> DERECTION </Button>
+                <a href={details.direction+directionAppend} target="_blank">
+                <SecodaryButton className='m-3'> DERECTION </SecodaryButton>
+                </a>
+                
                 <Link to={'/classes'} state={{studio_id:details.id}}>
-                    <Button variant="info"className='m-3'> CALSSES </Button>
+                    <PrimaryButton className='m-3'> CALSSES </PrimaryButton>
                 </Link>
             </Card.Body>
         </Card>
