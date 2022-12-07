@@ -14,6 +14,9 @@ import Header from "./pages/TFCHeader";
 import Footer from "./pages/TFCFooter";
 import History from "./pages/PaymentHistory";
 import AnimationRevealPage from "./helpers/AnimationRevealPage.js";
+import StudiosList from "./components/StudiosList";
+import Classes from "./components/Classes";
+import StudioDetails from "./components/StudioDetails";
 const Layout = ({ children }) => (
   <>
     <Header />
@@ -26,11 +29,15 @@ export default function App() {
   return (
     <>
       <GlobalStyles />
-      <Router>
+      <Router path="/" element={<TFCPage />}>
         <AnimationRevealPage>
           <Layout>
             <Routes>
-              <Route path="/" element={<TFCPage />} />
+              <Route index element={<StudiosList/>} />
+              <Route path="studios" element={<StudiosList/>} />
+              <Route path='studios/:studio_id' element={<StudioDetails/>}/>
+              <Route path='classes' element={<Classes />} />
+              
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<Signup />} />
               <Route path="change-password" element={<ChangePass />} />
