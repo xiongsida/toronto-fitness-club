@@ -1,5 +1,5 @@
 import React from 'react';
-import FilterListToggle from '../FilterListToggle';
+import FilterListSelector from '../../../Common/FilterListSelector';
 
 
 const StudioFilterPanel = ({
@@ -9,8 +9,14 @@ const StudioFilterPanel = ({
     return (
         <div>
             <div className='input-group'>
-                <p className='label'>Amenities</p>
-                <FilterListToggle
+                {/* <FilterListToggle
+                    options={amenityOptions}
+                    selectedOnes={selectedAmenities}
+                    setSelectedOnes={setSelectedAmenities}
+                    exclusivebool={false}
+                /> */}
+                <FilterListSelector
+                    label={'Amenities'}
                     options={amenityOptions}
                     selectedOnes={selectedAmenities}
                     setSelectedOnes={setSelectedAmenities}
@@ -19,8 +25,14 @@ const StudioFilterPanel = ({
             </div>
 
             <div className='input-group'>
-                <p className='label'>Classes</p>
-                <FilterListToggle
+                {/* <FilterListToggle
+                    options={classOptions}
+                    selectedOnes={selectedClasses}
+                    setSelectedOnes={setSelectedClasses}
+                    exclusivebool={false}
+                /> */}
+                <FilterListSelector
+                    label={'Classes'}
                     options={classOptions}
                     selectedOnes={selectedClasses}
                     setSelectedOnes={setSelectedClasses}

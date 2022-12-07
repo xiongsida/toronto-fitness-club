@@ -19,6 +19,10 @@ class ClassInstance(models.Model):
     def __str__(self):
         return self.class_parent.name+self.date.strftime('%Y-%m-%d')
     
+    @property
+    def available_slot(self):
+        return max(0,self.capacity-len(self.students.all()))
+    
     class Meta:
         unique_together=[['class_parent','date','start_time','end_time','coach']]
     

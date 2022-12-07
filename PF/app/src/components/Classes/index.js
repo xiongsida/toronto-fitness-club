@@ -6,31 +6,30 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Table from 'react-bootstrap/Table';
+import { PrimaryButton, SmallPrimaryButton } from "../misc/Buttons";
 
-import SearchBar from "../SearchBar";
-import ClassFilterPanel from "../ClassFilterPanel";
+import SearchBar from "../Common/SearchBar";
 
-import Pagination from '@mui/material/Pagination';
-import { Container, Footer } from "rsuite";
+// import Pagination from '@mui/material/Pagination';
+import { Container, Footer, Pagination, Stack } from "rsuite";
+import ClassFilterDrawer from "./ClassFilterDrawer";
+import { Box } from "@mui/material";
 
 function Classes() {
     let init_studio_id=''
-    if (useLocation().state){
-        init_studio_id= useLocation().state.studio_id}
+    let pre_state=useLocation().state
+    if (pre_state){
+        init_studio_id= pre_state.studio_id}
+    const page_size=9
 
-    const [totalPage, setTotalPage]=useState(1);
+    const [totalItems, setTotalItems]=useState(0);
     const [studioOptions, setStudioOptions] = useState([]);
     const [classOptions, setClassOptions] = useState([]);
 
     const [info, setInfo] = useState();
     const [classes, setClasses] = useState([]);
 
-    // const [searchInput, setSearchInput] = useState('');
-    // const [selectedStudio, setSelectedStudio] =useState('');
-    // const [selectedClass, setSelectedClass] = useState('');
-    // const [scope, setScope] = useState('');
-    // const [dateRange, setDateRange] =useState([]);
-    // const [timeRange, setTimeRange] =useState(['00:00','23:59']);
+    const [drawerOpen, setDrawerOpen] =useState(false);
 
     const [classMeta, setClassMeta] =useState({
         searchInput:'',
@@ -62,7 +61,7 @@ function Classes() {
     `&scope=${scope?scope:''}&search=${searchInput}&class_parent__name=${selectedClass?selectedClass:''}`+
     `&date_range_start=${dateRange&&dateRange[0]?dateRange[0]:''}&date_range_end=${dateRange&&dateRange[1]?dateRange[1]:''}`+
     `&time_range_start=${timeRange&&timeRange[0]?timeRange[0]:''}&time_range_end=${timeRange&&timeRange[1]?timeRange[1]:''}`+
-    `&page=${page}`
+    `&page=${page}&page_size=${page_size}`
 
     useEffect(() => {
         console.log(url)
@@ -77,8 +76,8 @@ function Classes() {
             .then(data => {
                 // console.log(data);
                 data.results ? setClasses(data.results) : setClasses([]);
-                setTotalPage(data.page.totalPages)
-                setInfo(data.detail)
+                setTotalItems(data.page.totalItems);
+                setInfo(data.detail);
             })
     }, [classMeta]);
 
@@ -104,11 +103,18 @@ function Classes() {
             });
     }
 
+    const handleOpenDrawer = () => {
+        setDrawerOpen(true);
+    };
 
 return (
 <>
     <Container fluid='true' className='m-0'>
         <Row className='m-2'>
+            <Col>
+            <SmallPrimaryButton onClick={() => handleOpenDrawer()}>Open Filters</SmallPrimaryButton>
+            </Col>
+            <Col>
             <SearchBar 
                 value={searchInput}
                 // changeInput={(e) => setSearchInput(e.target.value)}
@@ -119,57 +125,22 @@ return (
                 })}
                 placeholdertext = 'Search by class name, coach, date'
                 />
-        </Row>
-        <Row>
-            <Col className='m-0'>
-            <ClassFilterPanel 
-            studioOptions={studioOptions} selectedStudio={selectedStudio} 
-            setSelectedStudio={(value)=>{
-                setClassMeta({
-                    ...classMeta,
-                    selectedStudio:value,
-                    page:1,
-                })
-            }}
-
-            classOptions={classOptions} selectedClass={selectedClass} 
-            setSelectedClass={(value)=>{
-                setClassMeta({
-                    ...classMeta,
-                    selectedClass:value,
-                    page:1
-                })
-            }}
-
-            scope={scope} 
-            setScope={(value)=>{
-                setClassMeta({
-                    ...classMeta,
-                    scope:value,
-                    page:1
-                })
-            }}
-
-            dateRange={dateRange} 
-            setDateRange={(value)=>{
-                setClassMeta({
-                    ...classMeta,
-                    dateRange:value,
-                    page:1
-                })
-            }}
-
-            timeRange={timeRange} 
-            setTimeRange={(value)=>{
-                setClassMeta({
-                    ...classMeta,
-                    timeRange:value,
-                    page:1
-                })
-            }}
-            />
             </Col>
-
+        </Row>
+        <ClassFilterDrawer 
+            classMeta={classMeta}
+            setClassMeta={setClassMeta}
+            studioOptions={studioOptions}
+            selectedStudio={selectedStudio}
+            classOptions={classOptions}
+            selectedClass={selectedClass}
+            scope={scope}
+            dateRange={dateRange}
+            timeRange={timeRange}
+            drawerOpen={drawerOpen}
+            setDrawerOpen={setDrawerOpen}
+        />
+        <Row>
             <Col className='m-0'>
             <Table>
             <thead>
@@ -185,21 +156,21 @@ return (
             <tbody>
             {classes && classes.map( class_ => (
                 <tr key={ class_.id}>
-                    <td className="text-center">{ class_.class_parent.name }</td>
-                    <td className="text-center">{ class_.date }</td>
-                    <td className="text-center">{ class_.start_time }</td>
-                    <td className="text-center">{ class_.end_time }</td>
-                    <td className="text-center">{ class_.coach }</td>
+                    <td className="text-center"><b>{class_.class_parent.name}</b></td>
+                    <td className="text-center">{class_.date}</td>
+                    <td className="text-center">{class_.start_time}</td>
+                    <td className="text-center">{class_.end_time}</td>
+                    <td className="text-center">{class_.coach}</td>
                     <td>
                         <div className="text-center">
 
-                        <DropdownButton as={ButtonGroup} variant='success'
+                        <DropdownButton as={ButtonGroup} variant='info'
                         title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${class_.id}`}>
                             <Dropdown.Item onClick={() => classAction(class_.id,"0","enroll")}>Single Class Instance</Dropdown.Item>
                             <Dropdown.Item onClick={() => classAction(class_.id,"1","enroll")}>All Future Instances</Dropdown.Item>
                         </DropdownButton>
 
-                        <DropdownButton as={ButtonGroup} variant='danger'
+                        <DropdownButton as={ButtonGroup} variant='warning'
                         title='Drop' className='m-1 text-center' id={`dropdown-drop-${class_.id}`}>
                             <Dropdown.Item onClick={() => classAction(class_.id,"0","drop")}>Single Class Instance</Dropdown.Item>
                             <Dropdown.Item onClick={() => classAction(class_.id,"1","drop")}>All Future Instances</Dropdown.Item>
@@ -212,18 +183,31 @@ return (
             </Table>
             </Col>
         </Row>
-        <Footer>
-        <Pagination 
-        page={page} 
-        onChange={(event,value)=>{
-            setClassMeta({
-                ...classMeta,
-                page:value,
-            });
-        }}
-        count={totalPage} 
-        color="secondary" />
-    </Footer>
+        <Box
+        display="flex" 
+        justifyContent="center">
+            <Pagination 
+                className='m-2'
+                prev
+                next
+                first
+                last
+                ellipsis
+                boundaryLinks
+                limit={page_size}
+                total={totalItems}
+                maxButtons={5}
+                size="lg"
+                layout={['pager']}
+                activePage={page}
+                onChangePage={(value)=>{
+                    setClassMeta({
+                        ...classMeta,
+                        page:value,
+                    });
+                }}
+            />
+        </Box>
     </Container>
 </>
 );

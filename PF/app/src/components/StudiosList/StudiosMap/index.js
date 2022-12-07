@@ -35,7 +35,6 @@ const StudiosMap = ({studios,setUserLocation,
                   lng: selectedStudio.location.logitude,});
       } ,[selectedStudio])
 
-      console.log('loading map...hi')
 
       const { isLoaded, loadError } = useJsApiLoader({
             googleMapsApiKey: "AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE"

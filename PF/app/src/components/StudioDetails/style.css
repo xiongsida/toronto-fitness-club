@@ -1,6 +1,11 @@
-.fix-card {
+.my-card {
     position: absolute;
     left: 25%;
     top: 50%;
     width: 100%;
+}
+.my-images {
+    position:absolute;
+    width:100%;
+    height:100%;
 }

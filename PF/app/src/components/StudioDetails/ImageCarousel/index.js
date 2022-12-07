@@ -9,7 +9,9 @@ const ImageCarousel = ({imagelist}) => {
         <div style={{ display: 'block'}}>
             <Carousel variant="dark">
                 {imagelist.map( imageobj => (
-                    <Carousel.Item interval={3000} key={imageobj.id} style={{ height :500, overflow: 'hidden'}}>
+                    <Carousel.Item interval={1500} key={imageobj.id} 
+                    // style={{ height :'100%', overflow: 'hidden'}}
+                    >
                         <img
                         className="d-block w-100"
                         src={imageobj.image}
