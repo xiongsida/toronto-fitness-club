@@ -1,111 +1,153 @@
-import React from "react";
+import { Table, Pagination } from 'rsuite';
+import React, { useState } from "react";
 import tw from "twin.macro";
-import styled from "styled-components";
-import { motion } from "framer-motion";
-import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading } from "../components/misc/Headings.js";
-import { Container, ContentWithPaddingXl } from "../components/misc/Layouts.js";
+import "slick-carousel/slick/slick.css";
+import "./PaymentHistory.css";
+import { getFutruePlan, getUserSubscribePlan } from '../scripts/user_status.js';
+export const Container = tw.div`relative`;
 
-const Heading = tw(SectionHeading)`text-left lg:text-4xl xl:text-5xl`;
+const { Column, HeaderCell, Cell } = Table;
+const config = require('../TFCConfig.json');
+const id2plans = ["", "Monthly Plan", "Yearly Plan", "Ultimate Monthly Plan", "Ultimate Yearly Plan"];
 
-const PostsContainer = tw.div` mt-12 flex flex-col sm:flex-row sm:justify-between lg:justify-start`;
-const Post = tw(motion.a)`block sm:max-w-sm cursor-pointer mb-16 last:mb-0 sm:mb-0 sm:odd:mr-8 lg:mr-8 xl:mr-16`;
-const Image = styled(motion.div)(props => [
-    `background-image: url("${props.$imageSrc}");`,
-    tw`h-64 bg-cover bg-center rounded`
-]);
-const Title = tw.h5`mt-6 text-xl font-bold transition duration-300 group-hover:text-primary-500`;
-const AuthorName = tw.h6`font-semibold text-lg`;
+const HeadingContainer = tw.div``;
+const Heading = tw(SectionHeading)``;
 
-const RecentPostsContainer = styled.div`
-  ${tw`mt-24 lg:mt-0 lg:w-1/3`}
-  ${PostsContainer} {
-    ${tw`flex flex-wrap lg:flex-col`}
-  }
-  ${Post} {
-    ${tw`flex justify-between mb-10 max-w-none w-full sm:w-1/2 lg:w-auto sm:odd:pr-12 lg:odd:pr-0 mr-0`}
-  }
-  ${Title} {
-    ${tw`text-base xl:text-lg mt-0 mr-4 lg:max-w-xs`}
-  }
-  ${AuthorName} {
-    ${tw`mt-3 text-sm text-secondary-100 font-normal leading-none`}
-  }
-  ${Image} {
-    ${tw`h-20 w-20 flex-shrink-0`}
-  }
-`;
-const PostTextContainer = tw.div``
+const dataCleaner = (element) => {
+    return {
+        plan: id2plans[element.plan.substring(element.plan.length - 1)],
+        paid_time: new Date(element.paid_time).toLocaleString(),
+        card_number: element.card_number.replace(/\d(?=\d{4})/g, '*'),
+        amount: element.amount.toFixed(2),
+        is_refund: element.is_refund ? "REFUNDED" : "PAID",
+    }
+}
+
 
 export default () => {
-    // This setting is for animating the post background image on hover
-    const postBackgroundSizeAnimation = {
-        rest: {
-            backgroundSize: "100%"
-        },
-        hover: {
-            backgroundSize: "110%"
+    const token = localStorage.getItem('access_token');
+    const user_url = localStorage.getItem('user_url');
+
+    const [page, setPage] = React.useState(1);
+    const [total, setTotal] = React.useState(0);
+    const [rdata, setrData] = React.useState([]);
+    const [futurePlan, setFuturePlan] = React.useState(null);
+    const [starttime, setStartTime] = React.useState(null);
+    const limit = 5;
+
+    const futurePlan2row = () => {
+        return {
+            plan: futurePlan,
+            paid_time: starttime,
+            card_number: "N/A",
+            amount: "N/A",
+            is_refund: "UPCOMING",
         }
-    };
+    }
+    React.useEffect(() => {
+        fetch(config.SERVER_URL + `/receipts?page=${page}&page_size=${limit}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setTotal(data.count);
+                setrData(data.results.map(dataCleaner));
+                if (page === 1 && futurePlan && starttime) {
+                    setrData(rdata => [futurePlan2row(), ...rdata,]);
+                }
+            });
+    }, [page]);
+
+    React.useEffect(() => {
+        getFutruePlan(user_url, token).then(data => {
+            setFuturePlan(id2plans[data.substring(data.length - 1)]);
+        });
+
+        getUserSubscribePlan(user_url, token)
+            .then(url => {
+                console.log(url);
+                return fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Authorization": `Bearer ${token}`,
+                    },
+                });
+            }).then(response => response.json())
+            .then(data => {
+                setStartTime(new Date(data.expired_time).toLocaleString());
+            });
+
+    }, []);
 
 
-    const recentPosts = [
-        {
-            postImageSrc:
-                "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
-            title: "Getting the most out of your vacation",
-            authorName: "Aaron Patterson",
-            url: "https://reddit.com"
-        },
-        {
-            postImageSrc:
-                "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
-            title: "Choosing the perfect Safaris in Africa",
-            authorName: "Sam Phipphen",
-            url: "https://reddit.com"
-        },
-        {
-            postImageSrc:
-                "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
-            title: "Hiking during the monsoon in Asia",
-            authorName: "Tony Hawk",
-            url: "https://timerse.com"
-        },
-        {
-            postImageSrc:
-                "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&q=80",
-            title: "Must carry items while travelling to Thailand",
-            authorName: "Himali Turn",
-            url: "https://timerse.com"
-        },
-        {
-            postImageSrc:
-                "https://images.unsplash.com/photo-1546971587-02375cbbdade?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=641&q=80",
-            title: "An extremely funny trip to the Swiss Alps",
-            authorName: "Naomi Watts",
-            url: "https://timerse.com"
-        },
-    ]
+    React.useEffect(() => {
+        if (futurePlan && starttime) {
+            setrData(rdata => [{
+                plan: futurePlan,
+                paid_time: starttime,
+                card_number: "N/A",
+                amount: "N/A",
+                is_refund: "UPCOMING",
+            }, ...rdata,]);
+        }
+    }, [futurePlan, starttime]);
 
     return (
-        <Container>
-            <ContentWithPaddingXl>
-                <RecentPostsContainer>
-                    <Heading>Recent Posts</Heading>
-                    <PostsContainer>
-                        {recentPosts.map((post, index) => (
-                            <Post key={index} href={post.url} className="group">
-                                <PostTextContainer>
-                                    <Title>{post.title}</Title>
-                                    <AuthorName>{post.authorName}</AuthorName>
-                                </PostTextContainer>
-                                <Image $imageSrc={post.postImageSrc} />
-                            </Post>
-                        ))}
-                    </PostsContainer>
-                </RecentPostsContainer>
+        <div className="container">
+            <div className="card">
+                <HeadingContainer>
+                    <Heading>{"Payments"}</Heading>
+                </HeadingContainer>
 
-            </ContentWithPaddingXl>
-        </Container>
+                <Table height={420} data={rdata} className="table">
+                    <Column flexGrow={1} fixed fullText>
+                        <HeaderCell>For</HeaderCell>
+                        <Cell dataKey="plan" />
+                    </Column>
+
+                    <Column flexGrow={1} fixed fullText>
+                        <HeaderCell>Time</HeaderCell>
+                        <Cell dataKey="paid_time" />
+                    </Column>
+
+                    <Column flexGrow={1} fixed fullText>
+                        <HeaderCell>Card Number</HeaderCell>
+                        <Cell dataKey="card_number" />
+                    </Column>
+
+                    <Column flexGrow={1} fixed fullText>
+                        <HeaderCell>Amount</HeaderCell>
+                        <Cell dataKey="amount" />
+                    </Column>
+                    <Column flexGrow={1} fixed fullText>
+                        <HeaderCell>ACTION</HeaderCell>
+                        <Cell dataKey="is_refund" />
+                    </Column>
+                </Table>
+                <div style={{ padding: 10 }} className='pagination'>
+                    <Pagination
+                        prev
+                        next
+                        first
+                        last
+                        ellipsis
+                        boundaryLinks
+                        limit={limit}
+                        total={total}
+                        maxButtons={5}
+                        size="md"
+                        layout={['pager', 'skip']}
+                        activePage={page}
+                        onChangePage={setPage}
+                    />
+                </div>
+            </div>
+        </div>
     );
 };

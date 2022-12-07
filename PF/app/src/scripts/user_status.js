@@ -44,16 +44,65 @@ export const getUserData = (url, token) => {
         .then(response => response.json());
 }
 
+export const getUserSubscribePlan = (url, token) => {
+    return getUserData(url, token)
+        .then(data => {
+            return new Promise((resolve, reject) => {
+                if (data.subscription) {
+                    resolve(data.subscription);
+                } else {
+                    reject('no subscription');
+                }
+            });
+        });
+}
 
-export const getUserSubs = (url, token) => {
-    return fetch(url, {
-        method: 'GET',
-        headers: {
-            "Content-Type": 'application/json',
-            "Athorization": `Bearer ${token}`,
-        },
-    })
-        .then(response => response.json());
+export const getFutruePlan = (url, token) => {
+    return getUserData(url, token)
+        .then(data => {
+            return new Promise((resolve, reject) => {
+                if (data.upcoming_plan) {
+                    resolve(data.upcoming_plan);
+                } else {
+                    reject('no future plan');
+                }
+            });
+        })
+        .then(data => {
+            return fetch(data, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+        })
+        .then(response => response.json())
+        .then(data => {
+            return new Promise((resolve, reject) => {
+                if (data.plan) {
+                    resolve(data.plan);
+                }
+                else {
+                    reject('no plan');
+                }
+            });
+        });
+}
+
+
+
+export const isSubscribed = (usr_url, token) => {
+    return getUserData(usr_url, token)
+        .then(data => {
+            return new Promise((resolve, reject) => {
+                if (data.subscription) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            });
+        });
 }
 
 
