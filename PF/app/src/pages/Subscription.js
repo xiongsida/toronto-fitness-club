@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import SubscriptionContext,{useSubscriptionContext} from "../Context/SubscriptionContext.js";
+import SubscriptionContext, { useSubscriptionContext } from "../Context/SubscriptionContext.js";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
@@ -60,9 +60,9 @@ const plans2id = (plan) => {
     return 1;
   } else if (plan === "Yearly Plan") {
     return 2;
-  } else if (plan == "Ultimate Monthly Plan") {
+  } else if (plan === "Ultimate Monthly Plan") {
     return 3;
-  } else if (plan == "Ultimate Yearly Plan") {
+  } else if (plan === "Ultimate Yearly Plan") {
     return 4;
   }
 }

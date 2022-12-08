@@ -209,7 +209,7 @@ export default () => {
                                     <br />
                                     <SubmitButton type="button" disabled={isButtonDisabled} value="reset" onClick={handleReset}>CANCEL</SubmitButton >
                                     <SubmitButton type="submit" disabled={isButtonDisabled} value="Submit">SAVE</SubmitButton>
-                                    <SubmitButton type="button" disabled={card_url == ''} value="delete" onClick={() => {
+                                    <SubmitButton type="button" disabled={!card_url} value="delete" onClick={() => {
                                         fetch(card_url, {
                                             method: 'DELETE',
                                             headers: {
