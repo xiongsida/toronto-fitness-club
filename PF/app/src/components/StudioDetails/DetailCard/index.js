@@ -4,12 +4,17 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import { PrimaryButton, SecodaryButton } from '../../misc/Buttons';
+import { Box } from '@mui/material';
 
 const DetailCard = ({details, directionAppend}) => {
     // console.log(details.amenities)
     // console.log(details.amenities.length)
     return (
-        <Card style={{"height" : "30%", "width" : "50%" }} bg="dark" text="light">
+        <Box
+        display="flex" 
+        justifyContent="center"
+        >
+        <Card style={{"height" : "40%", "width" : "60%" }} bg="dark" text="light" className="bg-opacity-50">
             <Card.Header><b>Studio #{details.id}</b></Card.Header>
             <Card.Body className="text-center">
                 <Card.Title>{details.name}</Card.Title>
@@ -37,6 +42,7 @@ const DetailCard = ({details, directionAppend}) => {
                 </Link>
             </Card.Body>
         </Card>
+        </Box>
       );
 }
 

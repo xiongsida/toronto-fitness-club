@@ -31,7 +31,6 @@ const Layout = ({ }) => {
   useEffect(()=>{
     is_authenticated && isSubscribed(user_url, access_token)
         .then((isSubscribed)=>{
-          console.log("check if subscribed at first load...");
           setisSub(isSubscribed)}
     );
   },[])
