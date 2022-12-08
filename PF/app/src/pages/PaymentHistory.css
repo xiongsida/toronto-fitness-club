@@ -8,25 +8,27 @@
 */
 
 
-.container {
+.paymentcontainer {
     padding: 5rem;
-    background-color: rgb(108, 3, 206);
-    background-clip: padding-box, margin-box, border-box;
+    /* background-color: rgb(108, 3, 206);
+    background-clip: padding-box, margin-box, border-box; */
 }
 
 
 
-.card {
+.paymentcard {
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* background-color: #ffffff; */
+    background-color: rgb(255, 255, 255);
+    border-radius: 50px;
+    border: 10px solid rgb(110, 19, 191);
+    box-shadow: 0 2px 8px 0 rgb(108, 3, 206);
     margin: auto;
     padding: 40px;
     width: 80%;
 }
 
-.table {
+.paymenttable {
     margin-top: 40px;
 }

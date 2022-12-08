@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import GlobalStyles from './styles/GlobalStyles';
 import { css } from "styled-components/macro"; //eslint-disable-line
 
@@ -11,53 +11,53 @@ import ChangePass from "./pages/changePass";
 import PaymentMethod from "./pages/PaymentMethod";
 import Subscription from "./pages/Subscription";
 import Header from "./pages/TFCHeader";
-import Footer from "./pages/TFCFooter";
 import History from "./pages/PaymentHistory";
 import AnimationRevealPage from "./helpers/AnimationRevealPage.js";
 import StudiosList from "./components/StudiosList";
 import Classes from "./components/Classes";
 import StudioDetails from "./components/StudioDetails";
 import TFCPrice from "./pages/TFCPrice";
-import SubscriptionContext,{useSubscriptionContext} from "./Context/SubscriptionContext";
+import SubscriptionContext, { useSubscriptionContext } from "./Context/SubscriptionContext";
 import { isSubscribed } from "./scripts/user_status";
 
 
 const Layout = ({ }) => {
-  let user_url=localStorage.getItem('user_url');
-  let access_token=localStorage.getItem('access_token');
+  let user_url = localStorage.getItem('user_url');
+  let access_token = localStorage.getItem('access_token');
   let is_authenticated = user_url && access_token;
-  const { isSub, setisSub} = useContext(SubscriptionContext);
+  const { isSub, setisSub } = useContext(SubscriptionContext);
 
-  useEffect(()=>{
+  useEffect(() => {
     is_authenticated && isSubscribed(user_url, access_token)
-        .then((isSubscribed)=>{
-          console.log("check if subscribed at first load...");
-          setisSub(isSubscribed)}
-    );
-  },[])
+      .then((isSubscribed) => {
+        console.log("check if subscribed at first load...");
+        setisSub(isSubscribed)
+      }
+      );
+  }, [])
 
-  return(
-  <>
-    <div style={{
-      display: "flex",
-      minHeight: "100vh",
-      minWidth: "100vw",
-      flexDirection: "column",
-      justifyContent: "flex-start",
-      padding: "2rem",
-    }}>
-      <Header />
-      <Outlet />
-    </div>
+  return (
+    <>
+      <div style={{
+        display: "flex",
+        minHeight: "100vh",
+        minWidth: "100vw",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        padding: "2rem",
+      }}>
+        <Header />
+        <Outlet />
+      </div>
 
-  </>
+    </>
   );
 }
 
 export default function App() {
-  const layout=(
+  const layout = (
     <SubscriptionContext.Provider value={useSubscriptionContext()}>
-      <Layout/>
+      <Layout />
     </SubscriptionContext.Provider>
   );
 

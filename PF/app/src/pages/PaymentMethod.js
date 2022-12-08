@@ -6,6 +6,7 @@ import { ReactComponent as SvgDotPatternIcon } from "../images/dot-pattern.svg"
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { set } from "rsuite/esm/utils/dateUtils";
+
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
 
@@ -175,9 +176,10 @@ export default () => {
     return (
         <Container>
             <Toaster />
-            <Content>
+            <Content >
                 <FormContainer>
-                    <div tw="mx-auto max-w-4xl">
+                    <div className="magiccard">
+                        {/* <div tw="mx-auto max-w-4xl"> */}
                         <h2>Payment Method</h2>
                         <form onSubmit={handleSubmit}>
                             <TwoColumn>
@@ -224,8 +226,9 @@ export default () => {
                                 </Column>
                             </TwoColumn>
                         </form>
+                        {/* </div> */}
+                        <SvgDotPattern1 />
                     </div>
-                    <SvgDotPattern1 />
                 </FormContainer>
             </Content>
         </Container >

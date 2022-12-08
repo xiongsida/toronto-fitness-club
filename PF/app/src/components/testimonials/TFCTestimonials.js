@@ -28,24 +28,24 @@ export default ({
     testimonials = [
         {
             imageSrc:
-                "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3.25&w=512&h=512&q=80",
+                "https://cachedimages.podchaser.com/256x256/aHR0cHM6Ly9jcmVhdG9yLWltYWdlcy5wb2RjaGFzZXIuY29tL2RmODZjM2RjZTg5ZDI2ZGQzZWI5NWU4YzI1MDBhMTIyLmpwZWc%3D/aHR0cHM6Ly93d3cucG9kY2hhc2VyLmNvbS9pbWFnZXMvbWlzc2luZy1pbWFnZS5wbmc%3D",
             quote:
-                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
-            customerName: "Charlotte Hale"
+                "The gym was so impressive that I was tempted to stay there forever and forget all about my plans to travel to Mars. The equipment was top-of-the-line and the staff was incredibly helpful and friendly. I was truly impressed by the whole experience and would highly recommend the gym to anyone looking for a great workout in a welcoming environment",
+            customerName: "Elon Musk"
         },
         {
             imageSrc:
-                "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=512&h=512&q=80",
+                "https://i.imgur.com/p2bhRej.png",
             quote:
-                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
-            customerName: "Adam Cuppy"
+                "As a long-time member and employee, I've come to love everything about your club. Despite being unable to afford health insurance, I've managed to stay healthy thanks to the regular exercise I get at your gym. In fact, my regular workouts have even helped me overcome cancer",
+            customerName: "Captain WiFi"
         },
         {
             imageSrc:
-                "https://images.unsplash.com/photo-1580852300654-03c803a14e24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4.25&w=512&h=512&q=80",
+                "https://avatars.akamai.steamstatic.com/f4f5c45f281a599fd140e8da4e4fb75b05e3c858_full.jpg",
             quote:
-                "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
-            customerName: "Steven Marcetti"
+                "I wanted to thank you for the wonderful experience I had at your gym. I recently had the pleasure of meeting Elon Musk while working out, and we ended up getting into a disagreement. However, the staff at your gym intervened and helped us resolve our differences. In the end, Elon and I became good friends, and I couldn't be more grateful",
+            customerName: "Kanye West"
         }
     ]
 }) => {
