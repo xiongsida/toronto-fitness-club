@@ -7,8 +7,7 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 import illustration from "../images/signup-illustration.svg";
 import logo from "../images/logo.svg";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
-import { loginFn, storeURLFn } from "../scripts/user_status.js"
-import { Navigate } from "react-router-dom";
+import { storeURLFn } from "../scripts/user_status.js"
 import toast, { Toaster } from "react-hot-toast";
 
 const config = require('../TFCConfig.json');
@@ -93,15 +92,20 @@ export default ({
       })
       .catch(error => {
         error = JSON.parse(error.message);
-        if (error.username) {
-          error.password.forEach(message => toast.error(message, config.TOASTER_STYLE))
-          setUsername('');
+        console.log(error.message);
+        if (error.username || error.password) {
+          if (error.username) {
+            error.username.forEach(message => toast.error(message, config.TOASTER_STYLE))
+            setUsername('');
+          }
+          if (error.password) {
+            error.password.forEach(message => toast.error(message, config.TOASTER_STYLE))
+          }
+        } else {
+          toast.error(error.detail, config.TOASTER_STYLE);
         }
-        if (error.password) {
-          error.password.forEach(message => toast.error(message, config.TOASTER_STYLE))
-          setPassword('');
-          setRepeat('');
-        }
+        setPassword('');
+        setRepeat('');
       });
   }
 

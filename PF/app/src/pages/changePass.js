@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import illustration from "../images/signup-illustration.svg";
 import logo from "../images/logo.svg";
-import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
+import toast, { Toaster } from "react-hot-toast";
 
 const config = require('../TFCConfig.json');
 const Container = tw(ContainerBase)`min-h-screen text-white font-medium flex justify-center -m-8`;
@@ -38,11 +38,7 @@ const IllustrationImage = styled.div`
 export default ({
     logoLinkUrl = config.MAIN_PAGE_URL,
     illustrationImageSrc = illustration,
-    headingText = "Change Password",
     submitButtonText = "SAVE",
-    SubmitButtonIcon = SignUpIcon,
-    tosUrl = "#",
-    privacyPolicyUrl = "#",
 }) => {
     const [username, setUsername] = useState('');
     const [old_password, setOldPassword] = useState('');
@@ -87,14 +83,22 @@ export default ({
             .then(data => {
                 console.log(data);
                 if (data.success) {
-                    window.location.href = config.MAIN_PAGE_URL;
+                    toast.success("Password changed successfully", config.TOASTER_STYLE);
+                    setOldPassword('');
+                    setPassword('');
+                    setRepeat('');
                 } else {
                     throw new Error(JSON.stringify(data));
                 }
             })
             .catch(error => {
-                alert(error);
-                console.error(error);
+                error = JSON.parse(error.message);
+                if (error.error) {
+                    toast.error(error.error, config.TOASTER_STYLE);
+                }
+                setOldPassword('');
+                setPassword('');
+                setRepeat('');
             });
     }
 

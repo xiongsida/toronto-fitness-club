@@ -5,7 +5,7 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 import { ReactComponent as SvgDotPatternIcon } from "../images/dot-pattern.svg"
 import { useNavigate } from "react-router-dom";
 import AvatarUploader from "../components/misc/AvatarUploader.js"
-
+import toast, { Toaster } from "react-hot-toast";
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
 
@@ -53,10 +53,22 @@ export default () => {
     const [username, setUsername] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [fileInfo, setFileInfo] = React.useState(null);
-
+    const [previewFile, setPreviewFile] = React.useState(null);
     useEffect(() => {
         handleRest();
     }, []);
+
+    useEffect(() => {
+        if (fileInfo && fileInfo instanceof Blob) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setPreviewFile(reader.result);
+            };
+            reader.readAsDataURL(fileInfo);
+        } else {
+            setPreviewFile(fileInfo);
+        }
+    }, [fileInfo]);
 
     const handleRest = () => {
         try {
@@ -74,50 +86,83 @@ export default () => {
                     setFirstname(data.first_name);
                     setLastname(data.last_name);
                     setEmail(data.email);
-                    setPhone(data.phone_number);
+                    setPhone(
+                        data.phone_number ? data.phone_number.replace("+1", "").replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3") : ""
+                    );
                     setFileInfo(data.avatar);
                     setUsername(data.username)
                     setIsButtonDisabled(true);
                 });
         } catch (error) {
-            alert(error);
-            navigate('/');
+            toast.error('An error occurred while fetching user data', config.TOASTER_STYLE);
         }
     }
+
     const handleSubmit = event => {
         event.preventDefault();
         const token = localStorage.getItem('access_token');
         const url = localStorage.getItem('user_url')
+        const formData = new FormData()
+
+        formData.append('first_name', firstname);
+        formData.append('last_name', lastname);
+        formData.append('email', email);
+        if (phone) {
+            let tmp_phone = phone;
+            tmp_phone = tmp_phone.replaceAll("-", "");
+            tmp_phone = "+1" + tmp_phone;
+            formData.append('phone_number', tmp_phone);
+        }
+        console.log(fileInfo)
+        console.log(typeof fileInfo)
+        if (previewFile !== fileInfo) {
+            formData.append('avatar', fileInfo);
+        }
+
         fetch(url, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                first_name: firstname,
-                last_name: lastname,
-                email: email,
-                phone_number: phone,
-                avatar: fileInfo,
-            })
+            body: formData
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 if (data.url) {
-                    alert('User data was successfully posted!');
+                    toast.success('User data was successfully updated', config.TOASTER_STYLE);
                     handleRest();
                 } else {
-                    alert(JSON.stringify(data));
+                    throw new Error(JSON.stringify(data));
                 }
             })
             .catch(error => {
-                console.error('An error occurred while posting user data:', error);
+                error = JSON.parse(error.message);
+                if (error.detail) {
+                    toast.error(error.detail, config.TOASTER_STYLE);
+                }
+                if (error.first_name) {
+                    toast.error(error.first_name, config.TOASTER_STYLE);
+                }
+                if (error.last_name) {
+                    toast.error(error.last_name, config.TOASTER_STYLE);
+                }
+                if (error.email) {
+                    toast.error(error.email, config.TOASTER_STYLE);
+                }
+                if (error.phone_number) {
+                    toast.error(error.phone_number, config.TOASTER_STYLE);
+                }
+                if (error.avatar) {
+                    toast.error(error.avatar, config.TOASTER_STYLE);
+                }
+                handleRest();
             });
     };
 
     return (
         <Container>
+            <Toaster />
             <Content>
                 <FormContainer>
                     <div tw="mx-auto max-w-4xl">
@@ -136,8 +181,8 @@ export default () => {
                                             onChange={event => { setIsButtonDisabled(false); setFirstname(event.target.value); }} type="text" name="first-name" />
                                     </InputContainer>
                                     <InputContainer>
-                                        <Label htmlFor="first-name">Avatar</Label>
-                                        <AvatarUploader fileInfo={fileInfo} setFileInfo={setFileInfo} />
+                                        <Label htmlFor="avatar">Avatar</Label>
+                                        <AvatarUploader setFileInfo={setFileInfo} setIsButtonDisabled={setIsButtonDisabled} previewFile={previewFile} />
                                     </InputContainer>
 
                                 </Column>
