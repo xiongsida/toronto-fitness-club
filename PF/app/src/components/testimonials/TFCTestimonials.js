@@ -2,12 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import { ContentWithPaddingXl, Container } from "../../components/misc/Layouts.js";
-import { SectionHeading as Heading, Subheading as SubheadingBase } from "../../components/misc/Headings.js";
+import { Container } from "../../components/misc/Layouts.js";
 import { ReactComponent as SvgDecoratorBlob1 } from "../../images/svg-decorator-blob-7.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "../../images/svg-decorator-blob-8.svg";
 
-const Subheading = tw(SubheadingBase)`text-center`;
+export const ContentWithPaddingXl = tw.div`max-w-screen-xl mx-auto pb-20 lg:pb-24`;
 const Testimonials = tw.div`flex flex-col lg:flex-row items-center lg:items-stretch`;
 const TestimonialContainer = tw.div`mt-16 lg:w-1/3`;
 const Testimonial = tw.div`px-4 text-center max-w-xs mx-auto flex flex-col items-center`;
@@ -52,8 +51,6 @@ export default ({
     return (
         <Container>
             <ContentWithPaddingXl>
-                {subheading && <Subheading>{subheading}</Subheading>}
-                <Heading>{heading}</Heading>
                 <Testimonials>
                     {testimonials.map((testimonial, index) => (
                         <TestimonialContainer key={index}>
