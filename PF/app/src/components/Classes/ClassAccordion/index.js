@@ -11,6 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 import CustomerModal from '../../CustomerModal';
 import SubscriptionContext from '../../../Context/SubscriptionContext';
 import tw from "twin.macro";
+import './style.css'
 
 const config = require('../../../TFCConfig.json');
 
@@ -87,6 +88,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}/>
         <br/>
+        <div className='my-classes-div'>
         <Box justifyContent="center" display="flex" >
         <Box sx={{
         width: '85%',
@@ -100,7 +102,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
               id={"panel"+course.id+"bh-header"}
             >
                 <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                <b>{course.class_parent.name} &nbsp; {course.id}</b>
+                <b>{course.class_parent.name}</b>
                 </Typography>
                 <Typography sx={{ color: 'text.secondary'}} >
                 <b>{course.date}</b>&nbsp;&nbsp;
@@ -145,6 +147,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
         ))}
         </Box>
         </Box>
+        </div>
         </>
       );
 };

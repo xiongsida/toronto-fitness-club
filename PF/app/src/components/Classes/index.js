@@ -8,14 +8,14 @@ import { Container, Pagination} from "rsuite";
 import ClassFilterDrawer from "./ClassFilterDrawer";
 import { Box } from "@mui/material";
 import ClassAccordion from "./ClassAccordion";
-import { isSubscribed } from "../../scripts/user_status";
+// import { isSubscribed } from "../../scripts/user_status";
 
 function Classes() {
     let init_studio_id='';
     let pre_state=useLocation().state;
     init_studio_id = pre_state&&pre_state.studio_id?pre_state.studio_id:'';
 
-    const page_size=11;
+    const page_size=8;
 
     const [userAction, setUserAction]=useState(false);
 
