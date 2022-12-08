@@ -88,6 +88,7 @@ export default ({
 }) => {
   const [prices, setprices] = useState([0, 0, 0, 0]);
   const [selectedID, setselectedID] = useState(0);
+
   const defaultPlans = [
     {
       name: "Plan",

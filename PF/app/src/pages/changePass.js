@@ -9,9 +9,9 @@ import logo from "../images/logo.svg";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
 
 const config = require('../TFCConfig.json');
-const Container = tw(ContainerBase)`min-h-screen bg-primary-900 text-white font-medium flex justify-center -m-8`;
-const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
-const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
+const Container = tw(ContainerBase)`min-h-screen text-white font-medium flex justify-center -m-8`;
+const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow  sm:rounded-lg flex justify-center flex-1`;
+const MainContainer = tw.div`bg-purple-100 lg:w-1/2 xl:w-7/12 p-6 sm:p-12 flex-col justify-center`;
 const LogoLink = tw.a``;
 const LogoImage = tw.img`h-12 mx-auto`;
 const MainContent = tw.div`mt-12 flex flex-col items-center`;
@@ -67,7 +67,9 @@ export default ({
     const handleSubmit = (event) => {
         event.preventDefault();
         if (password != repeat) {
-            alert('passwords don\'t match');
+            toast.error("Passwords don't match", config.TOASTER_STYLE);
+            setPassword('');
+            setRepeat('');
             return;
         }
         fetch(config.SERVER_URL + '/update-password', {
@@ -97,32 +99,33 @@ export default ({
     }
 
     return (
-        <AnimationRevealPage>
-            <Container>
-                <Content>
-                    <MainContainer>
-                        <LogoLink href={logoLinkUrl}>
-                            <LogoImage src={logo} />
-                        </LogoLink>
-                        <MainContent>
-                            <Heading>{'Hi! ' + username}</Heading>
-                            <FormContainer>
-                                <Form onSubmit={handleSubmit}>
-                                    <Input type="password" value={old_password} onChange={event => setOldPassword(event.target.value)} placeholder="Your current password" />
-                                    <Input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="New password" />
-                                    <Input type="password" value={repeat} onChange={event => setRepeat(event.target.value)} placeholder="Repeat new password" />
-                                    <SubmitButton type='submit'>
-                                        <span className="text">{submitButtonText}</span>
-                                    </SubmitButton>
-                                </Form>
-                            </FormContainer>
-                        </MainContent>
-                    </MainContainer>
-                    <IllustrationContainer>
-                        <IllustrationImage imageSrc={illustrationImageSrc} />
-                    </IllustrationContainer>
-                </Content>
-            </Container>
-        </AnimationRevealPage>
+        // <AnimationRevealPage>
+        <Container>
+            <Toaster />
+            <Content>
+                <MainContainer>
+                    <LogoLink href={logoLinkUrl}>
+                        <LogoImage src={logo} />
+                    </LogoLink>
+                    <MainContent>
+                        <Heading>Change Your Password Here👇</Heading>
+                        <FormContainer>
+                            <Form onSubmit={handleSubmit}>
+                                <Input type="password" value={old_password} onChange={event => setOldPassword(event.target.value)} placeholder="Your current password" />
+                                <Input type="password" value={password} onChange={event => setPassword(event.target.value)} placeholder="New password" />
+                                <Input type="password" value={repeat} onChange={event => setRepeat(event.target.value)} placeholder="Repeat new password" />
+                                <SubmitButton type='submit'>
+                                    <span className="text">{submitButtonText}</span>
+                                </SubmitButton>
+                            </Form>
+                        </FormContainer>
+                    </MainContent>
+                </MainContainer>
+                <IllustrationContainer>
+                    <IllustrationImage imageSrc={illustrationImageSrc} />
+                </IllustrationContainer>
+            </Content>
+        </Container>
+        // </AnimationRevealPage>
     );
 }
