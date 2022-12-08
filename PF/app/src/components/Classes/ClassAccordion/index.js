@@ -22,7 +22,8 @@ const LinkDiv = tw.div`
 
 const ClassAccordion=({classes,is_authenticated, access_token,
     // is_subscribed, 
-    userSchedule, userClassHistory})=>{
+    userSchedule, userClassHistory,
+    userAction, setUserAction})=>{
 
     const { isSub } = useContext(SubscriptionContext);
 
@@ -42,6 +43,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
             setModalOpen(true);;
             return;
         }
+        setUserAction(!userAction);
         const reqUrl = 'http://localhost:8000/api/classes/'+class_id+'/'+action;
         const postBody = {
             'for_future':for_future

@@ -29,20 +29,10 @@ const Layout = ({ }) => {
 
   useEffect(() => {
     is_authenticated && isSubscribed(user_url, access_token)
-<<<<<<< HEAD
         .then((isSubscribed)=>{
           setisSub(isSubscribed)}
     );
   },[])
-=======
-      .then((isSubscribed) => {
-        console.log("check if subscribed at first load...");
-        setisSub(isSubscribed)
-      }
-      );
-  }, [])
->>>>>>> 269a170839bbedd6fdd047dd2b578ac59660c509
-
   return (
     <>
       <div style={{

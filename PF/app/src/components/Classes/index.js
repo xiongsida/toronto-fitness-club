@@ -17,6 +17,8 @@ function Classes() {
 
     const page_size=11;
 
+    const [userAction, setUserAction]=useState(false);
+
     let user_url=localStorage.getItem('user_url');
     let access_token=localStorage.getItem('access_token');
     let is_authenticated = user_url && access_token?true:false;
@@ -47,7 +49,7 @@ function Classes() {
             });
         
 
-    },[])
+    },[userAction])
 
     const [totalItems, setTotalItems]=useState(0);
     const [studioOptions, setStudioOptions] = useState([]);
@@ -116,7 +118,7 @@ function Classes() {
             }).catch(error=>{
                 console.log(error);
             })
-    }, [classMeta]);
+    }, [classMeta,userAction]);
 
     const handleOpenDrawer = () => {
         setDrawerOpen(true);
@@ -171,7 +173,10 @@ return (
             access_token={access_token}
             // is_subscribed={is_subscribed} 
             userSchedule={userSchedule} 
-            userClassHistory={userClassHistory}/>
+            userClassHistory={userClassHistory}
+            userAction={userAction}
+            setUserAction={setUserAction}
+            />
             </Col>
         </Row>
         <Box
