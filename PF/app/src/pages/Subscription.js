@@ -76,12 +76,15 @@ export default ({
   const [subsUpdated, setsubsUpdated] = useState(false);
   const [futUpdated, setfutUpdated] = useState(false);
 
-  const { isSub, setisSub} = useContext(SubscriptionContext);
-  // const [isSub, setisSub] = useState(false);
-
+  const [isSub, setisSub] = useState(false);
   const [isFut, setisFut] = useState(false);
   const [currentSubUrl, setcurrentSubUrl] = useState("");
   const [futureSubUrl, setfutureSubUrl] = useState("");
+
+  const [deleteSub, setdeleteSub] = useState(false);
+  const [deleteFut, setdeleteFut] = useState(false);
+  const [updateFut, setupdateFut] = useState(false);
+
   const [currentP, setcurrentP] = useState(0);
   const [futureP, setfutureP] = useState(0);
   const [currentEnd, setcurrentEnd] = useState(null);
@@ -90,20 +93,29 @@ export default ({
   useEffect(() => {
     getUserData(user_url, token)
       .then(data => {
+        console.log(data);
         if (data.subscription) {
           setcurrentSubUrl(data.subscription);
           setisSub(true);
+        } else {
+          setcurrentSubUrl(null);
+          setisSub(false);
         }
         if (data.upcoming_plan) {
           setfutureSubUrl(data.upcoming_plan);
           setisFut(true);
+        } else {
+          setfutureSubUrl(null);
+          setisFut(false);
         }
       })
       .catch(error => {
         toast.error(error.message, config.TOASTER_STYLE);
       });
 
-  }, [subsUpdated, futUpdated]);
+  }, [deleteSub, deleteFut]);
+
+
 
   useEffect(() => {
     if (isSub) {
@@ -136,10 +148,11 @@ export default ({
         .then(data => {
           setfutureP(data.plan.substr(-1));
         }).catch(error => {
+          console.log("isFut");
           toast.error(error.message, config.TOASTER_STYLE);
         });
     }
-  }, [isFut, futUpdated]);
+  }, [futureSubUrl, updateFut]);
 
   const HandleRefund = (event) => {
     event.preventDefault();
@@ -152,7 +165,8 @@ export default ({
     }).then(response => {
       if (response.status === 204) {
         toast.success("Refund Successful", config.TOASTER_STYLE);
-        setisSub(false);
+        setdeleteSub(!deleteSub);
+
       }
       else {
         return response.json();
@@ -178,8 +192,7 @@ export default ({
     }).then(response => {
       if (response.status === 204) {
         toast.success("Unsubscribe Successful", config.TOASTER_STYLE);
-        setisFut(false);
-        setisSub(false);
+        setdeleteFut(!deleteFut)
       }
       else {
         throw new Error("Unsubscribe Failed");
@@ -211,8 +224,7 @@ export default ({
           }).then(response => {
             if (response.status === 201) {
               toast.success("You are now subscribed to " + id2plans[plan], config.TOASTER_STYLE);
-              setsubsUpdated(!subsUpdated);
-              setfutUpdated(!futUpdated);
+              setdeleteSub(!deleteSub);
             }
             else {
               return response.json();
@@ -254,7 +266,7 @@ export default ({
       }).then(response => {
         if (response.status === 200) {
           toast.success("You will be subscribed to " + id2plans[plan] + " in the future", config.TOASTER_STYLE);
-          setfutUpdated(!futUpdated);
+          setupdateFut(!updateFut);
         }
         else {
           return response.json();
@@ -283,7 +295,7 @@ export default ({
       }).then(response => {
         if (response.status === 201) {
           toast.success("You will be subscribed to " + id2plans[plan] + " in the future", config.TOASTER_STYLE);
-          setisFut(true);
+          setdeleteFut(!deleteFut)
         }
         else {
           return response.json();
@@ -309,11 +321,11 @@ export default ({
         <Toaster />
         <ContentWithPaddingXl>
           {isSub ?
-            <Card href={config.MAIN_PAGE_URL}>
+            <Card href="/classes">
               {<Subheading>Book a Course</Subheading>}
             </Card>
             :
-            <Card href={config.MAIN_PAGE_URL}>
+            <Card href="/plans">
               {<Subheading>👉 Check out our subscription plans</Subheading>}
             </Card>}
           <Heading>{
