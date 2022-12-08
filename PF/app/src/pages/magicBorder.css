@@ -13,11 +13,6 @@
     font: #000;
 }
 
-.magiccard:hover:before,
-.magiccard:hover:after {
-    animation: none;
-    opacity: 0;
-}
 
 
 .magiccard::before {

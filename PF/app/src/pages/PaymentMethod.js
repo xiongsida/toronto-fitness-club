@@ -11,9 +11,9 @@ const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24 `;
 
 const FormContainer = styled.div`
-  ${tw`p-10 sm:p-12 md:p-16 bg-primary-500 text-gray-100 rounded-lg relative`}
+  ${tw`max-h-full p-10 sm:p-12 md:p-16 bg-primary-500 text-gray-100 rounded-lg relative`}
   form {
-    ${tw`mt-4`}
+    ${tw`mt-10`}
   }
   h2 {
     ${tw`text-3xl sm:text-4xl font-bold`}
@@ -40,6 +40,7 @@ const Column = tw.div`sm:w-5/12 flex flex-col`;
 const InputContainer = tw.div`relative py-5 mt-6`;
 const Label = tw.label`absolute top-0 left-0 tracking-wide font-semibold text-sm`;
 const Input = tw.input``;
+const SaveButton = tw.button`w-full sm:w-32 mt-6 py-3 bg-gray-100 text-primary-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-qing hover:text-primary-800 hocus:-translate-y-px hocus:shadow-xl`;
 const SubmitButton = tw.button`w-full sm:w-32 mt-6 py-3 bg-gray-100 text-primary-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-gray-300 hover:text-primary-700 hocus:-translate-y-px hocus:shadow-xl`;
 
 const SvgDotPattern1 = tw(SvgDotPatternIcon)`absolute bottom-0 right-0 transform translate-y-1/2 translate-x-1/2 -z-10 opacity-50 text-primary-500 fill-current w-24`
@@ -207,7 +208,7 @@ export default () => {
                                     <br />
                                     <br />
                                     <SubmitButton type="button" disabled={isButtonDisabled} value="reset" onClick={handleReset}>CANCEL</SubmitButton >
-                                    <SubmitButton type="submit" disabled={isButtonDisabled} value="Submit">SAVE</SubmitButton>
+                                    <SaveButton type="submit" disabled={isButtonDisabled} value="Submit">SAVE</SaveButton>
                                     <SubmitButton type="button" disabled={!card_url} value="delete" onClick={() => {
                                         fetch(card_url, {
                                             method: 'DELETE',

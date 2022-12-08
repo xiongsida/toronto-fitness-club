@@ -9,7 +9,7 @@ import { ReactComponent as SvgDecoratorBlob3 } from "../images/svg-decorator-blo
 import { getUserData } from "../scripts/user_status.js";
 import UpdateSubs from "./updateSubs.js";
 import toast, { Toaster } from "react-hot-toast";
-
+import TFCTestimonials from "../components/testimonials/TFCTestimonials.js";
 const config = require("../TFCConfig.json");
 const Heading = tw(SectionHeading)``;
 const Subheading = tw(SubheadingBase)`text-center mb-3`;
@@ -318,15 +318,19 @@ export default ({
         <Toaster />
         <ContentWithPaddingXl>
           {isSub ?
+
             <Card href="/classes">
               {<Subheading>Book a Course</Subheading>}
             </Card>
             :
-            <Card href="/plans">
-              {<Subheading>👉 Check out our subscription plans</Subheading>}
-            </Card>}
+            <></>
+
+          }
           <Heading>{
-            isSub ? "🥳 We are honored to have you here" : "🤔 You are not subscribed to any plan"
+            isSub ? "🥳 We are honored to have you here" :
+              <Card href="/plans">
+                👉 Check out our plans
+              </Card>
           }</Heading>
           {isSub ?
             <>
@@ -366,7 +370,9 @@ export default ({
                 <UpdateSubs handleUpdateSubs={handleUpdateSubs} handleUpdateFut={handleUpdateFut} isFut={isFut} currentP={currentP} futureP={futureP} />
               </UpdateSubsContainer>
             </>
-            : <></>}
+            : <>
+              <TFCTestimonials />
+            </>}
         </ContentWithPaddingXl>
         <DecoratorBlob />
         <div className="wordsundercard">

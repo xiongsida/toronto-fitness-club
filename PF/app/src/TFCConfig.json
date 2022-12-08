@@ -4,9 +4,9 @@
     "MAIN_PAGE_URL": "/",
     "TOASTER_STYLE": {
         "style": {
-            "background": "#5a13e6",
-            "border": "2px solid #a273ff",
-            "padding": "16px",
+            "background": "#460fb3",
+            "border": "1px solid #a273ff",
+            "padding": "13px",
             "color": "#ffffff",
             "font-weight": "bold"
         }

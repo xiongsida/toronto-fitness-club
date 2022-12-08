@@ -12,7 +12,8 @@ module.exports = {
     },
     colors: {
       transparent: 'transparent',
-
+      qing: "#05DBF8",
+      rou: "#EBCEAE",
       black: '#000',
       white: '#fff',
 
