@@ -7,6 +7,7 @@ from .business_logic import *
 import datetime
 from studios.pagination import SubscriptionPagination
 
+
 class PlanList(mixins.ListModelMixin,
                generics.GenericAPIView):
     queryset = Plan.objects.filter(is_active=True)
@@ -212,6 +213,7 @@ class UpComingPlanDetail(mixins.RetrieveModelMixin,
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        cancel_upcoming_plan(request.user)
         return self.destroy(request, *args, **kwargs)
 
 
@@ -229,6 +231,7 @@ class ReceiptList(mixins.ListModelMixin,
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
 
 class ReceiptDetail(mixins.RetrieveModelMixin,
                     generics.GenericAPIView):
