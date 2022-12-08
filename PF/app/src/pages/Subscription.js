@@ -3,7 +3,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import { SectionHeading, Subheading as SubheadingBase } from "../components/misc/Headings.js";
-import { Container, ContentWithPaddingXl } from "../components/misc/Layouts.js";
+import { Container } from "../components/misc/Layouts.js";
 import { ReactComponent as ArrowRightIcon } from "../images/arrow-right-icon.svg";
 import { ReactComponent as SvgDecoratorBlob3 } from "../images/svg-decorator-blob-3.svg";
 import { getUserData } from "../scripts/user_status.js";
@@ -13,6 +13,9 @@ import TFCTestimonials from "../components/testimonials/TFCTestimonials.js";
 const config = require("../TFCConfig.json");
 const Heading = tw(SectionHeading)``;
 const Subheading = tw(SubheadingBase)`text-center mb-3`;
+
+export const ContentWithPaddingXl = tw.div`max-w-screen-xl mx-auto py-5`;
+
 const ThreeColumnContainer = styled.div`
   ${tw`mt-10 flex flex-col items-center lg:items-stretch lg:flex-row flex-wrap lg:justify-center max-w-screen-lg mx-auto`}
 `;

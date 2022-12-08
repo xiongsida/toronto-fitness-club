@@ -147,7 +147,7 @@ const StudiosList = () => {
                 setStudioDrawerOpen={setStudioDrawerOpen}
                 init_input_location={init_input_location}
             />
-            <Row fluid='true' className='m-2'>
+            <Row fluid='true' className='m-2' style={{height:'70vh'}}>
                 <Col fluid='true' md="4">
                     <CardsList studios={studios} 
                     selectedStudio={selectedStudio} 
