@@ -99,57 +99,63 @@ export default () => {
     }, [futurePlan, starttime]);
 
     return (
-        <div className="paymentcontainer">
-            <div className="paymentcard">
-                <div className=''>
-                    <HeadingContainer>
-                        <Heading>{"Payments"}</Heading>
-                    </HeadingContainer>
+        <>
+            <div className="paymentcontainer">
+                <div className="paymentcard">
+                    <div className=''>
+                        <HeadingContainer>
+                            <Heading>{"Payments"}</Heading>
+                        </HeadingContainer>
 
-                    <Table height={420} data={rdata} className="paymenttable">
-                        <Column flexGrow={1} fixed fullText>
-                            <HeaderCell>For</HeaderCell>
-                            <Cell dataKey="plan" />
-                        </Column>
+                        <Table height={420} data={rdata} className="paymenttable">
+                            <Column flexGrow={1} fixed fullText>
+                                <HeaderCell>For</HeaderCell>
+                                <Cell dataKey="plan" />
+                            </Column>
 
-                        <Column flexGrow={1} fixed fullText>
-                            <HeaderCell>Time</HeaderCell>
-                            <Cell dataKey="paid_time" />
-                        </Column>
+                            <Column flexGrow={1} fixed fullText>
+                                <HeaderCell>Time</HeaderCell>
+                                <Cell dataKey="paid_time" />
+                            </Column>
 
-                        <Column flexGrow={1} fixed fullText>
-                            <HeaderCell>Card Number</HeaderCell>
-                            <Cell dataKey="card_number" />
-                        </Column>
+                            <Column flexGrow={1} fixed fullText>
+                                <HeaderCell>Card Number</HeaderCell>
+                                <Cell dataKey="card_number" />
+                            </Column>
 
-                        <Column flexGrow={1} fixed fullText>
-                            <HeaderCell>Amount</HeaderCell>
-                            <Cell dataKey="amount" />
-                        </Column>
-                        <Column flexGrow={1} fixed fullText>
-                            <HeaderCell>ACTION</HeaderCell>
-                            <Cell dataKey="is_refund" />
-                        </Column>
-                    </Table>
-                    <div style={{ padding: 10 }} className='pagination'>
-                        <Pagination
-                            prev
-                            next
-                            first
-                            last
-                            ellipsis
-                            boundaryLinks
-                            limit={limit}
-                            total={total}
-                            maxButtons={5}
-                            size="md"
-                            layout={['pager', 'skip']}
-                            activePage={page}
-                            onChangePage={setPage}
-                        />
+                            <Column flexGrow={1} fixed fullText>
+                                <HeaderCell>Amount</HeaderCell>
+                                <Cell dataKey="amount" />
+                            </Column>
+                            <Column flexGrow={1} fixed fullText>
+                                <HeaderCell>ACTION</HeaderCell>
+                                <Cell dataKey="is_refund" />
+                            </Column>
+                        </Table>
+                        <div style={{ padding: 10 }} className='pagination'>
+                            <Pagination
+                                prev
+                                next
+                                first
+                                last
+                                ellipsis
+                                boundaryLinks
+                                limit={limit}
+                                total={total}
+                                maxButtons={5}
+                                size="md"
+                                layout={['pager', 'skip']}
+                                activePage={page}
+                                onChangePage={setPage}
+                            />
+                        </div>
+                    </div>
+                    <div className="wordsundercard">
+                        Toronto Fitness Club
                     </div>
                 </div>
             </div>
-        </div>
+
+        </>
     );
 };

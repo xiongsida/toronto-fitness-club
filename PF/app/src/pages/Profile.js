@@ -211,6 +211,9 @@ export default () => {
                         <SvgDotPattern1 />
                     </div>
                 </FormContainer>
+                <div className="wordsundercard">
+                    Toronto Fitness Club
+                </div>
             </Content>
         </Container >
     );
