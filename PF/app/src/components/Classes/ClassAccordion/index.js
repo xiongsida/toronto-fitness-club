@@ -58,9 +58,19 @@ const ClassAccordion=({classes,is_authenticated, access_token,
         fetch(reqUrl, requestMetadata)
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                toast.error(data.detail, config.TOASTER_STYLE);
-        }).catch();
+                console.log(data);
+                if (!data.detail){
+                    toast.error('unknow error', config.TOASTER_STYLE);
+                }else if (data.detail.success){
+                    toast.success(data.detail.success, config.TOASTER_STYLE);
+                }else if (data.detail.error){
+                    toast.error(data.detail.error, config.TOASTER_STYLE);
+                }else{
+                    toast.error('unknow error', config.TOASTER_STYLE);
+                }
+        }).catch((e)=>{
+            toast.error(e, config.TOASTER_STYLE);
+        });
     }
 
     return (
