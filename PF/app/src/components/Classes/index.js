@@ -8,13 +8,47 @@ import { Container, Pagination} from "rsuite";
 import ClassFilterDrawer from "./ClassFilterDrawer";
 import { Box } from "@mui/material";
 import ClassAccordion from "./ClassAccordion";
+import { isSubscribed } from "../../scripts/user_status";
 
 function Classes() {
-    let init_studio_id=''
-    let pre_state=useLocation().state
+    let init_studio_id='';
+    let pre_state=useLocation().state;
     if (pre_state){
-        init_studio_id= pre_state.studio_id}
-    const page_size=10
+        init_studio_id = pre_state.studio_id;
+    }
+    const page_size=10;
+
+    let user_url=localStorage.getItem('user_url');
+    let access_token=localStorage.getItem('access_token');
+    let is_authenticated = user_url && access_token?true:false;
+    const [userSchedule, setUserSchedule] = useState([]);
+    const [userClassHistory, setUserClassHistory] = useState([]);
+
+    useEffect(()=>{
+
+        is_authenticated && fetch('http://127.0.0.1:8000/api/alluserschedules',{
+            headers: {
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }).then(res => res.json())
+            .then(data => {
+                setUserSchedule(data.map(course=>course.id));
+            }).catch(e=>{
+                console.log(e)
+            });
+        is_authenticated && fetch('http://127.0.0.1:8000/api/alluserhistoryclasses',{
+            headers: {
+                'Authorization': `Bearer ${access_token}`,
+            }
+        }).then(res => res.json())
+            .then(data => {
+                setUserClassHistory(data.map(course=>course.id));
+            }).catch(e=>{
+                console.log(e)
+            });
+        
+
+    },[])
 
     const [totalItems, setTotalItems]=useState(0);
     const [studioOptions, setStudioOptions] = useState([]);
@@ -57,9 +91,17 @@ function Classes() {
     `&time_range_start=${timeRange&&timeRange[0]?timeRange[0]:''}&time_range_end=${timeRange&&timeRange[1]?timeRange[1]:''}`+
     `&page=${page}&page_size=${page_size}`
 
+    const requestMetadata = {
+        headers: {
+            'Authorization': `Bearer ${access_token}`,
+            'Content-Type': 'application/json'
+        },
+    };
+
     useEffect(() => {
         console.log(url)
-        fetch(url)
+
+        fetch(url,is_authenticated?requestMetadata:null)
             .then(res => {
                 if(res.status!==200)
                 {
@@ -72,6 +114,8 @@ function Classes() {
                 data.results ? setClasses(data.results) : setClasses([]);
                 setTotalItems(data.page.totalItems);
                 setInfo(data.detail);
+            }).catch(error=>{
+                console.log(error);
             })
     }, [classMeta]);
 
@@ -111,10 +155,16 @@ return (
             timeRange={timeRange}
             drawerOpen={drawerOpen}
             setDrawerOpen={setDrawerOpen}
+            is_authenticated={is_authenticated}
         />
         <Row>
             <Col className='m-0'>
-            <ClassAccordion classes={classes}/>
+            <ClassAccordion classes={classes} 
+            is_authenticated={is_authenticated} 
+            access_token={access_token}
+            // is_subscribed={is_subscribed} 
+            userSchedule={userSchedule} 
+            userClassHistory={userClassHistory}/>
             </Col>
         </Row>
         <Box

@@ -1,26 +1,40 @@
-import React,{useState} from 'react';
+import React,{useState, useContext} from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Box } from '@mui/material';
-import { Opacity } from '@mui/icons-material';
+import toast, { Toaster } from "react-hot-toast";
+import CustomerModal from '../../CustomerModal';
+import SubscriptionContext from '../../../Context/SubscriptionContext';
 
-const ClassAccordion=({classes})=>{
+const config = require('../../../TFCConfig.json');
 
-    const [info, setInfo] = useState();
+const ClassAccordion=({classes,is_authenticated, access_token,
+    // is_subscribed, 
+    userSchedule, userClassHistory})=>{
+
+    const { isSub } = useContext(SubscriptionContext);
+
+    let userScheduleSet=new Set(userSchedule);
+    let userClassHistorySet=new Set(userClassHistory);
+
     const [expanded, setExpanded] = useState(false);
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleExpand = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
     const classAction = (class_id, for_future, action) =>{
-        console.log(class_id)
+        if (!isSub){
+            setModalOpen(true);;
+            return;
+        }
         const reqUrl = 'http://localhost:8000/api/classes/'+class_id+'/'+action;
         const postBody = {
             'for_future':for_future
@@ -28,6 +42,7 @@ const ClassAccordion=({classes})=>{
         const requestMetadata = {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${access_token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(postBody)
@@ -37,12 +52,22 @@ const ClassAccordion=({classes})=>{
             .then(res => res.json())
             .then(data => {
                 console.log(data)
-                setInfo(data.detail)
-            });
+                toast.error(data.detail, config.TOASTER_STYLE);
+        }).catch();
     }
 
     return (
         <>
+        <Toaster
+        position="top-center"
+        reverseOrder={false}
+        />
+        <CustomerModal modalBody={'Sorry, you need have a valid subscription to make actions to classes'}
+        modalBottonLabel={'Subscribe a Plan'}
+        modalBottonLink={`/plans`}
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}/>
+
         {classes&&classes.map((course,index)=>(
             <Accordion key={course.id} expanded={expanded === 'panel'+course.id} onChange={handleExpand('panel'+course.id)}>
             <AccordionSummary
@@ -51,13 +76,12 @@ const ClassAccordion=({classes})=>{
               id={"panel"+course.id+"bh-header"}
             >
                 <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                <b>{course.class_parent.name}</b>
+                <b>{course.class_parent.name} &nbsp; {course.id}</b>
                 </Typography>
                 <Typography sx={{ color: 'text.secondary'}} >
                 <b>{course.date}</b>&nbsp;&nbsp;
                 {course.start_time} &nbsp;~&nbsp; {course.end_time}&nbsp;&nbsp;
-                Available Slot: {course.available_slot}&nbsp;&nbsp;&nbsp;&nbsp;
-            
+                available spots: {course.available_slot}&nbsp;&nbsp;&nbsp;&nbsp;
                 </Typography>
     
             </AccordionSummary>
@@ -67,19 +91,19 @@ const ClassAccordion=({classes})=>{
                 <b>Coach: </b> {course.coach}
             </Typography>
             
-            <Box display="flex" 
+            {is_authenticated&& (!(userClassHistorySet.has(course.id))) &&<Box display="flex" 
             justifyContent="center">
-            <DropdownButton as={ButtonGroup} variant='info'
+            <DropdownButton  variant='info'
             title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${course.id}`}>
-                <Dropdown.Item onClick={() => classAction(course.id,"0","enroll")}>Single Class Instance</Dropdown.Item>
-                <Dropdown.Item onClick={() => classAction(course.id,"1","enroll")}>All Future Instances</Dropdown.Item>
+                <Dropdown.Item onClick={() => classAction(course.id,"0","enroll")}><b>Single Class Instance</b></Dropdown.Item>
+                <Dropdown.Item onClick={() => classAction(course.id,"1","enroll")}><b>All Future Instances</b></Dropdown.Item>
             </DropdownButton>
-            <DropdownButton as={ButtonGroup} variant='warning'
+            {(userScheduleSet.has(course.id)) && <DropdownButton variant='warning'
             title='Drop' className='m-1 text-center' id={`dropdown-drop-${course.id}`}>
-                <Dropdown.Item onClick={() => classAction(course.id,"0","drop")}>Single Class Instance</Dropdown.Item>
-                <Dropdown.Item onClick={() => classAction(course.id,"1","drop")}>All Future Instances</Dropdown.Item>
-            </DropdownButton>
-            </Box>
+                <Dropdown.Item onClick={() => classAction(course.id,"0","drop")}><b>Single Class Instance</b></Dropdown.Item>
+                <Dropdown.Item onClick={() => classAction(course.id,"1","drop")}><b>All Future Instances</b></Dropdown.Item>
+            </DropdownButton>}
+            </Box>}
             </AccordionDetails>
           </Accordion>
         ))}

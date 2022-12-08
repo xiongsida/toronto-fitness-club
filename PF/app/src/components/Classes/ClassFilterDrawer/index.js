@@ -11,8 +11,8 @@ const ClassFilterDrawer = ({classMeta, setClassMeta,
     dateRange, 
     timeRange,
     drawerOpen,
-    setDrawerOpen})=>{
-
+    setDrawerOpen,
+    is_authenticated})=>{
 
     const handleClear=()=>{
         setClassMeta({
@@ -85,6 +85,8 @@ const ClassFilterDrawer = ({classMeta, setClassMeta,
                     page:1
                 })
             }}
+
+            is_authenticated={is_authenticated}
             />
             <PrimaryButton className=" m-3"variant="danger" onClick={handleClear}>
                 Clear Filter

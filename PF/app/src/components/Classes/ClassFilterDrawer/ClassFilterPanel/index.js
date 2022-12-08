@@ -9,18 +9,13 @@ const ClassFilterPanel = ({
     classOptions, selectedClass, setSelectedClass,
     scope, setScope,
     dateRange, setDateRange,
-    timeRange, setTimeRange,}) => {
+    timeRange, setTimeRange,
+    is_authenticated}) => {
 
     return (
         <div>
             <div className='input-group'>
-                {/* <p className='label'>Studio</p>
-                <FilterListToggle
-                    options={studioOptions}
-                    selectedOnes={selectedStudio}
-                    setSelectedOnes={setSelectedStudio}
-                    exclusivebool={true}
-                /> */}
+
                 <FilterListSelector
                     label={'Studio'}
                     options={studioOptions}
@@ -30,14 +25,8 @@ const ClassFilterPanel = ({
                 />
             </div>
 
-            <div className='input-group'>
-                {/* <p className='label'>Scope</p>
-                <FilterListToggle
-                    options={[['myhistory','Your class history'],['myschedule','Your class schedule']]}
-                    selectedOnes={scope}
-                    setSelectedOnes={setScope}
-                    exclusivebool={true}
-                /> */}
+            {is_authenticated && <div className='input-group'>
+
                 <FilterListSelector
                     label={'Your Class Scope'}
                     options={[['myhistory','Your class history'],['myschedule','Your class schedule']]}
@@ -46,16 +35,10 @@ const ClassFilterPanel = ({
                     exclusivebool={true}
                 
                 />
-            </div>
+            </div>}
 
             <div className='input-group'>
-                {/* <p className='label'>Class</p>
-                <FilterListToggle
-                    options={classOptions}
-                    selectedOnes={selectedClass}
-                    setSelectedOnes={setSelectedClass}
-                    exclusivebool={true}
-                /> */}
+
                 <FilterListSelector
                     label={'Class'}
                     options={classOptions}
