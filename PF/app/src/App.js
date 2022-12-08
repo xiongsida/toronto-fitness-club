@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useContext } from "react";
 import GlobalStyles from './styles/GlobalStyles';
 import { css } from "styled-components/macro"; //eslint-disable-line
 
@@ -18,8 +18,25 @@ import StudiosList from "./components/StudiosList";
 import Classes from "./components/Classes";
 import StudioDetails from "./components/StudioDetails";
 import TFCPrice from "./pages/TFCPrice";
+import SubscriptionContext,{useSubscriptionContext} from "./Context/SubscriptionContext";
+import { isSubscribed } from "./scripts/user_status";
 
-const Layout = ({ }) => (
+
+const Layout = ({ }) => {
+  let user_url=localStorage.getItem('user_url');
+  let access_token=localStorage.getItem('access_token');
+  let is_authenticated = user_url && access_token;
+  const { isSub, setisSub} = useContext(SubscriptionContext);
+
+  useEffect(()=>{
+    is_authenticated && isSubscribed(user_url, access_token)
+        .then((isSubscribed)=>{
+          console.log("check if subscribed at first load...");
+          setisSub(isSubscribed)}
+    );
+  },[])
+
+  return(
   <>
     <div style={{
       display: "flex",
@@ -32,19 +49,25 @@ const Layout = ({ }) => (
       <Header />
       <Outlet />
     </div>
-    {/* <Footer /> */}
 
   </>
-);
+  );
+}
 
 export default function App() {
+  const layout=(
+    <SubscriptionContext.Provider value={useSubscriptionContext()}>
+      <Layout/>
+    </SubscriptionContext.Provider>
+  );
+
   return (
     <>
       <GlobalStyles />
       <Router>
         <AnimationRevealPage>
           <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={layout}>
               <Route index element={<TFCPage />} />
               <Route path="studios" element={<StudiosList />} />
               <Route path='studios/:studio_id' element={<StudioDetails />} />

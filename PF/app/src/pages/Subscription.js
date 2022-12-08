@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import SubscriptionContext,{useSubscriptionContext} from "../Context/SubscriptionContext.js";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
@@ -75,7 +76,9 @@ export default ({
   const [subsUpdated, setsubsUpdated] = useState(false);
   const [futUpdated, setfutUpdated] = useState(false);
 
-  const [isSub, setisSub] = useState(false);
+  const { isSub, setisSub} = useContext(SubscriptionContext);
+  // const [isSub, setisSub] = useState(false);
+
   const [isFut, setisFut] = useState(false);
   const [currentSubUrl, setcurrentSubUrl] = useState("");
   const [futureSubUrl, setfutureSubUrl] = useState("");
@@ -298,7 +301,8 @@ export default ({
     }
 
   }
-
+  console.log('isSub:');
+  console.log(isSub);
   return (
     <>
       <Container>

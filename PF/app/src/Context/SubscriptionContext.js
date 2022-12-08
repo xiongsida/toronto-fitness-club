@@ -1,16 +1,16 @@
 import {createContext, useState} from "react";
 
 export const useSubscriptionContext = () => {
-    const [subscribed, setSubscribed] = useState(false);
+    const [isSub, setisSub] = useState(false);
 
     return {
-        subscribed,
-        setSubscribed,
+        isSub,
+        setisSub,
     }
 }
 
 const SubscriptionContext = createContext({
-    subscribed: false, setSubscribed: () => {},
+    isSub: false, setisSub: () => {},
 })
 
 export default SubscriptionContext;
