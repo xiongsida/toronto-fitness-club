@@ -13,7 +13,7 @@ const StudiosMap = ({studios,setUserLocation,
       userMarker, setUserMarker,
       setInputLocation}) => {
 
-      const [mapcenter,setMapCenter] = useState({lat: 43.7043737,lng: -79.3993013})
+      const [mapcenter,setMapCenter] = useState({lat: 43.725329,lng: -79.422753})
 
       const onMapClick = (e) => {
             setUserMarker(
@@ -52,7 +52,7 @@ const StudiosMap = ({studios,setUserLocation,
       {isLoaded && <GoogleMap
       mapContainerStyle={mapstyle}
       center={mapcenter}
-      zoom={12}
+      zoom={11.2}
       onClick={onMapClick}
       >
 
