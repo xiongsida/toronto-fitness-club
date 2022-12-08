@@ -13,6 +13,9 @@ export default () => {
                 subheading=""
                 heading={<>Customers <HighlightedText>Love Us.</HighlightedText></>}
             />
+            <div className="wordsundercard">
+                Toronto Fitness Club
+            </div>
         </>
     );
 }
