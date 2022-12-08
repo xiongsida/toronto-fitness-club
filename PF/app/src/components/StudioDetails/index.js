@@ -24,10 +24,8 @@ const StudioDetails = () => {
     return(
         <>
             <div>
-            <ImageCarousel className='my-images' imagelist={details.images} />
-            <div className="my-card">
-            <DetailCard details={details} directionAppend={state.directionAppend}/>
-            </div>
+            <ImageCarousel className='my-images' imagelist={details.images} details={details} directionAppend={state.directionAppend}/>
+            {/* <DetailCard details={details} directionAppend={state.directionAppend}/> */}
             </div>  
         </>
     )

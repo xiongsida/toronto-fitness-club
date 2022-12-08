@@ -28,7 +28,7 @@ const ClassFilterDrawer = ({classMeta, setClassMeta,
 
     return(
         <>
-        <Drawer size={'sm'} placement={'left'} 
+        <Drawer size={'sm'} placement={'right'} 
         style={{
             opacity: 0.93
             }} 

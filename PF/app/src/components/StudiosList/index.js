@@ -5,7 +5,7 @@ import Row from "react-bootstrap/esm/Row";
 import SearchBar from "../Common/SearchBar";
 import CardsList from "./CardsList";
 import StudiosMap from "./StudiosMap";
-import { SecodaryButton,PrimaryButton, SmallPrimaryButton, SmallSecodaryButton } from "../misc/Buttons";
+import { SmallPrimaryButton} from "../misc/Buttons";
 
 
 import Geocode from "react-geocode";
@@ -102,9 +102,14 @@ const StudiosList = () => {
 
     return(
         <>
+
         <Container fluid='true'>
             <Row>
-            <Col md={6}>
+            <Col md={'8'}>
+            <Box
+            display="flex" 
+            justifyContent="right"
+            >
             <SearchBar 
             value={searchInput}
             // changeInput={(e) => setSearchInput(e.target.value)}
@@ -115,10 +120,11 @@ const StudiosList = () => {
             })}
             placeholdertext = 'Search by studio name, coach, class, amenity...'
             />
+            </Box>
             </Col>
-            <Col md={6}>
-                <Box display="flex" justifyContent="center">
-                    <SmallSecodaryButton onClick={() => handleOpenDrawer()}>Open Filters</SmallSecodaryButton>
+            <Col md={'4'}>
+                <Box display="flex" justifyContent="left">
+                    <SmallPrimaryButton onClick={() => handleOpenDrawer()}>Open Filters</SmallPrimaryButton>
                 </Box>
             </Col>
             </Row>
@@ -135,8 +141,7 @@ const StudiosList = () => {
                 studioDrawerOpen={studioDrawerOpen}
                 setStudioDrawerOpen={setStudioDrawerOpen}
             />
-           
-            <Row fluid='true'>
+            <Row fluid='true' className='m-2'>
                 <Col fluid='true' md="4">
                     <CardsList studios={studios} 
                     selectedStudio={selectedStudio} 

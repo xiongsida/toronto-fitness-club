@@ -10,12 +10,20 @@ import { Box } from '@mui/material';
 import toast, { Toaster } from "react-hot-toast";
 import CustomerModal from '../../CustomerModal';
 import SubscriptionContext from '../../../Context/SubscriptionContext';
+import tw from "twin.macro";
 
 const config = require('../../../TFCConfig.json');
 
+const LinkDiv = tw.div`
+  text-lg my-0 lg:text-sm lg:my-0
+  font-semibold tracking-wide transition duration-300
+  pb-0 border-transparent hover:border-primary-500 hocus:text-primary-500
+`;
+
 const ClassAccordion=({classes,is_authenticated, access_token,
     // is_subscribed, 
-    userSchedule, userClassHistory})=>{
+    userSchedule, userClassHistory,
+    userAction, setUserAction})=>{
 
     const { isSub } = useContext(SubscriptionContext);
 
@@ -35,6 +43,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
             setModalOpen(true);;
             return;
         }
+        setUserAction(!userAction);
         const reqUrl = 'http://localhost:8000/api/classes/'+class_id+'/'+action;
         const postBody = {
             'for_future':for_future
@@ -51,9 +60,19 @@ const ClassAccordion=({classes,is_authenticated, access_token,
         fetch(reqUrl, requestMetadata)
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                toast.error(data.detail, config.TOASTER_STYLE);
-        }).catch();
+                console.log(data);
+                if (!data.detail){
+                    toast.error('unknow error', config.TOASTER_STYLE);
+                }else if (data.detail.success){
+                    toast.success(data.detail.success, config.TOASTER_STYLE);
+                }else if (data.detail.error){
+                    toast.error(data.detail.error, config.TOASTER_STYLE);
+                }else{
+                    toast.error('unknow error', config.TOASTER_STYLE);
+                }
+        }).catch((e)=>{
+            toast.error(e, config.TOASTER_STYLE);
+        });
     }
 
     return (
@@ -67,7 +86,12 @@ const ClassAccordion=({classes,is_authenticated, access_token,
         modalBottonLink={`/plans`}
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}/>
-
+        <br/>
+        <Box justifyContent="center" display="flex" >
+        <Box sx={{
+        width: '85%',
+        height: '70%',
+        }}>
         {classes&&classes.map((course,index)=>(
             <Accordion key={course.id} expanded={expanded === 'panel'+course.id} onChange={handleExpand('panel'+course.id)}>
             <AccordionSummary
@@ -95,18 +119,28 @@ const ClassAccordion=({classes,is_authenticated, access_token,
             justifyContent="center">
             <DropdownButton  variant='info'
             title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${course.id}`}>
-                <Dropdown.Item onClick={() => classAction(course.id,"0","enroll")}><b>Single Class Instance</b></Dropdown.Item>
-                <Dropdown.Item onClick={() => classAction(course.id,"1","enroll")}><b>All Future Instances</b></Dropdown.Item>
+                <Dropdown.Item onClick={() => classAction(course.id,"0","enroll")}>
+                    <LinkDiv>Single Class Instance</LinkDiv>
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => classAction(course.id,"1","enroll")}>
+                    <LinkDiv>All Future Instances</LinkDiv>
+                </Dropdown.Item>
             </DropdownButton>
             {(userScheduleSet.has(course.id)) && <DropdownButton variant='warning'
             title='Drop' className='m-1 text-center' id={`dropdown-drop-${course.id}`}>
-                <Dropdown.Item onClick={() => classAction(course.id,"0","drop")}><b>Single Class Instance</b></Dropdown.Item>
-                <Dropdown.Item onClick={() => classAction(course.id,"1","drop")}><b>All Future Instances</b></Dropdown.Item>
+                <Dropdown.Item onClick={() => classAction(course.id,"0","drop")}>
+                    <LinkDiv>Single Class Instance</LinkDiv>
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => classAction(course.id,"1","drop")}>
+                    <LinkDiv>All Future Instances</LinkDiv>
+                </Dropdown.Item>
             </DropdownButton>}
             </Box>}
             </AccordionDetails>
           </Accordion>
         ))}
+        </Box>
+        </Box>
         </>
       );
 };

@@ -13,10 +13,11 @@ import { isSubscribed } from "../../scripts/user_status";
 function Classes() {
     let init_studio_id='';
     let pre_state=useLocation().state;
-    if (pre_state){
-        init_studio_id = pre_state.studio_id;
-    }
-    const page_size=10;
+    init_studio_id = pre_state&&pre_state.studio_id?pre_state.studio_id:'';
+
+    const page_size=11;
+
+    const [userAction, setUserAction]=useState(false);
 
     let user_url=localStorage.getItem('user_url');
     let access_token=localStorage.getItem('access_token');
@@ -48,7 +49,7 @@ function Classes() {
             });
         
 
-    },[])
+    },[userAction])
 
     const [totalItems, setTotalItems]=useState(0);
     const [studioOptions, setStudioOptions] = useState([]);
@@ -117,7 +118,7 @@ function Classes() {
             }).catch(error=>{
                 console.log(error);
             })
-    }, [classMeta]);
+    }, [classMeta,userAction]);
 
     const handleOpenDrawer = () => {
         setDrawerOpen(true);
@@ -127,10 +128,10 @@ return (
 <>
     <Container fluid='true' className='m-0'>
         <Row className='m-2'>
-            <Col>
-            <SmallPrimaryButton onClick={() => handleOpenDrawer()}>Open Filters</SmallPrimaryButton>
-            </Col>
-            <Col>
+            <Col md='8'>
+            <Box
+            display="flex" 
+            justifyContent="right">
             <SearchBar 
                 value={searchInput}
                 // changeInput={(e) => setSearchInput(e.target.value)}
@@ -141,6 +142,14 @@ return (
                 })}
                 placeholdertext = 'Search by class name, coach, date'
                 />
+            </Box>
+            </Col>
+            <Col md='4'>
+            <Box
+            display="flex" 
+            justifyContent="left">
+            <SmallPrimaryButton onClick={() => handleOpenDrawer()}>Open Filters</SmallPrimaryButton>
+            </Box>
             </Col>
         </Row>
         <ClassFilterDrawer 
@@ -164,7 +173,10 @@ return (
             access_token={access_token}
             // is_subscribed={is_subscribed} 
             userSchedule={userSchedule} 
-            userClassHistory={userClassHistory}/>
+            userClassHistory={userClassHistory}
+            userAction={userAction}
+            setUserAction={setUserAction}
+            />
             </Col>
         </Row>
         <Box

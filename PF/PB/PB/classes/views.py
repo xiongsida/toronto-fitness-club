@@ -95,7 +95,7 @@ class ClassEnrollView(APIView):
     permission_classes=[IsAuthenticated,isSubscribed]
     def post(self,request, *args, **kwargs):
         if not request.user:
-            return Response({'detail':'user not logged in'})
+            return Response({'detail':{'error':'you are not logged in'}})
         student=request.user
         print(request.data)
         apply_for_future=request.data.get('for_future',"0")
@@ -105,17 +105,17 @@ class ClassEnrollView(APIView):
         classparent=get_object_or_404(ClassParent,id=class_parent_id)
         
         if datetime.datetime.combine(classinstance.date,classinstance.start_time)<=datetime.datetime.now():
-            return Response({'detail':'enroll failed, the class you selected was in the past'})
+            return Response({'detail':{'error':'enroll failed, the class you selected was in the past'}})
         # print(classinstance.capacity)
         if classinstance.capacity>len(classinstance.students.all()):
             student.class_instances.add(classinstance)
         else:
-            return Response({'detail':'enroll failed, this class is full'})
+            return Response({'detail':{'error':'enroll failed, this class is full'}})
         
         if classinstance.is_cancelled==False:
             student.class_instances.add(classinstance)
         else:
-            return Response({'detail':'enroll failed, this class is cancelled'})
+            return Response({'detail':{'error':'enroll failed, this class is cancelled'}})
         
         invalid_classes=[]
         if apply_for_future=="1":
@@ -127,13 +127,13 @@ class ClassEnrollView(APIView):
                 else:
                     invalid_classes.append(future_instance.id)
                 
-        return Response({'detail':'enroll success'}) if not invalid_classes else Response({'detail':'enroll success partially','already full or cancelled before':invalid_classes})
+        return Response({'detail':{'success':'enroll success! \n ps: even though you repeat your enrollment, we only count you as one XD'}}) if not invalid_classes else Response({'detail':{'success':'we help you enroll parts of classes you choose, because some classes are already full or cancelled before'}})
 
 class ClassDropView(APIView):
     permission_classes=[IsAuthenticated,isSubscribed]
     def post(self,request, *args, **kwargs):
         if not request.user:
-            return Response({'detail':'user not logged in'})
+            return Response({'detail':{'error':'you are not logged in'}})
         student=request.user
 
         apply_for_future=request.data.get('for_future',"0")
@@ -144,7 +144,7 @@ class ClassDropView(APIView):
         classparent=get_object_or_404(ClassParent,id=class_parent_id)
         
         if datetime.datetime.combine(classinstance.date,classinstance.start_time)<=datetime.datetime.now():
-            return Response({'detail':'drop not allowed, the class you selected was in the past'})
+            return Response({'detail':{'error':'drop not allowed, the class you selected was in the past'}})
         
         student.class_instances.remove(classinstance)
         
@@ -154,5 +154,5 @@ class ClassDropView(APIView):
             for future_instance in future_instances:
                 student.class_instances.remove(future_instance)
                 
-        return Response({'detail':'drop success, or you do not have specified classes to drop at the first place'})
+        return Response({'detail':{'success':'drop success!'}})
         
