@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { useLocation } from "react-router-dom";
 import Col from "react-bootstrap/esm/Col";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/esm/Row";
@@ -6,7 +7,6 @@ import SearchBar from "../Common/SearchBar";
 import CardsList from "./CardsList";
 import StudiosMap from "./StudiosMap";
 import { SmallPrimaryButton} from "../misc/Buttons";
-
 
 import Geocode from "react-geocode";
 import StudioFilterDrawer from "./StudioFilterDrawer";
@@ -16,6 +16,10 @@ import { Pagination } from "rsuite";
 Geocode.setApiKey("AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE");
 
 const StudiosList = () => {
+    let init_input_location='';
+    let pre_state=useLocation().state;
+    init_input_location = pre_state&&pre_state.otherInputLocation?pre_state.otherInputLocation:'';
+
     const page_size=4
     const [studioDrawerOpen, setStudioDrawerOpen] =useState(false);
     const [studios, setStudios] = useState([]);
@@ -141,6 +145,7 @@ const StudiosList = () => {
                 setStudioMeta={setStudioMeta}
                 studioDrawerOpen={studioDrawerOpen}
                 setStudioDrawerOpen={setStudioDrawerOpen}
+                init_input_location={init_input_location}
             />
             <Row fluid='true' className='m-2'>
                 <Col fluid='true' md="4">

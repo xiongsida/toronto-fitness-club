@@ -1,4 +1,4 @@
-import React, {useState}from "react";
+import React, {useEffect, useState}from "react";
 import "rsuite/dist/rsuite.css";
 import { Drawer } from 'rsuite';
 import { Actions } from "../../misc/Actions";
@@ -13,7 +13,34 @@ const StudioFilterDrawer = (
     inputlocation, setInputLocation,
     setUserMarker,
     studioMeta, setStudioMeta, 
-    studioDrawerOpen, setStudioDrawerOpen})=>{
+    studioDrawerOpen, setStudioDrawerOpen,
+    init_input_location})=>{
+    
+    useEffect(()=>{
+        console.log(init_input_location);
+        if (init_input_location){
+            Geocode.fromAddress(init_input_location).then(
+                (response) => {
+                    let { lat, lng } = response.results[0].geometry.location;
+                    console.log(lat, lng);
+                    setUserMarker({
+                        lat: lat, lng: lng
+                    });
+                    setStudioMeta({
+                        ...studioMeta,
+                        userlocation:{
+                            lat: lat,
+                            lng: lng
+                        },
+                        page:1,
+                    })
+                },
+                (error) => {
+                  console.error(error);
+                }
+            );
+        }
+    },[])
 
     const handleClear=()=>{
         setStudioMeta({

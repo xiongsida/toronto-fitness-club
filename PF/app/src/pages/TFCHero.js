@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 //eslint-disable-next-line
 import { css } from "styled-components/macro";
 import { ReactComponent as SvgDecoratorBlob1 } from "../images/svg-decorator-blob-1.svg";
 import { SectionHeading as Heading } from "../components/misc/Headings.js";
+import { Link } from "react-router-dom";
 
 const Container = tw.div`relative px-10`;
 const TwoColumn = tw.div`flex flex-col lg:flex-row lg:items-center max-w-screen-xl mx-auto py-20 md:py-24`;
@@ -30,6 +31,8 @@ const DecoratorBlob1 = styled(SvgDecoratorBlob1)`
 `;
 
 export default () => {
+  const [otherInputLocation, setOtherInputLocation]=useState('');
+
   return (
     <>
       {/* <Header /> */}
@@ -42,8 +45,17 @@ export default () => {
             <br />
             <br />
             <Actions>
-              <input type="text" placeholder="Enter Post Code" />
-              <button>Get Started</button>
+              <input type="text" placeholder="Enter Your Adress" 
+              onChange={(e)=>{
+                setOtherInputLocation(e.target.value);
+              }}
+              value={otherInputLocation}
+              />
+              <Link to={'/studios'} state={{otherInputLocation:otherInputLocation}}>
+              <button>
+                Get Started
+              </button>
+              </Link>
             </Actions>
           </LeftColumn>
         </TwoColumn>
