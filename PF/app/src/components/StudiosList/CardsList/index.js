@@ -18,14 +18,16 @@ const CardsList = ({studios, selectedStudio, setSelectedStudio, directionAppend}
                         }}
                         style={{
                             height:'10rem',
-                            backgroundColor: selectedStudio && selectedStudio.id===studio.id ? "rgba(0, 0, 0, 0.15)": '',}}
+                            backgroundColor: selectedStudio && selectedStudio.id===studio.id ? "rgba(0, 0, 0, 0.15)": ''}}
+                        className='mb-1'
                         >
-                        <Card.Header><strong>{studio.name}</strong></Card.Header>
+                        <Card.Header style={{backgroundColor: selectedStudio && selectedStudio.id===studio.id ? "rgba(0, 0, 0, 0)": 'rgba(255,255,255,0)'}}
+                        ><strong style={{color: '#506582'}}>{studio.name}</strong></Card.Header>
                         <Card.Body className="text-center">
                             <Card.Text>
-                                <b>{studio.address}</b>
-                                <br/>
-                                Tel: {studio.phone_number}
+                                <span style={{color: '#506582'}}>
+                                <b>{studio.address} &nbsp;&nbsp;</b>Tel: {studio.phone_number}
+                                </span>
                             </Card.Text>
                             <Link to={'/studios/'+studio.id} state={{directionAppend:directionAppend}}>
                                 <SmallPrimaryButton variant="success" className='m-3'> Details </SmallPrimaryButton>

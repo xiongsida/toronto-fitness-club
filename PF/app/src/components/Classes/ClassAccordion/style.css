@@ -2,9 +2,22 @@
     height:600px;
     background-color: rgb(255, 255, 255);
     border-radius: 50px;
-    border: 10px solid rgb(61, 17, 191);
+    border: 10px solid #742cff;
     box-shadow: 0 8px 28px 0 rgb(63, 74, 159);
     margin: auto;
     padding: 20px;
     width: 70%;
 }
+
+.my-drop-down-button-enroll {
+    color:rgb(66, 242, 245);
+    background-color: rgb(66, 242, 245);
+    border-radius: 3px;
+}
+
+.my-drop-down-button-drop{
+    color:#718096;
+    background-color: #718096;
+    border-radius: 2px;
+}
+

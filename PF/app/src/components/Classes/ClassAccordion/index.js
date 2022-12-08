@@ -102,7 +102,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
               id={"panel"+course.id+"bh-header"}
             >
                 <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                <b>{course.class_parent.name}</b>
+                <b style={{color:'#4a5568'}}>{course.class_parent.name}</b>
                 </Typography>
                 <Typography sx={{ color: 'text.secondary'}} >
                 <b>{course.date}</b>&nbsp;&nbsp;
@@ -120,9 +120,10 @@ const ClassAccordion=({classes,is_authenticated, access_token,
             {/* {is_authenticated&& (!(userClassHistorySet.has(course.id))) && */}
             <Box display="flex" 
             justifyContent="center">
-            <DropdownButton  variant='info' 
+            <DropdownButton  
             disabled={!(is_authenticated && (!(userClassHistorySet.has(course.id) || userScheduleSet.has(course.id))) && (!course.is_cancelled))}
-            title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${course.id}`}>
+            title='Enroll'  variant="info"
+            className='my-drop-down-button-enroll m-1 text-center' id={`dropdown-enroll-${course.id}`}>
                 <Dropdown.Item onClick={() => classAction(course.id,"0","enroll")}>
                     <LinkDiv>Single Class Instance</LinkDiv>
                 </Dropdown.Item>
@@ -131,9 +132,10 @@ const ClassAccordion=({classes,is_authenticated, access_token,
                 </Dropdown.Item>
             </DropdownButton>
             {/* {(userScheduleSet.has(course.id)) &&  */}
-            <DropdownButton variant='warning'
+            <DropdownButton 
             disabled={!(is_authenticated && userScheduleSet.has(course.id))}
-            title='Drop' className='m-1 text-center' id={`dropdown-drop-${course.id}`}>
+            title='Drop'  variant="secondary"
+            className='my-drop-down-button-drop m-1 text-center' id={`dropdown-drop-${course.id}`}>
                 <Dropdown.Item onClick={() => classAction(course.id,"0","drop")}>
                     <LinkDiv>Single Class Instance</LinkDiv>
                 </Dropdown.Item>
