@@ -17,9 +17,9 @@ const CardsList = ({studios, selectedStudio, setSelectedStudio, directionAppend}
                                 setSelectedStudio(studio);
                         }}
                         style={{
-                            height:'17.5vh',
+                            height:'16.9vh',
                             backgroundColor: selectedStudio && selectedStudio.id===studio.id ? "rgba(0, 0, 0, 0.15)": ''}}
-                        >
+                        className='mb-2'>
                         <Card.Header style={{backgroundColor: selectedStudio && selectedStudio.id===studio.id ? "rgba(0, 0, 0, 0)": 'rgba(255,255,255,0)'}}
                         ><div style={{color: '#506582'}}><strong>{studio.name}</strong> &nbsp;&nbsp; Tel: {studio.phone_number}</div> </Card.Header>
                         <Card.Body className="text-center">
