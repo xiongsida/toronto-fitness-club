@@ -11,6 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 import CustomerModal from '../../CustomerModal';
 import SubscriptionContext from '../../../Context/SubscriptionContext';
 import tw from "twin.macro";
+import './style.css'
 
 const config = require('../../../TFCConfig.json');
 
@@ -87,6 +88,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
         modalOpen={modalOpen}
         setModalOpen={setModalOpen}/>
         <br/>
+        <div className='my-classes-div'>
         <Box justifyContent="center" display="flex" >
         <Box sx={{
         width: '85%',
@@ -100,7 +102,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
               id={"panel"+course.id+"bh-header"}
             >
                 <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                <b>{course.class_parent.name} &nbsp; {course.id}</b>
+                <b>{course.class_parent.name}</b>
                 </Typography>
                 <Typography sx={{ color: 'text.secondary'}} >
                 <b>{course.date}</b>&nbsp;&nbsp;
@@ -115,9 +117,11 @@ const ClassAccordion=({classes,is_authenticated, access_token,
                 <b>Coach: </b> {course.coach}
             </Typography>
             
-            {is_authenticated&& (!(userClassHistorySet.has(course.id))) &&<Box display="flex" 
+            {/* {is_authenticated&& (!(userClassHistorySet.has(course.id))) && */}
+            <Box display="flex" 
             justifyContent="center">
-            <DropdownButton  variant='info'
+            <DropdownButton  variant='info' 
+            disabled={!(is_authenticated && (!(userClassHistorySet.has(course.id) || userScheduleSet.has(course.id))) && (!course.is_cancelled))}
             title='Enroll' className='m-1 text-center' id={`dropdown-enroll-${course.id}`}>
                 <Dropdown.Item onClick={() => classAction(course.id,"0","enroll")}>
                     <LinkDiv>Single Class Instance</LinkDiv>
@@ -126,7 +130,9 @@ const ClassAccordion=({classes,is_authenticated, access_token,
                     <LinkDiv>All Future Instances</LinkDiv>
                 </Dropdown.Item>
             </DropdownButton>
-            {(userScheduleSet.has(course.id)) && <DropdownButton variant='warning'
+            {/* {(userScheduleSet.has(course.id)) &&  */}
+            <DropdownButton variant='warning'
+            disabled={!(is_authenticated && userScheduleSet.has(course.id))}
             title='Drop' className='m-1 text-center' id={`dropdown-drop-${course.id}`}>
                 <Dropdown.Item onClick={() => classAction(course.id,"0","drop")}>
                     <LinkDiv>Single Class Instance</LinkDiv>
@@ -134,13 +140,14 @@ const ClassAccordion=({classes,is_authenticated, access_token,
                 <Dropdown.Item onClick={() => classAction(course.id,"1","drop")}>
                     <LinkDiv>All Future Instances</LinkDiv>
                 </Dropdown.Item>
-            </DropdownButton>}
-            </Box>}
+            </DropdownButton>
+            </Box>
             </AccordionDetails>
           </Accordion>
         ))}
         </Box>
         </Box>
+        </div>
         </>
       );
 };

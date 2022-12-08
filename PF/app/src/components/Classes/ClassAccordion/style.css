@@ -1,0 +1,10 @@
+.my-classes-div{
+    height:600px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50px;
+    border: 10px solid rgb(61, 17, 191);
+    box-shadow: 0 8px 28px 0 rgb(63, 74, 159);
+    margin: auto;
+    padding: 20px;
+    width: 70%;
+}
