@@ -3,16 +3,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Carousel from 'react-bootstrap/Carousel';
 import DetailCard from '../DetailCard';
 import { Card } from '@mui/material';
+import './style.css'
 
 const ImageCarousel = ({imagelist,details,directionAppend}) => {
     // console.log(imagelist)
     // console.log(imagelist[0])
     return (
-        <div style={{ display: 'block'}}>
-            <Carousel className='m-3' variant="dark">
+        <div style={{ display: 'block'}} >
+            <Carousel className='m-3 my-img-div' variant="dark">
                 {imagelist.map( imageobj => (
                     <Carousel.Item interval={1500} key={imageobj.id} 
-                    style={{ height :'83vh', overflow: 'hidden'}}
+                    style={{ height :'82vh', overflow: 'hidden'}}
                     >
                         <img
                         className="d-block w-100"
