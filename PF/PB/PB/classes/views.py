@@ -127,7 +127,7 @@ class ClassEnrollView(APIView):
                 else:
                     invalid_classes.append(future_instance.id)
                 
-        return Response({'detail':{'success':'enroll success! \n ps: even though you repeat your enrollment, we only count you as one XD'}}) if not invalid_classes else Response({'detail':{'success':'we help you enroll parts of classes you choose, because some classes are already full'}})
+        return Response({'detail':{'success':'enroll success!'}}) if not invalid_classes else Response({'detail':{'success':'enroll success, we help you enroll parts of classes you choose, because some classes are already full'}})
 
 class ClassDropView(APIView):
     permission_classes=[IsAuthenticated,isSubscribed]
