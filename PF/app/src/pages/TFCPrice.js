@@ -8,7 +8,7 @@ import { PrimaryButton as PrimaryButtonBase } from "../components/misc/Buttons.j
 import { Container, ContentWithPaddingXl } from "../components/misc/Layouts.js";
 import { ReactComponent as SvgDecoratorBlob1 } from "../images/svg-decorator-blob-6.svg";
 import { ReactComponent as SvgDecoratorBlob2 } from "../images/svg-decorator-blob-7.svg";
-import authHeaders from "../scripts/user_status.js";
+import toast, { Toaster } from "react-hot-toast";
 
 const config = require("../TFCConfig.json");
 const HeaderContainer = tw.div`w-full flex flex-col items-center`;
@@ -87,7 +87,6 @@ export default ({
   ]
 }) => {
   const [prices, setprices] = useState([0, 0, 0, 0]);
-  const [selectedID, setselectedID] = useState(0);
   const defaultPlans = [
     {
       name: "Plan",
@@ -122,8 +121,14 @@ export default ({
   }, []);
 
   const subsplan = (index) => {
-    alert("you sure?, plan " + index + " will be subscribed");
     const token = localStorage.getItem('access_token');
+    if (!token) {
+      toast.error('Please login to subscribe', config.TOASTER_STYLE);
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 1000);
+      return;
+    }
     const plan_url = `${config.SERVER_URL}/plans/${index}`;
     fetch(config.SERVER_URL + '/subscriptions', {
       method: 'POST',
@@ -136,8 +141,7 @@ export default ({
       })
     }).then(response => {
       if (response.ok) {
-        alert('subscribed!');
-        window.location.herf = config.MAIN_PAGE_URL + '/subscription';
+        window.location.href = '/subscription';
       }
       else {
         return response.json();
@@ -148,7 +152,7 @@ export default ({
           throw new Error(data.detail);
         }
       }).catch(error => {
-        alert(error);
+        toast.error(error.message, config.TOASTER_STYLE);
       });
   };
 
@@ -156,6 +160,8 @@ export default ({
 
   return (
     <Container>
+      <Toaster />
+
       <ContentWithPaddingXl>
         <HeaderContainer>
           {subheading && <Subheading>{subheading}</Subheading>}

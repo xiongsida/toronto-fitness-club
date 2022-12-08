@@ -72,7 +72,7 @@ const id2plans = ["", "Monthly Plan", "Yearly Plan", "Ultimate Monthly Plan", "U
 
 export default ({
 }) => {
-
+  // const { isSub, setisSub } = useContext(SubscriptionContext);
   const [isSub, setisSub] = useState(false);
   const [isFut, setisFut] = useState(false);
   const [currentSubUrl, setcurrentSubUrl] = useState("");
@@ -163,6 +163,7 @@ export default ({
       if (response.status === 204) {
         toast.success("Refund Successful", config.TOASTER_STYLE);
         setdeleteSub(!deleteSub);
+
       }
       else {
         return response.json();
@@ -316,11 +317,11 @@ export default ({
         <Toaster />
         <ContentWithPaddingXl>
           {isSub ?
-            <Card href={config.MAIN_PAGE_URL}>
+            <Card href="/classes">
               {<Subheading>Book a Course</Subheading>}
             </Card>
             :
-            <Card href={config.MAIN_PAGE_URL}>
+            <Card href="/plans">
               {<Subheading>👉 Check out our subscription plans</Subheading>}
             </Card>}
           <Heading>{
