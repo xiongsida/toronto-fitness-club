@@ -32,6 +32,11 @@ def make_subscription(user, plan: Plan):
     ).save()
 
 
+def cancel_upcoming_plan(user):
+    force_drop_classes_once_cancel_subscription(
+        user, user.subscription.expired_time)
+
+
 def cancel_subscription(user):
     force_drop_classes_once_cancel_subscription(
         user, datetime.today() + timedelta(days=1))

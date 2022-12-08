@@ -5,7 +5,6 @@ import tw from "twin.macro";
 import { css } from "styled-components/macro";
 
 import { ReactComponent as SvgDecoratorBlob1 } from "../images/svg-decorator-blob-1.svg";
-import DesignIllustration from "../images/design-illustration-2.svg";
 
 const Container = tw.div`relative px-10`;
 const TwoColumn = tw.div`flex flex-col lg:flex-row lg:items-center max-w-screen-xl mx-auto py-20 md:py-24`;
@@ -42,19 +41,7 @@ export default () => {
             <Heading>
               Toronto's Best Gyms <span tw="text-primary-500">In Your Neigborhood.</span>
             </Heading>
-            <br />
-            <br />
-            <br />
-            <Actions>
-              <input type="text" placeholder="Enter Post Code" />
-              <button>Get Started</button>
-            </Actions>
           </LeftColumn>
-          {/* <RightColumn>
-            <IllustrationContainer>
-              <img tw="min-w-0 w-full max-w-lg xl:max-w-3xl" src={DesignIllustration} alt="Design Illustration" />
-            </IllustrationContainer>
-          </RightColumn> */}
         </TwoColumn>
         <DecoratorBlob1 />
       </Container>

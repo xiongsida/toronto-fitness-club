@@ -164,50 +164,52 @@ export default () => {
         <Container>
             <Toaster />
             <Content>
-                <FormContainer>
-                    <div tw="mx-auto max-w-4xl">
-                        <h2>{username}</h2>
-                        <form onSubmit={handleSubmit}>
-                            <TwoColumn>
-                                <Column>
-                                    <InputContainer>
-                                        <Label htmlFor="last-name">Last Name</Label>
-                                        <Input id="last-name" value={lastname}
-                                            onChange={event => { setIsButtonDisabled(false); setLastname(event.target.value); }} type="text" name="last-name" />
-                                    </InputContainer>
-                                    <InputContainer>
-                                        <Label htmlFor="first-name">First Name</Label>
-                                        <Input id="first-name" value={firstname}
-                                            onChange={event => { setIsButtonDisabled(false); setFirstname(event.target.value); }} type="text" name="first-name" />
-                                    </InputContainer>
-                                    <InputContainer>
-                                        <Label htmlFor="avatar">Avatar</Label>
-                                        <AvatarUploader setFileInfo={setFileInfo} setIsButtonDisabled={setIsButtonDisabled} previewFile={previewFile} />
-                                    </InputContainer>
+                <FormContainer >
+                    <div className="magiccard">
+                        <div tw="mx-auto max-w-4xl">
+                            <h2>{username}</h2>
+                            <form onSubmit={handleSubmit}>
+                                <TwoColumn>
+                                    <Column>
+                                        <InputContainer>
+                                            <Label htmlFor="last-name">Last Name</Label>
+                                            <Input id="last-name" value={lastname}
+                                                onChange={event => { setIsButtonDisabled(false); setLastname(event.target.value); }} type="text" name="last-name" />
+                                        </InputContainer>
+                                        <InputContainer>
+                                            <Label htmlFor="first-name">First Name</Label>
+                                            <Input id="first-name" value={firstname}
+                                                onChange={event => { setIsButtonDisabled(false); setFirstname(event.target.value); }} type="text" name="first-name" />
+                                        </InputContainer>
+                                        <InputContainer>
+                                            <Label htmlFor="avatar">Avatar</Label>
+                                            <AvatarUploader setFileInfo={setFileInfo} setIsButtonDisabled={setIsButtonDisabled} previewFile={previewFile} />
+                                        </InputContainer>
 
-                                </Column>
-                                <Column>
-                                    <InputContainer>
-                                        <Label htmlFor="email-input">Email Address</Label>
-                                        <Input id="email" value={email}
-                                            onChange={event => { setIsButtonDisabled(false); setEmail(event.target.value); }}
-                                            type="email" name="email" placeholder="therock@mail.com" />
-                                    </InputContainer>
-                                    <InputContainer>
-                                        <Label htmlFor="phone">Phone Number</Label>
-                                        <Input id="phone" value={phone}
-                                            onChange={event => { setIsButtonDisabled(false); setPhone(event.target.value); }} name="phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx" />
-                                    </InputContainer>
-                                    <br />
-                                    <br />
-                                    <SubmitButton type="button" disabled={isButtonDisabled} value="reset" onClick={handleRest}>Cancel</SubmitButton >
-                                    <SubmitButton type="submit" disabled={isButtonDisabled} value="Submit">Save</SubmitButton>
-                                </Column>
-                            </TwoColumn>
+                                    </Column>
+                                    <Column>
+                                        <InputContainer>
+                                            <Label htmlFor="email-input">Email Address</Label>
+                                            <Input id="email" value={email}
+                                                onChange={event => { setIsButtonDisabled(false); setEmail(event.target.value); }}
+                                                type="email" name="email" placeholder="therock@mail.com" />
+                                        </InputContainer>
+                                        <InputContainer>
+                                            <Label htmlFor="phone">Phone Number</Label>
+                                            <Input id="phone" value={phone}
+                                                onChange={event => { setIsButtonDisabled(false); setPhone(event.target.value); }} name="phone" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx" />
+                                        </InputContainer>
+                                        <br />
+                                        <br />
+                                        <SubmitButton type="button" disabled={isButtonDisabled} value="reset" onClick={handleRest}>Cancel</SubmitButton >
+                                        <SubmitButton type="submit" disabled={isButtonDisabled} value="Submit">Save</SubmitButton>
+                                    </Column>
+                                </TwoColumn>
 
-                        </form>
+                            </form>
+                        </div>
+                        <SvgDotPattern1 />
                     </div>
-                    <SvgDotPattern1 />
                 </FormContainer>
             </Content>
         </Container >

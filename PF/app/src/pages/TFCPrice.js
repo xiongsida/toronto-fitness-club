@@ -73,7 +73,7 @@ const DecoratorBlob2 = styled(SvgDecoratorBlob2)`
 export default ({
   subheading = "Pricing",
   heading = "Flexible Plans.",
-  description = "Cancel any time. It's so great that you even won't be really charged.",
+  description = "Cancel any time. It's so amazing that you even won't be really charged.",
   primaryButtonText = "Subscribe",
   planDurations = [
     {
@@ -91,14 +91,15 @@ export default ({
     {
       name: "Plan",
       durationPrices: [`$${prices[0]}`, `$${prices[1]}`],
-      mainFeature: "For Personal Blogs",
-      features: ["30 Templates", "7 Landing Pages", "12 Internal Pages", "Basic Assistance"]
+      mainFeature: "",
+      features: ["Swimming pools", "Sauna", "Tanning"],
     },
     {
       name: "Ultimate Plan",
       durationPrices: [`$${prices[2]}`, `$${prices[3]}`],
-      mainFeature: "Suited for Production Websites",
-      features: ["60 Templates", "8 Landing Pages", "22 Internal Pages", "Priority Assistance", "Lifetime Updates"],
+      mainFeature: "",
+      features: ["Swimming pools", "Sauna", "Tanning",
+        "MindDen rooms", "Towel Service", "Hydro Massage", "Cool CSS Animations"],
     }
   ];
 
@@ -176,38 +177,40 @@ export default ({
         <PlansContainer>
           {defaultPlans.map((plan, index) => (
             <Plan key={index} featured={plan.featured}>
-              <PlanHeader>
-                <span className="priceAndDuration">
-                  <span className="price">{plan.durationPrices[activeDurationIndex]}</span>
-                  <span className="slash"> / </span>
-                  <span className="duration">{planDurations[activeDurationIndex].text}</span>
-                </span>
-                <span className="name">{plan.name}</span>
-                <span className="mainFeature">{plan.mainFeature}</span>
-              </PlanHeader>
-              <PlanFeatures>
-                {plan.features.map((feature, index) => (
-                  <span key={index} className="feature">
-                    {feature}
+              <div className={plan.name == "Ultimate Plan" ? "magiccard" : ""}>
+                <PlanHeader>
+                  <span className="priceAndDuration">
+                    <span className="price">{plan.durationPrices[activeDurationIndex]}</span>
+                    <span className="slash"> / </span>
+                    <span className="duration">{planDurations[activeDurationIndex].text}</span>
                   </span>
-                ))}
-              </PlanFeatures>
-              <PlanAction>
-                <BuyNowButton onClick={(event) => {
-                  event.preventDefault();
-                  if (plan.name == "Plan" && activeDurationIndex == 0) {
-                    subsplan(1);
-                  }
-                  else if (plan.name == "Plan" && activeDurationIndex == 1) {
-                    subsplan(2);
-                  } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 0) {
-                    subsplan(3);
-                  } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 1) {
-                    subsplan(4);
-                  }
+                  <span className="name">{plan.name}</span>
+                  <span className="mainFeature">{plan.mainFeature}</span>
+                </PlanHeader>
+                <PlanFeatures>
+                  {plan.features.map((feature, index) => (
+                    <span key={index} className="feature">
+                      {feature}
+                    </span>
+                  ))}
+                </PlanFeatures>
+                <PlanAction>
+                  <BuyNowButton onClick={(event) => {
+                    event.preventDefault();
+                    if (plan.name == "Plan" && activeDurationIndex == 0) {
+                      subsplan(1);
+                    }
+                    else if (plan.name == "Plan" && activeDurationIndex == 1) {
+                      subsplan(2);
+                    } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 0) {
+                      subsplan(3);
+                    } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 1) {
+                      subsplan(4);
+                    }
 
-                }}>{primaryButtonText}</BuyNowButton>
-              </PlanAction>
+                  }}>{primaryButtonText}</BuyNowButton>
+                </PlanAction>
+              </div>
             </Plan>
           ))}
         </PlansContainer>

@@ -13,41 +13,22 @@ import { ReactComponent as CloseIcon } from "feather-icons/dist/icons/x.svg";
 
 const Header = tw.header`
   flex justify-between items-center
-  max-w-screen-xl mx-auto max-w-[80%]
+   mx-auto max-w-[80%] 
+
 `;
-
-const wholeHeader = styled.header`
-      display: flex;
-      align-items: center;
-      min-width: 100vw;
-      margin-bottom: 100px;
-      pb-1 border-b-2 border-transparent hover:border-primary-500 hocus:text-primary-500
-`;
-
-// const Header = styled.header`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin: 0 auto;
-//   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-
-// `;
 
 export const NavLinks = tw.div`inline-block`;
 
-/* hocus: stands for "on hover or focus"
- * hocus:bg-primary-700 will apply the bg-primary-700 class on hover or focus
- */
 export const NavLink = tw.a`
   text-lg my-2 lg:text-sm lg:mx-6 lg:my-0
   font-semibold tracking-wide transition duration-300
-  pb-1 border-b-2 border-transparent hover:border-primary-500 hocus:text-primary-500
+  pb-1 border-b-2 border-transparent hocus:no-underline hover:border-primary-500 hocus:text-primary-500
 `;
 
 export const PrimaryLink = tw(NavLink)`
   lg:mx-0
   px-8 py-3 rounded bg-primary-500 text-gray-100
-  hocus:bg-primary-700 hocus:text-gray-200 focus:shadow-outline
+  hocus:bg-primary-700 hocus:text-gray-200 
   border-b-0
 `;
 
@@ -59,7 +40,7 @@ export const LogoLink = styled(NavLink)`
   }
 `;
 
-export const MobileNavLinksContainer = tw.nav`flex flex-1 items-center justify-between`;
+export const MobileNavLinksContainer = tw.nav`flex flex-1 items-center justify-between no-underline`;
 export const NavToggle = tw.button`
   lg:hidden z-20 focus:outline-none hocus:text-primary-500 transition duration-300
 `;
@@ -74,14 +55,9 @@ export const DesktopNavLinks = tw.nav`
   hidden lg:flex flex-1 justify-between items-center
 `;
 
-export default ({ logoLink, links, className, collapseBreakpointClass = "lg" }) => {
+export default ({ }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [avatar, setAvatar] = useState("");
-
-  const handleSlide = (event, id) => {
-    const heading = document.getElementById("courses");
-    heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   useEffect(() => {
     const user_url = localStorage.getItem('user_url');
@@ -108,30 +84,26 @@ export default ({ logoLink, links, className, collapseBreakpointClass = "lg" }) 
         <NavLink href="/studios">Find a Studio</NavLink>
         <NavLink href="/classes">Find a Class</NavLink>
         <NavLink href="/plans">Our Plans</NavLink>
-
-        {isLoggedIn ? (<></>) : (<>
-          <NavLink href="/login" tw="lg:ml-12!">
-            Login
-          </NavLink>
-          <PrimaryLink css={tw`rounded-full`} href="/signup">
-            Sign Up
-          </PrimaryLink>
-        </>
+      </NavLinks>
+      <NavLinks key={2}>
+        {isLoggedIn ? (
+          <Avatar url={avatar} />
+        ) : (
+          <>
+            <NavLink href="/login" tw="lg:ml-12!">
+              Login
+            </NavLink>
+            <PrimaryLink css={tw`rounded-full`} href="/signup">
+              Sign Up
+            </PrimaryLink>
+          </>
         )}
       </NavLinks>
-
-      {isLoggedIn ? (
-        <NavLinks key={2}>
-          <Avatar url={avatar} />
-        </NavLinks>
-      ) : (<></>)
-      }
-
     </>
   ];
 
   const { showNavLinks, animation, toggleNavbar } = useAnimatedNavToggler();
-  const collapseBreakpointCss = collapseBreakPointCssMap[collapseBreakpointClass];
+  const collapseBreakpointCss = collapseBreakPointCssMap["xl"];
 
   const defaultLogoLink = (
     <LogoLink href="/">
@@ -140,28 +112,26 @@ export default ({ logoLink, links, className, collapseBreakpointClass = "lg" }) 
     </LogoLink>
   );
 
-  logoLink = logoLink || defaultLogoLink;
-  links = links || defaultLinks;
 
   return (
-    <wholeHeader>
-      <Header className={className || "header-light"}>
+    <>
+      <Header className={"header-light"}>
         <DesktopNavLinks css={collapseBreakpointCss.desktopNavLinks}>
-          {logoLink}
-          {links}
+          {defaultLogoLink}
+          {defaultLinks}
         </DesktopNavLinks>
 
         <MobileNavLinksContainer css={collapseBreakpointCss.mobileNavLinksContainer}>
-          {logoLink}
+          {defaultLogoLink}
           <MobileNavLinks initial={{ x: "150%", display: "none" }} animate={animation} css={collapseBreakpointCss.mobileNavLinks}>
-            {links}
+            {defaultLinks}
           </MobileNavLinks>
           <NavToggle onClick={toggleNavbar} className={showNavLinks ? "open" : "closed"}>
             {showNavLinks ? <CloseIcon tw="w-6 h-6" /> : <MenuIcon tw="w-6 h-6" />}
           </NavToggle>
         </MobileNavLinksContainer>
       </Header>
-    </wholeHeader >
+    </>
   );
 };
 

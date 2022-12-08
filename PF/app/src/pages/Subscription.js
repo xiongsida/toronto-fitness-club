@@ -15,7 +15,6 @@ import toast, { Toaster } from "react-hot-toast";
 const config = require("../TFCConfig.json");
 const Heading = tw(SectionHeading)``;
 const Subheading = tw(SubheadingBase)`text-center mb-3`;
-const Description = tw(SectionDescription)`text-center mx-auto`;
 const ThreeColumnContainer = styled.div`
   ${tw`mt-10 flex flex-col items-center lg:items-stretch lg:flex-row flex-wrap lg:justify-center max-w-screen-lg mx-auto`}
 `;

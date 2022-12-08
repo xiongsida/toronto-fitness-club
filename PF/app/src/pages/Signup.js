@@ -4,15 +4,15 @@ import { Container as ContainerBase } from "../components/misc/Layouts";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import illustration from "../images/signup-illustration.svg";
+
 import logo from "../images/logo.svg";
 import { ReactComponent as SignUpIcon } from "feather-icons/dist/icons/user-plus.svg";
 import { storeURLFn } from "../scripts/user_status.js"
 import toast, { Toaster } from "react-hot-toast";
 
 const config = require('../TFCConfig.json');
-const Container = tw(ContainerBase)`min-h-screen bg-primary-900 text-white font-medium flex justify-center -m-8`;
-const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
+const Container = tw(ContainerBase)`min-h-screen text-white font-medium flex justify-center -m-8`;
+const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-gray-100 text-gray-900 shadow-lg sm:rounded-lg flex justify-center flex-1`;
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
 const LogoLink = tw.a``;
 const LogoImage = tw.img`h-12 mx-auto`;
@@ -39,7 +39,6 @@ const IllustrationImage = styled.div`
 
 export default ({
   logoLinkUrl = config.MAIN_PAGE_URL,
-  illustrationImageSrc = illustration,
   headingText = "Sign Up For TFC",
   submitButtonText = "Sign Up",
   SubmitButtonIcon = SignUpIcon,
@@ -152,9 +151,6 @@ export default ({
               </FormContainer>
             </MainContent>
           </MainContainer>
-          <IllustrationContainer>
-            <IllustrationImage imageSrc={illustrationImageSrc} />
-          </IllustrationContainer>
         </Content>
       </Container>
     </AnimationRevealPage>

@@ -1,4 +1,4 @@
-import {createContext, useState} from "react";
+import { createContext, useState } from "react";
 
 export const useSubscriptionContext = () => {
     const [isSub, setisSub] = useState(false);
@@ -10,7 +10,7 @@ export const useSubscriptionContext = () => {
 }
 
 const SubscriptionContext = createContext({
-    isSub: false, setisSub: () => {},
+    isSub: false, setisSub: () => { },
 })
 
 export default SubscriptionContext;

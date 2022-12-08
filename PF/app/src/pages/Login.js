@@ -4,14 +4,13 @@ import { Container as ContainerBase, ContentWithPaddingLg } from "../components/
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import illustration from "../images/login-illustration.svg";
 import logo from "../images/logo.svg";
 import { ReactComponent as LoginIcon } from "feather-icons/dist/icons/log-in.svg";
 import { loginFn, storeURLFn } from "../scripts/user_status.js"
 import toast, { Toaster } from "react-hot-toast";
 const config = require('../TFCConfig.json');
-const Container = tw(ContainerBase)`min-h-screen bg-primary-900 text-white font-medium flex justify-center -m-8`;
-const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-white text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
+const Container = tw(ContainerBase)`min-h-screen  text-white font-medium flex justify-center -m-8`;
+const Content = tw.div`max-w-screen-xl m-0 sm:mx-20 sm:my-16 bg-gray-100 text-gray-900 shadow sm:rounded-lg flex justify-center flex-1`;
 const MainContainer = tw.div`lg:w-1/2 xl:w-5/12 p-6 sm:p-12`;
 const LogoLink = tw.a``;
 const LogoImage = tw.img`h-12 mx-auto`;
@@ -31,15 +30,9 @@ const SubmitButton = styled.button`
     ${tw`ml-3`}
   }
 `;
-const IllustrationContainer = tw.div`sm:rounded-r-lg flex-1 bg-purple-100 text-center hidden lg:flex justify-center`;
-const IllustrationImage = styled.div`
-  ${props => `background-image: url("${props.imageSrc}");`}
-  ${tw`m-12 xl:m-16 w-full max-w-sm bg-contain bg-center bg-no-repeat`}
-`;
 
 export default ({
   logoLinkUrl = config.MAIN_PAGE_URL,
-  illustrationImageSrc = illustration,
   headingText = "Log In To TFC",
   submitButtonText = "Log In",
   SubmitButtonIcon = LoginIcon,
@@ -116,9 +109,6 @@ export default ({
               </FormContainer>
             </MainContent>
           </MainContainer>
-          <IllustrationContainer>
-            <IllustrationImage imageSrc={illustrationImageSrc} />
-          </IllustrationContainer>
         </Content>
       </Container>
     </AnimationRevealPage >

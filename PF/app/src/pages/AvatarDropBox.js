@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
 
-const NavLink = tw.a`
+const NavLink = tw.div`
   text-lg my-0 lg:text-sm lg:my-0
   font-semibold tracking-wide transition duration-300
   pb-0 border-b-2 border-transparent hover:border-primary-500 hocus:text-primary-500
