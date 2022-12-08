@@ -12,7 +12,7 @@ const ImageCarousel = ({imagelist,details,directionAppend}) => {
             <Carousel className='m-3' variant="dark">
                 {imagelist.map( imageobj => (
                     <Carousel.Item interval={1500} key={imageobj.id} 
-                    style={{ height :'45rem', overflow: 'hidden'}}
+                    style={{ height :'83vh', overflow: 'hidden'}}
                     >
                         <img
                         className="d-block w-100"

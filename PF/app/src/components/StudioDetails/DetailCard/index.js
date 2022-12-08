@@ -14,7 +14,7 @@ const DetailCard = ({details, directionAppend}) => {
         display="flex" 
         justifyContent="center"
         >
-        <Card style={{"height" : "40%", "width" : "60%" }} bg="dark" text="light" className="bg-opacity-50">
+        <Card style={{"height" : "40%", "width" : "60%" }} bg="dark" text="light" className="bg-opacity-75">
             <Card.Header><b>Studio #{details.id}</b></Card.Header>
             <Card.Body className="text-center">
                 <Card.Title>{details.name}</Card.Title>
@@ -34,7 +34,7 @@ const DetailCard = ({details, directionAppend}) => {
                     </div>}
                 </Card.Text>
                 <a href={details.direction+directionAppend} target="_blank">
-                <SecodaryButton className='m-3'> DERECTION </SecodaryButton>
+                <PrimaryButton className='m-3'> DERECTION </PrimaryButton>
                 </a>
                 
                 <Link to={'/classes'} state={{studio_id:details.id}}>
