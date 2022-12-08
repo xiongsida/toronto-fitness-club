@@ -127,7 +127,8 @@ function Classes() {
 return (
 <>
     <Container fluid='true' className='m-0'>
-        <Row className='m-2'>
+        <br/>
+        <Row>
             <Col md='8'>
             <Box
             display="flex" 

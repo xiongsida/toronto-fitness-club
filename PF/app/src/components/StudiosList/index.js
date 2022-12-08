@@ -104,6 +104,7 @@ const StudiosList = () => {
         <>
 
         <Container fluid='true'>
+            <br/>
             <Row>
             <Col md={'8'}>
             <Box
