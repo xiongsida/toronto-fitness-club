@@ -25,7 +25,7 @@ const Layout = ({ }) => {
   let user_url = localStorage.getItem('user_url');
   let access_token = localStorage.getItem('access_token');
   let is_authenticated = user_url && access_token;
-  const { isSub, setisSub } = useContext(SubscriptionContext);
+  const { setisSub } = useContext(SubscriptionContext);
 
   useEffect(() => {
     is_authenticated && isSubscribed(user_url, access_token)

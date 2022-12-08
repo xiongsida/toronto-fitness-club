@@ -155,9 +155,9 @@ const plans2id = (plan) => {
         return 1;
     } else if (plan === "Yearly Plan") {
         return 2;
-    } else if (plan == "Ultimate Monthly Plan") {
+    } else if (plan === "Ultimate Monthly Plan") {
         return 3;
-    } else if (plan == "Ultimate Yearly Plan") {
+    } else if (plan === "Ultimate Yearly Plan") {
         return 4;
     }
 }
@@ -170,9 +170,9 @@ export default (props) => {
     const [futPlans, setFutPlans] = useState(allPlans);
 
     useEffect(() => {
-        setPlans(allPlans.filter((plan, idx) => (idx + 1) != props.currentP));
+        setPlans(allPlans.filter((plan, idx) => (idx + 1) !== props.currentP));
         if (props.isFut) {
-            setFutPlans(allPlans.filter((plan, idx) => (idx + 1) != props.futureP));
+            setFutPlans(allPlans.filter((plan, idx) => (idx + 1) !== props.futureP));
         }
     }, [props.currentP, props.futureP]);
 

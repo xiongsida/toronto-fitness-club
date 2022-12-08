@@ -52,7 +52,7 @@ export default ({
 
   const handleSignup = (event) => {
     event.preventDefault();
-    if (password != repeat) {
+    if (password !== repeat) {
       toast.error('Passwords don\'t match', config.TOASTER_STYLE);
       setPassword('');
       setRepeat('');

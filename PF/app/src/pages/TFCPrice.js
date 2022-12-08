@@ -92,7 +92,7 @@ export default ({
       name: "Plan",
       durationPrices: [`$${prices[0]}`, `$${prices[1]}`],
       mainFeature: "",
-      features: ["Swimming pools", "Sauna", "Tanning"],
+      features: ["Swimming pools", "Sauna", "Tanning", "-", "-", "-", "-"],
     },
     {
       name: "Ultimate Plan",
@@ -177,7 +177,7 @@ export default ({
         <PlansContainer>
           {defaultPlans.map((plan, index) => (
             <Plan key={index} featured={plan.featured}>
-              <div className={plan.name == "Ultimate Plan" ? "magiccard" : ""}>
+              <div className={plan.name === "Ultimate Plan" ? "magiccard" : ""}>
                 <PlanHeader>
                   <span className="priceAndDuration">
                     <span className="price">{plan.durationPrices[activeDurationIndex]}</span>
@@ -197,14 +197,14 @@ export default ({
                 <PlanAction>
                   <BuyNowButton onClick={(event) => {
                     event.preventDefault();
-                    if (plan.name == "Plan" && activeDurationIndex == 0) {
+                    if (plan.name === "Plan" && activeDurationIndex === 0) {
                       subsplan(1);
                     }
-                    else if (plan.name == "Plan" && activeDurationIndex == 1) {
+                    else if (plan.name === "Plan" && activeDurationIndex === 1) {
                       subsplan(2);
-                    } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 0) {
+                    } else if (plan.name === "Ultimate Plan" && activeDurationIndex === 0) {
                       subsplan(3);
-                    } else if (plan.name == "Ultimate Plan" && activeDurationIndex == 1) {
+                    } else if (plan.name === "Ultimate Plan" && activeDurationIndex === 1) {
                       subsplan(4);
                     }
 
