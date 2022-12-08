@@ -42,7 +42,7 @@ class ClassHistoryView(ListAPIView):
             return []
         student=self.request.user
         q33=Q(date__lt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__lte=datetime.datetime.now().time()))
-        queryset=queryset.filter(q33).order_by('date','start_time','end_time') 
+        queryset=student.class_instances.filter(q33).order_by('date','start_time','end_time') 
         return queryset
 
 class ClassesListView(ListAPIView):
@@ -56,7 +56,7 @@ class ClassesListView(ListAPIView):
     def get_queryset(self):
         studio_id=self.request.GET.get('studio_id',None)
         scope=self.request.GET.get('scope',None)
-        if scope and self.request.user: # if scope is specified, we think the user want to list his own classes
+        if self.request.user and scope: # if scope is specified, we think the user want to list his own classes
             student=self.request.user
             scope=self.request.GET.get('scope',None)
             queryset=student.class_instances.all().order_by('date','start_time','end_time')
@@ -74,7 +74,7 @@ class ClassesListView(ListAPIView):
                 q1=Q(class_parent__id__in=classParent_ids)
                 q2=Q(is_cancelled=False)
                 q3=Q(date__gt=datetime.date.today()) | (Q(date=datetime.date.today())&Q(start_time__gte=datetime.datetime.now().time()))
-                queryset=queryset.objects.filter(q1 & q2 & q3).order_by('date','start_time','end_time')
+                queryset=queryset.filter(q1 & q2 & q3).order_by('date','start_time','end_time')
             return queryset
         elif studio_id:
             studio=get_object_or_404(Studio, id=studio_id)
