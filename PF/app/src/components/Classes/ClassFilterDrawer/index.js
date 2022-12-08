@@ -34,9 +34,9 @@ const ClassFilterDrawer = ({classMeta, setClassMeta,
             }} 
         open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <Drawer.Header>
-          <Drawer.Title>Class Filter</Drawer.Title>
+          <Drawer.Title><b>Class Filter</b></Drawer.Title>
           <Drawer.Actions>
-            <SecodaryButton onClick={() => setDrawerOpen(false)}>Hide</SecodaryButton>
+            <PrimaryButton onClick={() => setDrawerOpen(false)}>Hide</PrimaryButton>
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>

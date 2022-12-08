@@ -33,7 +33,7 @@ const CardsList = ({studios, selectedStudio, setSelectedStudio, directionAppend}
                             </Link>
                             
                             <a href={studio.direction+directionAppend} target='_blank'>
-                                <SmallSecodaryButton href={studio.direction+directionAppend} target="_blank" className='m-3'> Direction </SmallSecodaryButton>
+                                <SmallPrimaryButton href={studio.direction+directionAppend} target="_blank" className='m-3'> Direction </SmallPrimaryButton>
                             </a>
                             <Link to={'/classes'} state={{studio_id:studio.id}}>
                                 <SmallPrimaryButton variant="info"className='m-3'> Class </SmallPrimaryButton>

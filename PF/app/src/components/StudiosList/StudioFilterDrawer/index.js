@@ -125,7 +125,7 @@ const StudioFilterDrawer = (
         <Drawer.Header>
           <Drawer.Title><b>Studio Filters</b></Drawer.Title>
           <Drawer.Actions>
-            <SecodaryButton onClick={() => setStudioDrawerOpen(false)}>Hide</SecodaryButton>
+            <PrimaryButton onClick={() => setStudioDrawerOpen(false)}>Hide</PrimaryButton>
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
@@ -138,10 +138,11 @@ const StudioFilterDrawer = (
                         setInputLocation(e.target.value);
                     }}
                     value={inputlocation}
+                    placeholder="Enter Your Adress"
                 />
-                <button onClick={useInputLocation}>Use Input Location</button>
+                <button onClick={useInputLocation}>Find</button>
             </Actions>
-            <PrimaryButton className='m-3' onClick={useCurrentLocation}>use my current location</PrimaryButton>
+            <PrimaryButton className='m-3' onClick={useCurrentLocation}>Find Around My Area</PrimaryButton>
 
             <StudioFilterPanel
             amenityOptions={amenityOptions} 
@@ -165,9 +166,9 @@ const StudioFilterDrawer = (
             }}
 
             />
-            <SecodaryButton className=" m-3"variant="danger" onClick={handleClear}>
+            <PrimaryButton className=" m-3"variant="danger" onClick={handleClear}>
                 Clear Filter
-            </SecodaryButton>
+            </PrimaryButton>
         </Drawer.Body>
         </Drawer>
         </>
