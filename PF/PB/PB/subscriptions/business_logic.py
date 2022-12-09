@@ -10,6 +10,16 @@ def is_card_valid(card_number, card_expire, security_code):
     return True
 
 
+def last_day_of_subscription(user):
+    if user.subscription:
+        res = user.subscription.expired_time
+        if user.upcoming_plan:
+            res = max(res, res + user.upcoming_plan.plan.interval)
+        return dbtime2utc(res)
+    else:
+        return None
+
+
 def make_subscription(user, plan: Plan):
     price = plan.price
 
@@ -33,8 +43,11 @@ def make_subscription(user, plan: Plan):
 
 
 def cancel_upcoming_plan(user):
+    print(user.subscription.expired_time)
+    print(user.subscription.expired_time.replace(tzinfo=pytz.UTC))
+    print(dbtime2utc(user.subscription.expired_time.replace(tzinfo=pytz.UTC)))
     force_drop_classes_once_cancel_subscription(
-        user, user.subscription.expired_time)
+        user, dbtime2utc(user.subscription.expired_time.replace(tzinfo=pytz.UTC)))
 
 
 def cancel_subscription(user):
