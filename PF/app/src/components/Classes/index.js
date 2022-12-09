@@ -15,7 +15,7 @@ function Classes() {
     let pre_state = useLocation().state;
     init_studio_id = pre_state && pre_state.studio_id ? pre_state.studio_id : '';
 
-    const page_size = 8;
+    const page_size = 7;
 
     const [userAction, setUserAction] = useState(false);
 

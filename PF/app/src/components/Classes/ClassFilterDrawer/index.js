@@ -89,7 +89,7 @@ const ClassFilterDrawer = ({ classMeta, setClassMeta,
                         is_authenticated={is_authenticated}
                     />
                     <PrimaryButton className=" m-3" variant="danger" onClick={handleClear}>
-                        Clear Filter
+                        Clear Selector
                     </PrimaryButton>
                 </Drawer.Body>
             </Drawer>
