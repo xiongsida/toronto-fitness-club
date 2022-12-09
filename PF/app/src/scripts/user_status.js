@@ -14,7 +14,13 @@ export const storeURLFn = () => {
     })
         .then(response => response.json())
         .then(data => {
-            localStorage.setItem('user_url', data['url']);
+            if (data['url']) {
+                localStorage.setItem('user_url', data['url']);
+            } else {
+                throw new Error(JSON.stringify(data));
+            }
+        }).catch(error => {
+            localStorage.clear();
         });
 }
 

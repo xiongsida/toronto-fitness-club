@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import Avatar from "./AvatarDropBox.js";
 import useAnimatedNavToggler from "../helpers/useAnimatedNavToggler.js";
-// import { refreshAvatarFn } from "../../scripts/user_status.js"
+
 
 import logo from "../images/logo.svg";
 import { ReactComponent as MenuIcon } from "feather-icons/dist/icons/menu.svg";
@@ -62,18 +62,29 @@ export default ({ }) => {
   useEffect(() => {
     const user_url = localStorage.getItem('user_url');
     if (user_url && user_url !== 'undefined') {
-      setIsLoggedIn(true);
+
       fetch(user_url, {
         method: 'GET',
         headers: {
+          "Authorization": `Bearer ${localStorage.getItem('access_token')}`,
           "Content-Type": 'application/json',
         },
       })
         .then(response => response.json())
         .then(data => {
-          setAvatar(data['avatar']);
+          console.log(data);
+          if (data['avatar']) {
+            setAvatar(data['avatar']);
+            setIsLoggedIn(true);
+          } else {
+            throw new Error('No avatar found');
+          }
+        }).catch(error => {
+          localStorage.clear();
+          setIsLoggedIn(false);
         });
     } else {
+      localStorage.clear();
       setIsLoggedIn(false);
     }
   }, []);
