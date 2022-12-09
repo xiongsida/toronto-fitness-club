@@ -43,11 +43,8 @@ def make_subscription(user, plan: Plan):
 
 
 def cancel_upcoming_plan(user):
-    print(user.subscription.expired_time)
-    print(user.subscription.expired_time.replace(tzinfo=pytz.UTC))
-    print(dbtime2utc(user.subscription.expired_time.replace(tzinfo=pytz.UTC)))
     force_drop_classes_once_cancel_subscription(
-        user, dbtime2utc(user.subscription.expired_time.replace(tzinfo=pytz.UTC)))
+        user, dbtime2utc(user.subscription.expired_time))
 
 
 def cancel_subscription(user):
