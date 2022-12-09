@@ -16,34 +16,34 @@ const MenuProps = {
   },
 };
 
-const FilterListSelector = ({ label, options, selectedOnes, setSelectedOnes, exclusivebool}) => {
-    
-    const handleSelect = (event) => {
-        console.log(event.target.value);
-        setSelectedOnes(event.target.value);
-      };
+const FilterListSelector = ({ label, options, noneOption, selectedOnes, setSelectedOnes, exclusivebool }) => {
 
-    return (
-        <FormControl sx={{ m: 1, width: 270 }}>
-        <InputLabel>{label}</InputLabel>
-        <Select
-          value={selectedOnes}
-          multiple={!exclusivebool}
-          onChange={handleSelect}
-          autoWidth
-          input={<OutlinedInput label={label} />}
-          MenuProps={MenuProps}
-        >
-            {exclusivebool&&<MenuItem value="">
-                <em>None</em>
-            </MenuItem>}
+  const handleSelect = (event) => {
+    console.log(event.target.value);
+    setSelectedOnes(event.target.value);
+  };
 
-          {options.map((item,index)=>(
-            <MenuItem key={index} value={item[0]}> {item[1]} </MenuItem>
-          ))}
-        </Select>
-        </FormControl>
-      );
+  return (
+    <FormControl sx={{ m: 1, width: 270 }}>
+      <InputLabel>{label}</InputLabel>
+      <Select
+        value={selectedOnes}
+        multiple={!exclusivebool}
+        onChange={handleSelect}
+        autoWidth
+        input={<OutlinedInput label={label} />}
+        MenuProps={MenuProps}
+      >
+        {exclusivebool && <MenuItem value="">
+          {noneOption}
+        </MenuItem>}
+
+        {options.map((item, index) => (
+          <MenuItem key={index} value={item[0]}> {item[1]} </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
 }
 
 export default FilterListSelector;

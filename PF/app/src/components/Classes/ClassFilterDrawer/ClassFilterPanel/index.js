@@ -10,38 +10,43 @@ const ClassFilterPanel = ({
     scope, setScope,
     dateRange, setDateRange,
     timeRange, setTimeRange,
-    is_authenticated}) => {
+    is_authenticated }) => {
 
     return (
         <div>
-            <div className='input-group'>
-
-                <FilterListSelector
-                    label={'Studio'}
-                    options={studioOptions}
-                    selectedOnes={selectedStudio}
-                    setSelectedOnes={setSelectedStudio}
-                    exclusivebool={true}
-                />
-            </div>
 
             {is_authenticated && <div className='input-group'>
 
                 <FilterListSelector
-                    label={'Your Class Scope'}
-                    options={[['myhistory','Your class history'],['myschedule','Your class schedule']]}
+                    label={'Your Actions'}
+                    options={[['myhistory', 'View your class history'], ['myschedule', 'View your class schedule']]}
+                    noneOption={'Book classes (leave blank)'}
+
                     selectedOnes={scope}
                     setSelectedOnes={setScope}
                     exclusivebool={true}
-                
+
                 />
             </div>}
 
             <div className='input-group'>
 
                 <FilterListSelector
+                    label={'Studio'}
+                    options={studioOptions}
+                    noneOption={'None'}
+                    selectedOnes={selectedStudio}
+                    setSelectedOnes={setSelectedStudio}
+                    exclusivebool={true}
+                />
+            </div>
+
+            <div className='input-group'>
+
+                <FilterListSelector
                     label={'Class'}
                     options={classOptions}
+                    noneOption={'None'}
                     selectedOnes={selectedClass}
                     setSelectedOnes={setSelectedClass}
                     exclusivebool={true}
@@ -49,11 +54,11 @@ const ClassFilterPanel = ({
             </div>
 
             <div>
-                <ClassDateRangePicker setDateRange={setDateRange}/>
+                <ClassDateRangePicker setDateRange={setDateRange} />
             </div>
 
             <div>
-                <ClassTimeRangePicker timeRange={timeRange} setTimeRange={setTimeRange}/>
+                <ClassTimeRangePicker timeRange={timeRange} setTimeRange={setTimeRange} />
             </div>
 
         </div>

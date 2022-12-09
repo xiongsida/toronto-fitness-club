@@ -4,7 +4,7 @@ import FilterListSelector from '../../../Common/FilterListSelector';
 
 const StudioFilterPanel = ({
     amenityOptions, selectedAmenities, setSelectedAmenities,
-    classOptions, selectedClasses, setSelectedClasses,}) => {
+    classOptions, selectedClasses, setSelectedClasses, }) => {
 
     return (
         <div>
@@ -18,6 +18,7 @@ const StudioFilterPanel = ({
                 <FilterListSelector
                     label={'Amenities'}
                     options={amenityOptions}
+                    noneOption={'None'}
                     selectedOnes={selectedAmenities}
                     setSelectedOnes={setSelectedAmenities}
                     exclusivebool={false}
@@ -34,6 +35,7 @@ const StudioFilterPanel = ({
                 <FilterListSelector
                     label={'Classes'}
                     options={classOptions}
+                    noneOption={'None'}
                     selectedOnes={selectedClasses}
                     setSelectedOnes={setSelectedClasses}
                     exclusivebool={false}
