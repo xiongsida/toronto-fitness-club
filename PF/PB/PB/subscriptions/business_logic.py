@@ -3,21 +3,23 @@ from .models import *
 from .utils import *
 from datetime import datetime, timedelta
 from studios.utils import force_drop_classes_once_cancel_subscription
-
+from subscriptions.models import UpComingPlan, Subscription
 
 def is_card_valid(card_number, card_expire, security_code):
     # TODO no api to verify
     return True
 
 
-def last_day_of_subscription(user):
-    if user.subscription:
-        res = user.subscription.expired_time
-        if user.upcoming_plan:
-            res = max(res, res + user.upcoming_plan.plan.interval)
-        return dbtime2utc(res)
-    else:
-        return None
+# def last_day_of_subscription(user):
+#     subscription = UpComingPlan.objects.get(user=user)
+#     upcomingplan = UpComingPlan.objects.get(user=user)
+#     if subscription:
+#         res = subscription.expired_time
+#         if upcomingplan:
+#             res = max(res, res + upcomingplan.plan.interval)
+#         return dbtime2utc(res)
+#     else:
+#         return None
 
 
 def make_subscription(user, plan: Plan):

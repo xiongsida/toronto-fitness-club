@@ -96,7 +96,7 @@ class ClassEnrollView(APIView):
     def post(self,request, *args, **kwargs):
         if not request.user:
             return Response({'detail':{'error':'you are not logged in'}})
-        student=request.user
+        student=get_object_or_404(TFCUser,id=request.user.id)
         print(request.data)
         apply_for_future=request.data.get('for_future',"0")
         class_instance_id=kwargs.get('class_id',None)
@@ -112,22 +112,30 @@ class ClassEnrollView(APIView):
         else:
             return Response({'detail':{'error':'enroll failed, this class is full'}})
         
+        # print(request.user.username)
+        # last_valid_day=last_day_of_subscription(student)
+        # print(last_valid_day)
+        # if last_valid_day <= datetime.datetime.combine(classinstance.date,classinstance.start_time):
+        #     return Response({'detail':{'error':'enroll failed, you do not have valid subscription in that time'}})
+        
         if classinstance.is_cancelled==False:
             student.class_instances.add(classinstance)
         else:
             return Response({'detail':{'error':'enroll failed, this class is cancelled'}})
+        
         
         invalid_classes=[]
         if apply_for_future=="1":
             student.class_parents.add(classparent)
             future_instances=ClassInstance.objects.filter(Q(class_parent__id=class_parent_id) & Q(date__gt=classinstance.date))
             for future_instance in future_instances:
-                if future_instance.capacity>len(future_instance.students.all()) and (not future_instance.is_cancelled):
+                if future_instance.capacity>len(future_instance.students.all()) and (not future_instance.is_cancelled): 
+                    # and last_valid_day > datetime.datetime.combine(classinstance.date,classinstance.start_time):
                     student.class_instances.add(future_instance)
                 else:
                     invalid_classes.append(future_instance.id)
                 
-        return Response({'detail':{'success':'enroll success!'}}) if not invalid_classes else Response({'detail':{'success':'enroll success, we help you enroll parts of classes you choose, because some classes are already full'}})
+        return Response({'detail':{'success':'enroll success!'}}) if not invalid_classes else Response({'detail':{'success':'enroll success, we help you enroll parts of classes you choose, because you do not have subscription at that time or some classes are full already'}})
 
 class ClassDropView(APIView):
     permission_classes=[IsAuthenticated,isSubscribed]
