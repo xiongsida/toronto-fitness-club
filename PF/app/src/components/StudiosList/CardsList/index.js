@@ -10,6 +10,7 @@ const CardsList = ({ studios, selectedStudio, setSelectedStudio, directionAppend
 
     return (
         <Container fluid>
+            {(studios&&studios.length===0)&&<div className='text-center'><b>No Studio Found</b></div>}
             {studios.map(studio => (
                 <Row key={studio.id}>
                     <Card onClick={

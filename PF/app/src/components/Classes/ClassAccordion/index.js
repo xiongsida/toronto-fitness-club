@@ -94,6 +94,7 @@ const ClassAccordion=({classes,is_authenticated, access_token,
         width: '85%',
         height: '70%',
         }}>
+        {(classes&&classes.length===0)&&<div className='text-center'><b>No Class Found</b></div>}
         {classes&&classes.map((course,index)=>(
             <Accordion key={course.id} expanded={expanded === 'panel'+course.id} onChange={handleExpand('panel'+course.id)}>
             <AccordionSummary
