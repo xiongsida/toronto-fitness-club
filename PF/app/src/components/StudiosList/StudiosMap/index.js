@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { GoogleMap, LoadScript, MarkerF, useJsApiLoader} from '@react-google-maps/api';
 
+const config = require('../../../TFCConfig.json')
+
 const mapstyle = {
       position: "relative",
       width: "100%",
@@ -37,7 +39,7 @@ const StudiosMap = ({studios,setUserLocation,
 
 
       const { isLoaded, loadError } = useJsApiLoader({
-            googleMapsApiKey: "AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE"
+            googleMapsApiKey: config.GoogleAPIKey
        })
 
       return (
@@ -47,7 +49,6 @@ const StudiosMap = ({studios,setUserLocation,
             width: "100%",
             height: "100%",
           }}>
-      {/* <LoadScript googleMapsApiKey='AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'> */}
 
       {isLoaded && <GoogleMap
       mapContainerStyle={mapstyle}
@@ -93,7 +94,6 @@ const StudiosMap = ({studios,setUserLocation,
             />
       ))}
       </GoogleMap>}
-      {/* </LoadScript> */}
 
       </div>
       );

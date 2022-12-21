@@ -5,7 +5,9 @@ import { Actions } from "../../misc/Actions";
 import { PrimaryButton, SecodaryButton } from "../../misc/Buttons";
 import StudioFilterPanel from "./StudioFilterPanel";
 import Geocode from "react-geocode";
-Geocode.setApiKey("AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE");
+
+const config = require("../../../TFCConfig.json");
+Geocode.setApiKey(config.GoogleAPIKey);
 
 const StudioFilterDrawer = (
     {amenityOptions, selectedAmenities, 

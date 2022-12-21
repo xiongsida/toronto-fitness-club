@@ -168,7 +168,6 @@ REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': (
     'rest_framework.authentication.BasicAuthentication',
 ),
 }
-GOOGLE_CLIENT_KEY = 'AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'
 
 # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
 CORS_ALLOW_ALL_ORIGINS = False
@@ -187,3 +186,5 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+
+GOOGLE_CLIENT_KEY = 'AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE'

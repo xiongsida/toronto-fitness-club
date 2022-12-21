@@ -13,7 +13,9 @@ import StudioFilterDrawer from "./StudioFilterDrawer";
 import { Box } from "@mui/material";
 import { Pagination } from "rsuite";
 
-Geocode.setApiKey("AIzaSyAB10OdZPwqcOR-htn_zgehKdYG9eCxyWE");
+const config = require("../../TFCConfig.json");
+
+Geocode.setApiKey(config.GoogleAPIKey);
 
 const StudiosList = () => {
     let init_input_location='';
