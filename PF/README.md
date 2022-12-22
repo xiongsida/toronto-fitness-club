@@ -1,8 +1,8 @@
-**Procedures to Run Our Project: **
+**Procedures to Run Our Project**:
 
 1. Pull the repository from github.
 
-2. Run the startup.sh to initiate the project. It will create vitual environment and install all needed python packages for backend project; and install all nodes modules for frontend project. 
+2. Run the startup.sh under PF folder to initiate the project. It will create vitual environment and install all needed python packages for backend project; and install all nodes modules for frontend project. 
 
 3. Run the run.sh to run the project. The backend project will run at your localhost port 8000 and frontend project will run at port 3000.
 
@@ -13,7 +13,7 @@
 
 
 
-**Website Functionalities: **
+**Website Functionalities**:
 
 **Users** can sign up, log in, log out, and edit profile information, including first and last name, email, avatar, and phone number.
 
@@ -47,7 +47,7 @@
 
 
 
-**Highlights: **
+**Highlights**:
 
 1. Our studios are smoothly and fastly sorted based on the geographic proximity to a specific location. We hava three ways to achieve this, including user's current location, a click pinpoint on map, or a valid input address; and we make these smooth and compatible with google map using React hooks. Besides, the backend implementation of sorting is fastly done on the level of database level, using django model objects "annotate" and "F" function to build a virtual column, which is a tricky and elegant way to achieve this.
 2. Our studio filters each can support multiple choices, and all filters are combinable to each other. This is achieved in backend by a customized filiter class extended from some class in django_filters.
