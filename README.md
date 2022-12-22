@@ -1,19 +1,22 @@
 # Toronto Fitness Club Website
 
-Happy to have you here!
+Happy to have you here! You can watch this vedio https://youtu.be/UzKjZbF1dp4 to experience our website, or you can clone the repository locally and run the project as the instructions below.
 
 ## How to Run Our Project:
 
-1. Pull the repository from github.
+1. Clone the repository from github.
 
-2. Run the startup.sh under PF folder to initiate the project. It will create vitual environment and install all needed python packages for backend project; and install all nodes modules for frontend project. 
+2. Get your own Google API key and update PF/PB/PB/PB/setting.py and PF/app/src/TFCConfig.json with your API key to use some functionalities compatible with Google map in our website.
 
-3. Run the run.sh to run the project. The backend project will run at your localhost port 8000 and frontend project will run at port 3000.
+3. Run the startup.sh under PF folder to initiate the project. It will create vitual environment and install all needed python packages for backend project; and install all nodes modules for frontend project. 
 
-4. You can use our Toronto Fitness Club website at http://localhost:3000/ .
-5. You can use our admin panel at http://localhost:8000/admin/ ; there is a admin user whose username is "Admin" and password is "Adminpass", you may also create a superuser (admin) yourself.
+4. Run the run.sh to run the project. The backend project will run at your localhost port 8000 and frontend project will run at port 3000.
 
-6. To shutdown the server, you need terminate the run.sh and kill the the process run on port 8000 as well.
+5. You can use our Toronto Fitness Club website at http://localhost:3000/ .
+
+6. You can use our admin panel at http://localhost:8000/admin/ ; there is a admin user whose username is "Admin" and password is "Adminpass", you may also create a superuser (admin) yourself.
+
+7. To shutdown the server, you need terminate the run.sh and kill the the process run on port 8000 as well.
 
 
 
@@ -57,6 +60,9 @@ Happy to have you here!
 ## Highlights:
 
 1. Our studios are smoothly and fastly sorted based on the geographic proximity to a specific location. We hava three ways to achieve this, including user's current location, a click pinpoint on map, or a valid input address; and we make these smooth and compatible with google map using React hooks. Besides, the backend implementation of sorting is fastly done on the level of database level, using django model objects "annotate" and "F" function to build a virtual column, which is a tricky and elegant way to achieve this.
+
 2. Our studio filters each can support multiple choices, and all filters are combinable to each other. This is achieved in backend by a customized filiter class extended from some class in django_filters.
+
 3. Our classes are recurring events. A group of recurring class will be automatically creaetd if the website admin creates a parent class under a studio. Details are in Backend_Models_Documentation.pdf under the PF folder.
-4. Exploring our website is delightful. We have a beautiful UI and smooth UX. You can watch this vedio to virtually experience our website: https://youtu.be/UzKjZbF1dp4 .
+
+4. Exploring our website is delightful. We have a beautiful UI and smooth UX. You can watch this video to virtually experience our website: https://youtu.be/UzKjZbF1dp4 .
