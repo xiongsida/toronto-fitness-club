@@ -1,6 +1,6 @@
 # Toronto Fitness Club Website
 
-Happy to have you here! You can watch this vedio https://youtu.be/UzKjZbF1dp4 to experience our website, or you can clone the repository locally and run the project as the instructions below.
+Happy to have you here! You can watch this vedio https://youtu.be/OB86Kfp4F4c to experience our website, or you can clone the repository locally and run the project as the instructions below.
 
 ## How to Run Our Project:
 
@@ -65,4 +65,4 @@ Happy to have you here! You can watch this vedio https://youtu.be/UzKjZbF1dp4 to
 
 3. Our classes are recurring events. A group of recurring class will be automatically creaetd if the website admin creates a parent class under a studio. Details are in Backend_Models_Documentation.pdf under the PF folder.
 
-4. Exploring our website is delightful. We have a beautiful UI and smooth UX. You can watch this video to virtually experience our website: https://youtu.be/UzKjZbF1dp4 .
+4. Exploring our website is delightful. We have a beautiful UI and smooth UX. You can watch this video to virtually experience our website: https://youtu.be/OB86Kfp4F4c .
