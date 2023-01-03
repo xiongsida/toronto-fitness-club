@@ -1,6 +1,6 @@
 # Toronto Fitness Club Website
 
-Happy to have you here! You can watch this vedio https://youtu.be/OB86Kfp4F4c to experience our website, or you can clone the repository locally and run the project as the instructions below.
+Happy to have you here! You can watch this video https://youtu.be/OB86Kfp4F4c to experience our website, or you can clone the repository locally and run the project as the instructions below.
 
 ## How to Run Our Project:
 
